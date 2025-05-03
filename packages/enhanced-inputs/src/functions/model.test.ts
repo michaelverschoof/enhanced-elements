@@ -27,9 +27,7 @@ describe('Transforming values', () => {
         const testValue = 'AbC123dEf';
 
         expect(transform(testValue, letterFilter, uppercaseModifier)).toEqual('ABCDEF');
-        expect(transform(testValue, letterFilter, uppercaseModifier, lowercaseModifier)).toEqual(
-            'abcdef'
-        );
+        expect(transform(testValue, letterFilter, uppercaseModifier, lowercaseModifier)).toEqual('abcdef');
     });
 
     it('should return an empty string if there is no value', async () => {
@@ -77,6 +75,7 @@ describe('Creating filters', () => {
     });
 
     it('should return an empty array on incorrect values', async () => {
+        expect(createFilters([])).toEqual([]);
         // @ts-expect-error Type is not allowed as a parameter
         expect(createFilters(null)).toEqual([]);
 

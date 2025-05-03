@@ -8,13 +8,15 @@ export type StringCollection = Set<string> | string[];
  */
 export function add(value: string, collection: StringCollection): StringCollection {
     if (Array.isArray(collection)) {
-        if (!collection.includes(value)) {
+        if (value && !collection.includes(value)) {
             collection.push(value);
         }
         return collection;
     }
 
-    collection.add(value);
+    if (value) {
+        collection.add(value);
+    }
     return collection;
 }
 
@@ -33,6 +35,8 @@ export function remove(value: string, collection: StringCollection): StringColle
         return collection;
     }
 
-    collection.delete(value);
+    if (value) {
+        collection.delete(value);
+    }
     return collection;
 }
