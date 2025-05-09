@@ -6,10 +6,6 @@ import type { MockInstance } from 'vitest';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
 
-/**
- * @vitest-environment happy-dom
- */
-
 const defaultProps = {
     name: 'testing-numeric-input'
 };

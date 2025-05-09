@@ -7,23 +7,26 @@
         "packages/*"
     ],
     "scripts": {
+        "test": "clear && vitest run",
+        "test:watch": "clear && vitest",
+        "test:coverage": "clear && vitest run --coverage",
+        "test:unit": "clear && vitest run --project unit",
+        "test:browser": "clear && vitest run --project browser",
         "build": "npm --prefix ./packages/enhanced-inputs/ run build",
-        "test": "npm --prefix ./packages/enhanced-inputs/ run test",
-        "test:once": "npm --prefix ./packages/enhanced-inputs/ run test:once",
-        "test:coverage": "npm --prefix ./packages/enhanced-inputs/ run test:coverage",
         "release": "npm --prefix ./packages/enhanced-inputs/ run release",
         "dev": "npm --prefix ./packages/playground/ run dev",
         "preview": "npm --prefix ./packages/playground/ run preview"
     },
     "dependencies": {
-        "vue": "^3.5.13",
-        "@vueuse/core": "^13.1.0"
+        "@vueuse/core": "^13.1.0",
+        "vue": "^3.5.13"
     },
     "devDependencies": {
         "@tsconfig/node22": "^22.0.1",
         "@types/jsdom": "^21.1.7",
-        "@types/node": "^22.15.12",
-        "@vitejs/plugin-vue": "^5.2.3",
+        "@types/node": "^22.15.17",
+        "@vitejs/plugin-vue": "^5.2.4",
+        "@vitest/browser": "^3.1.3",
         "@vitest/coverage-v8": "^3.1.3",
         "@vitest/eslint-plugin": "^1.1.44",
         "@vue/eslint-config-prettier": "^10.2.0",
@@ -32,15 +35,16 @@
         "@vue/tsconfig": "^0.7.0",
         "eslint": "^9.26.0",
         "eslint-plugin-vue": "^10.1.0",
-        "jiti": "^2.4.2",
         "happy-dom": "^17.4.6",
+        "jiti": "^2.4.2",
         "jsdom": "^26.1.0",
+        "playwright": "^1.52.0",
         "prettier": "3.5.3",
         "typescript": "^5.8.3",
         "vite": "^6.3.5",
         "vite-plugin-vue-devtools": "^7.7.6",
         "vitest": "^3.1.3",
-        "vue-tsc": "^2.2.10",
-        "vue": "^3.5.13"
+        "vue": "^3.5.13",
+        "vue-tsc": "^2.2.10"
     }
 }

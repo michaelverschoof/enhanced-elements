@@ -42,6 +42,7 @@ const element = useTemplateRef<HTMLInputElement>('element');
  * It contains model modifiers:
  * - v-model.uppercase="model" : Automatically uppercases the value.
  * - v-model.lowercase="model" : Automatically lowercases the value.
+ * FIXME: Figure out how to pass default Vue modifiers to the component
  */
 const [model, modelModifiers] = defineModel<string, ModifierPreset>({
     set: (value: string): string => transform(value, ...filterFunctions.value, ...modifierFunctions.value)
@@ -85,7 +86,7 @@ const onInput = (event: InputEvent): void => {
  * @param event The native keyboard input event.
  */
 const onKeypress = (event: KeyboardEvent): void => {
-    if (filterFunctions.value.some((filter) => filter(event.key) === '')) {
+    if (filterFunctions.value.some((filter) => !filter(event.key))) {
         event.preventDefault();
     }
 };
@@ -96,10 +97,11 @@ const onKeypress = (event: KeyboardEvent): void => {
  * @param event The native clipboard event.
  */
 const onPaste = (event: ClipboardEvent): void => {
+    event.preventDefault();
     const value = event.clipboardData?.getData('text') ?? '';
     const filtered = transform(value, ...filterFunctions.value);
-
-    event.clipboardData?.setData('text', filtered);
+    model.value = filtered;
+    // event.clipboardData?.setData('text', filtered);
 };
 
 const focused = ref<boolean>();
@@ -121,7 +123,7 @@ const onFocus = (event: FocusEvent): void => {
  * @param event The native focus event.
  */
 const onBlur = useDebounceFn((event: FocusEvent): void => {
-    if (document.activeElement === element.value) {
+    if (document && document.activeElement === element.value) {
         return;
     }
 

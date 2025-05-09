@@ -6,10 +6,6 @@ import type { MockInstance } from 'vitest';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
 
-/**
- * @vitest-environment happy-dom
- */
-
 const defaultProps = {
     name: 'testing-textual-area'
 };
@@ -268,69 +264,6 @@ describe('Updating model value', () => {
             expect(createModifiersSpy).toHaveBeenCalledOnce();
             expect(transformSpy).toHaveBeenCalledTimes(2);
         });
-    });
-});
-
-describe('Filtering input', () => {
-    describe('Filtering keys', () => {
-        // FIXME: The code is touched so coverage works, but the expects are incorrect
-        it.skip('should not prevent allowed characters', async () => {
-            const { wrapper, input, testModelValue } = mountComponent(null, {
-                attachTo: document.body
-            });
-
-            await wrapper.setProps({ filters: 'numbers' });
-
-            input.element.focus();
-            expect(input.element).toBe(document.activeElement);
-
-            await input.setValue('');
-            await input.trigger('keypress', { key: 'a' });
-            await input.trigger('keyup', { key: 'a' });
-            await input.trigger('change');
-            expect(testModelValue.value).toBe('a');
-
-            await input.trigger('keypress', { key: '9' });
-            expect(testModelValue.value).toBe('a');
-
-            // expect(testModelValue.value).toBe('');
-
-            expect(createFiltersSpy).toHaveBeenCalledTimes(2);
-            expect(createModifiersSpy).toHaveBeenCalledOnce();
-            expect(transformSpy).toHaveBeenCalledOnce();
-        });
-    });
-
-    describe('Filtering paste', () => {
-        // FIXME: The code is touched so coverage works, but the expects are incorrect
-        it.skip('should filter characters', async () => {
-            const { wrapper, input, testModelValue } = mountComponent(null, {
-                attachTo: document.body
-            });
-
-            await wrapper.setProps({ filters: /[^A-Z]/g });
-
-            await input.trigger('paste', {
-                clipboardData: {
-                    getData: () => 'UPDATED with 12345',
-                    setData: (format: 'text', value: string) => {
-                        console.log('Filtered paste data', value);
-                    }
-                }
-            });
-
-            expect(testModelValue.value).toBe('initial');
-            // expect(testModelValue.value).toBe('initial with 12345');
-            // expect(wrapper.find('textarea').element.value).toBe('initial with 12345');
-
-            expect(createFiltersSpy).toHaveBeenCalledTimes(2);
-            expect(createModifiersSpy).toHaveBeenCalledOnce();
-            expect(transformSpy).toHaveBeenCalledOnce();
-        });
-
-        it.skip('should not filter characters when clipboard is empty', async () => {});
-
-        it.skip('should not filter characters when clipboard is null', async () => {});
     });
 });
 
