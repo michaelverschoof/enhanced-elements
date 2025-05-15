@@ -12,8 +12,8 @@
         "test:coverage": "clear && vitest run --coverage",
         "test:unit": "clear && vitest run --project unit",
         "test:browser": "clear && vitest run --project browser",
-        "build": "npm --prefix ./packages/enhanced-inputs/ run build",
-        "release": "npm --prefix ./packages/enhanced-inputs/ run release",
+        "build": "npm --prefix ./packages/inputs/ run build",
+        "release": "npm --prefix ./packages/inputs/ run release",
         "dev": "npm --prefix ./packages/playground/ run dev",
         "preview": "npm --prefix ./packages/playground/ run preview"
     },

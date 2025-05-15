@@ -22,9 +22,9 @@ import type { FocusableEmits } from './types';
 
 const emit = defineEmits<FocusableEmits>(); // TODO: ValidatableEmits?
 
-const { type = 'checkbox', value = null } = defineProps<{
+const { type = 'checkbox', value = false } = defineProps<{
     type?: 'checkbox' | 'radio';
-    value?: string;
+    value?: string | boolean;
 }>();
 
 const element = ref<HTMLInputElement>();
@@ -65,6 +65,8 @@ defineExpose({
     focus: () => element.value?.focus(),
     blur: () => element.value?.blur(),
     check: () => {
+        console.log('check');
+
         if (typeof model.value === 'boolean') {
             model.value = true;
             return;
@@ -75,7 +77,7 @@ defineExpose({
             return;
         }
 
-        model.value = addToCollection(value, model.value as StringCollection);
+        model.value = addToCollection(value as string, model.value as StringCollection);
         checked.value = true;
     },
     uncheck: () => {
@@ -89,7 +91,7 @@ defineExpose({
             return;
         }
 
-        model.value = removeFromCollection(value, model.value as StringCollection);
+        model.value = removeFromCollection(value as string, model.value as StringCollection);
         checked.value = false;
     }
     // validate: () => validateModel()

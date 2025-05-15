@@ -27,8 +27,9 @@ import { useDebounceFn } from '@vueuse/core';
 import { computed, onBeforeMount, ref, useTemplateRef, watch } from 'vue';
 
 // FIXME: InputHTMLAttributes/TextareaHTMLAttributes creates an error when running tests
-// (InputHTMLAttributes | TextareaHTMLAttributes) & TransformableInputProps & { textarea?: boolean }
-type Props = TransformableInputProps & ValidatableInputProps & { textarea?: boolean };
+type Props = //(InputHTMLAttributes | TextareaHTMLAttributes) &
+    TransformableInputProps & ValidatableInputProps & { textarea?: boolean };
+// type Props = TransformableInputProps & ValidatableInputProps & { textarea?: boolean };
 
 const emit = defineEmits<FocusableEmits & ValidatableEmits>();
 

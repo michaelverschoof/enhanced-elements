@@ -1,5 +1,5 @@
 {
-    "name": "@enhanced-elements/enhanced-inputs",
+    "name": "@enhanced-elements/inputs",
     "description": "Simple, type safe and flexible component library that improves native HTML elements.",
     "author": {
         "name": "Michael Verschoof",
@@ -24,24 +24,25 @@
         "LICENSE",
         "README.md"
     ],
-    "main": "./dist/enhanced-inputs.umd.cjs",
-    "module": "./dist/enhanced-inputs.js",
+    "main": "./dist/index.umd.cjs",
+    "module": "./dist/index.js",
     "types": "./dist/types/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/types.d.ts",
-            "import": "./dist/enhanced-inputs.js",
-            "require": "./dist/enhanced-inputs.umd.cjs"
+            "import": "./dist/index.js",
+            "require": "./dist/index.umd.cjs"
         }
     },
     "scripts": {
         "build": "npm run types:check && npm run build:only && npm run types:generate",
         "build:only": "vite build",
         "types:check": "vue-tsc --build",
-        "types:generate": "vue-tsc ./types.ts --declaration --emitDeclarationOnly --outdir dist",
+        "types:generate": "vue-tsc ./index.ts --declaration --emitDeclarationOnly --outdir dist",
         "test": "clear && vitest run",
-        "test:watch": "vitest",
-        "test:once": "clear && vitest run",
+        "test:watch": "clear && vitest",
+        "test:unit": "clear && vitest run --project unit",
+        "test:browser": "clear && vitest run --project browser",
         "test:coverage": "clear && vitest run --coverage",
         "lint": "eslint . --fix",
         "format": "prettier --write src/",
