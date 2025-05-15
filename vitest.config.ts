@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
-import viteConfig from './packages/enhanced-inputs/vite.config';
+import viteConfig from './packages/inputs/vite.config';
 
 export default mergeConfig(
     viteConfig,
@@ -18,7 +18,6 @@ export default mergeConfig(
                 },
                 {
                     extends: true,
-
                     test: {
                         name: 'browser',
                         include: ['./**/*.browser.test.ts'],
@@ -42,7 +41,9 @@ export default mergeConfig(
                     './playground',
                     '**/index.ts',
                     '**/main.ts',
-                    '**/types.ts'
+                    '**/types.ts',
+                    '**/dist',
+                    'packages/playground/'
                 ]
             }
         }
