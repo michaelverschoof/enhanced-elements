@@ -1,4 +1,4 @@
-# Vue Environment Indicator
+# Enhanced elements - inputs
 
 > Simple, type safe and flexible component library that improves native HTML elements.
 
