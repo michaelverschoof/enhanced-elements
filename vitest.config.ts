@@ -11,16 +11,16 @@ export default mergeConfig(
                     extends: true,
                     test: {
                         name: 'unit',
-                        environment: 'happy-dom',
-                        include: ['./**/*.test.ts'],
-                        exclude: [...configDefaults.exclude, './**/*.browser.test.ts']
+                        environment: 'jsdom',
+                        include: ['./**/*.test.ts']
                     }
                 },
                 {
                     extends: true,
                     test: {
                         name: 'browser',
-                        include: ['./**/*.browser.test.ts'],
+                        environment: 'jsdom',
+                        include: ['./**/*.test.browser.ts'],
                         browser: {
                             provider: 'playwright',
                             enabled: true,
@@ -32,7 +32,7 @@ export default mergeConfig(
                 }
             ],
 
-            environment: 'happy-dom',
+            environment: 'jsdom',
             exclude: [...configDefaults.exclude, 'e2e/**'],
             root: fileURLToPath(new URL('./', import.meta.url)),
             coverage: {

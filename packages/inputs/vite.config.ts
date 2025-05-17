@@ -1,6 +1,5 @@
-import { fileURLToPath, URL } from 'node:url';
-
 import vue from '@vitejs/plugin-vue';
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
@@ -15,7 +14,7 @@ export default defineConfig({
     build: {
         target: 'esnext',
         lib: {
-            entry: './index.ts',
+            entry: fileURLToPath(new URL('./index.ts', import.meta.url)),
             name: '@enhanced-elements/inputs',
             fileName: 'index'
         },
