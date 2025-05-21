@@ -2,8 +2,7 @@ import TextualArea from '@/components/textual-area.vue';
 import * as ModelFunctions from '@/functions/model';
 import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative, testRefocus } from '@test/input-tests';
 import { mount } from '@vue/test-utils';
-import type { MockInstance } from 'vitest';
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
 
 const defaultProps = {
@@ -14,17 +13,11 @@ beforeAll(() => {
     expect(TextualArea).toBeTruthy();
 });
 
-let createFiltersSpy: MockInstance<typeof ModelFunctions.createFilters>;
-let createModifiersSpy: MockInstance<typeof ModelFunctions.createModifiers>;
-let transformSpy: MockInstance<typeof ModelFunctions.transform>;
+const createFiltersSpy = vi.spyOn(ModelFunctions, 'createFilters');
+const createModifiersSpy = vi.spyOn(ModelFunctions, 'createModifiers');
+const transformSpy = vi.spyOn(ModelFunctions, 'transform');
 
-beforeEach(() => {
-    createFiltersSpy = vi.spyOn(ModelFunctions, 'createFilters');
-    createModifiersSpy = vi.spyOn(ModelFunctions, 'createModifiers');
-    transformSpy = vi.spyOn(ModelFunctions, 'transform');
-});
-
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => vi.clearAllMocks());
 
 describe('Mounting components', () => {
     it('should mount the textarea component', async () => {

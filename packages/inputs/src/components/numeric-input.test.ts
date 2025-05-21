@@ -2,8 +2,7 @@ import NumericInput from '@/components/numeric-input.vue';
 import * as ModelFunctions from '@/functions/model';
 import { emittedNativeEvents } from '@test/emits';
 import { mount } from '@vue/test-utils';
-import type { MockInstance } from 'vitest';
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
 
 const defaultProps = {
@@ -14,17 +13,11 @@ beforeAll(() => {
     expect(NumericInput).toBeTruthy();
 });
 
-let createFiltersSpy: MockInstance<typeof ModelFunctions.createFilters>;
-let createModifiersSpy: MockInstance<typeof ModelFunctions.createModifiers>;
-let transformSpy: MockInstance<typeof ModelFunctions.transform>;
+const createFiltersSpy = vi.spyOn(ModelFunctions, 'createFilters');
+const createModifiersSpy = vi.spyOn(ModelFunctions, 'createModifiers');
+const transformSpy = vi.spyOn(ModelFunctions, 'transform');
 
-beforeEach(() => {
-    createFiltersSpy = vi.spyOn(ModelFunctions, 'createFilters');
-    createModifiersSpy = vi.spyOn(ModelFunctions, 'createModifiers');
-    transformSpy = vi.spyOn(ModelFunctions, 'transform');
-});
-
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => vi.clearAllMocks());
 
 describe('Mounting components', () => {
     it('should mount the input component', async () => {
