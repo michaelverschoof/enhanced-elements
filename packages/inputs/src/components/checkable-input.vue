@@ -2,10 +2,9 @@
     <input
         ref="element"
         v-model="model"
-        :type="type"
-        :class="{ focused }"
         :value="value"
-        :checked="checked"
+        :class="{ focused }"
+        type="checkbox"
         autocomplete="off"
         @blur="onBlur"
         @focus="onFocus"
@@ -18,23 +17,13 @@ import { add as addToCollection, remove as removeFromCollection } from '@/functi
 import { ref } from 'vue';
 import type { FocusableEmits } from './types';
 
-// TODO: ValidatableInputProps
+const emit = defineEmits<FocusableEmits>();
 
-const emit = defineEmits<FocusableEmits>(); // TODO: ValidatableEmits?
-
-const { type = 'checkbox', value = false } = defineProps<{
-    type?: 'checkbox' | 'radio';
-    value?: string | boolean;
-}>();
-
-const element = ref<HTMLInputElement>();
+const { value = false } = defineProps<{ value?: string | boolean }>();
 
 const model = defineModel<Set<string> | string[] | boolean>();
 
-/**
- * This (with the template property) is needed to enable programatically (un)checking the value
- */
-const checked = ref<boolean>();
+const element = ref<HTMLInputElement>();
 
 const focused = ref<boolean>();
 
@@ -43,57 +32,62 @@ const focused = ref<boolean>();
  *
  * @param event The native focus event.
  */
-const onFocus = (event: FocusEvent): void => {
+function onFocus(event: FocusEvent): void {
     focused.value = true;
     emit('focus', event);
-};
+}
 
 /**
  * Remove the "focused" class and emit the blur event when blurred.
  *
  * @param event The native focus event.
  */
-const onBlur = (event: FocusEvent): void => {
+function onBlur(event: FocusEvent): void {
     focused.value = false;
     emit('blur', event);
-};
+}
 
 /**
- * Expose the focus and blur methods so they can be used directly via template references.
+ * Set the model value according to the model type to check the checkbox
+ */
+function check(): void {
+    if (typeof model.value === 'boolean') {
+        model.value = true;
+        return;
+    }
+
+    if (!value) {
+        console.warn(`Could not tick checkbox-item.`, 'There is no value to set.');
+        return;
+    }
+
+    model.value = addToCollection(value as string, model.value as StringCollection);
+}
+
+/**
+ * Unset the model value according to the model type to uncheck the checkbox
+ */
+function uncheck(): void {
+    if (typeof model.value === 'boolean') {
+        model.value = false;
+        return;
+    }
+
+    if (!value) {
+        console.warn(`Could not untick checkbox-item.`, 'There is no value to unset.');
+        return;
+    }
+
+    model.value = removeFromCollection(value as string, model.value as StringCollection);
+}
+
+/**
+ * Expose the focus, blur, check and uncheck methods so they can be used directly via template references.
  */
 defineExpose({
     focus: () => element.value?.focus(),
     blur: () => element.value?.blur(),
-    check: () => {
-        console.log('check');
-
-        if (typeof model.value === 'boolean') {
-            model.value = true;
-            return;
-        }
-
-        if (!value) {
-            console.warn(`Could not tick ${type}-item`, 'There is no value to set');
-            return;
-        }
-
-        model.value = addToCollection(value as string, model.value as StringCollection);
-        checked.value = true;
-    },
-    uncheck: () => {
-        if (typeof model.value === 'boolean') {
-            model.value = false;
-            return;
-        }
-
-        if (!value) {
-            console.warn(`Could not untick ${type}-item`, 'There is no value to unset');
-            return;
-        }
-
-        model.value = removeFromCollection(value as string, model.value as StringCollection);
-        checked.value = false;
-    }
-    // validate: () => validateModel()
+    check,
+    uncheck
 });
 </script>

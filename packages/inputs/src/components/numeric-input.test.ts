@@ -42,6 +42,7 @@ describe('Mounting components', () => {
     });
 });
 
+// FIXME: Use same test functions that textual area uses
 describe('Focusing/blurring components', () => {
     describe('On focus', () => {
         it('should focus using function', async () => {
