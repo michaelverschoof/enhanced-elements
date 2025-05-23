@@ -4,6 +4,7 @@
         :is="textarea ? 'textarea' : 'input'"
         :value="model"
         :class="{ focused }"
+        :model-modifiers="nativeModifiers"
         @input="onInput"
         @keypress="onKeypress"
         @paste.capture="onPaste"
@@ -35,24 +36,33 @@ const emit = defineEmits<FocusableEmits & ValidatableEmits>();
 
 const { filters = [], modifiers = [], validators = [] } = defineProps<Props>();
 
-const element = useTemplateRef<HTMLInputElement>('element');
-
 /**
- * The input model.
+ * The input model. It transforms the value while setting using the filters and modifiers.
  *
  * It contains model modifiers:
  * - v-model.uppercase="model" : Automatically uppercases the value.
  * - v-model.lowercase="model" : Automatically lowercases the value.
- * FIXME: Figure out how to pass default Vue modifiers to the component
  */
 const [model, modelModifiers] = defineModel<string, ModifierPreset>({
     set: (value: string): string => transform(value, ...filterFunctions.value, ...modifierFunctions.value)
 });
 
+const element = useTemplateRef<HTMLInputElement>('element');
+
 /**
  * Validate the model value when it changes and emit the result.
  */
 watch(model, () => validateModel());
+
+const nativeModifiers = computed<Record<string, true | undefined>>(() =>
+    Object.fromEntries(
+        Object.entries(modelModifiers).filter(
+            (modifier) =>
+                // FIXME: Get these values dynamically
+                !['lowercase', 'uppercase'].includes(modifier[0])
+        )
+    )
+);
 
 /**
  * Reactive list of filters to execute when input is changed.
@@ -102,10 +112,9 @@ const onPaste = (event: ClipboardEvent): void => {
     const value = event.clipboardData?.getData('text') ?? '';
     const filtered = transform(value, ...filterFunctions.value);
     model.value = filtered;
-    // event.clipboardData?.setData('text', filtered);
 };
 
-const focused = ref<boolean>();
+const focused = ref<boolean>(false);
 
 /**
  * Trigger the "focused" class and emit the focus event when focused.
