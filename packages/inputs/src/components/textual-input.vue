@@ -3,12 +3,12 @@
         ref="element"
         :is="textarea ? 'textarea' : 'input'"
         :value="model"
-        :class="{ focused }"
+        :class="{ focused: focusable.focused }"
         :model-modifiers="nativeModifiers"
         @input="onInput"
         @keypress="onKeypress"
         @paste.capture="onPaste"
-        @focus="onFocus"
+        @focus="focusable.onFocus"
         @blur="onBlur"
     />
 </template>
@@ -20,12 +20,13 @@ import type {
     ValidatableEmits,
     ValidatableInputProps
 } from '@/components/types';
+import { useFocusable } from '@/composables/focus';
 import type { ModifierPreset, TransformFunction } from '@/functions/model';
 import { createFilters, createModifiers, transform } from '@/functions/model';
 import type { ValidationFunction } from '@/functions/validation';
 import { createValidators, validate } from '@/functions/validation';
 import { useDebounceFn } from '@vueuse/core';
-import { computed, onBeforeMount, ref, useTemplateRef, watch } from 'vue';
+import { computed, onBeforeMount, useTemplateRef, watch } from 'vue';
 
 // FIXME: InputHTMLAttributes/TextareaHTMLAttributes creates an error when running tests
 type Props = //(InputHTMLAttributes | TextareaHTMLAttributes) &
@@ -54,6 +55,11 @@ const element = useTemplateRef<HTMLInputElement>('element');
  */
 watch(model, () => validateModel());
 
+/**
+ * Subset of the provided modifiers.
+ *
+ * These are Vue's "trim", "lazy" and "number" modifiers.
+ */
 const nativeModifiers = computed<Record<string, true | undefined>>(() =>
     Object.fromEntries(
         Object.entries(modelModifiers).filter(
@@ -114,17 +120,10 @@ const onPaste = (event: ClipboardEvent): void => {
     model.value = filtered;
 };
 
-const focused = ref<boolean>(false);
-
 /**
- * Trigger the "focused" class and emit the focus event when focused.
- *
- * @param event The native focus event.
+ * Composable for all inputs that have a "focused" state and corresponding emits.
  */
-const onFocus = (event: FocusEvent): void => {
-    focused.value = true;
-    emit('focus', event);
-};
+const focusable = useFocusable(emit);
 
 /**
  * Remove the "focused" class and emit the blur event when blurred.
@@ -132,14 +131,7 @@ const onFocus = (event: FocusEvent): void => {
  *
  * @param event The native focus event.
  */
-const onBlur = useDebounceFn((event: FocusEvent): void => {
-    if (document && document.activeElement === element.value) {
-        return;
-    }
-
-    focused.value = false;
-    emit('blur', event);
-}, 100);
+const onBlur = useDebounceFn((event: FocusEvent): void => focusable.onBlur(event), 100);
 
 function validateModel(): void {
     emit('validated', validate(model.value ?? '', ...validatorFunctions.value));

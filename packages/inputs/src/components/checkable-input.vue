@@ -3,19 +3,21 @@
         ref="element"
         v-model="model"
         :value="value"
-        :class="{ focused }"
+        :class="{ focused: focusable.focused.value }"
         type="checkbox"
-        autocomplete="off"
-        @blur="onBlur"
-        @focus="onFocus"
+        @blur="focusable.onBlur"
+        @focus="focusable.onFocus"
     />
 </template>
 
 <script lang="ts" setup>
+import { useFocusable } from '@/composables/focus';
 import type { StringCollection } from '@/functions/collections';
 import { add as addToCollection, remove as removeFromCollection } from '@/functions/collections';
 import { ref } from 'vue';
 import type { FocusableEmits } from './types';
+
+// TODO: Check if the `true-value` and `false-value` work. Also with objects or other values.
 
 const emit = defineEmits<FocusableEmits>();
 
@@ -25,27 +27,10 @@ const model = defineModel<Set<string> | string[] | boolean>();
 
 const element = ref<HTMLInputElement>();
 
-const focused = ref<boolean>();
-
 /**
- * Trigger the "focused" class and emit the focus event when focused.
- *
- * @param event The native focus event.
+ * Composable for all inputs that have a "focused" state and corresponding emits.
  */
-function onFocus(event: FocusEvent): void {
-    focused.value = true;
-    emit('focus', event);
-}
-
-/**
- * Remove the "focused" class and emit the blur event when blurred.
- *
- * @param event The native focus event.
- */
-function onBlur(event: FocusEvent): void {
-    focused.value = false;
-    emit('blur', event);
-}
+const focusable = useFocusable(emit);
 
 /**
  * Set the model value according to the model type to check the checkbox
