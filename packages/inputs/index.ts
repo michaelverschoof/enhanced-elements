@@ -5,6 +5,7 @@ import { App } from 'vue';
  */
 import CheckableInput from './src/components/checkable-input.vue';
 import NumericInput from './src/components/numeric-input.vue';
+import RadioInput from './src/components/radio-input.vue';
 import TextualArea from './src/components/textual-area.vue';
 import TextualInput from './src/components/textual-input.vue';
 
@@ -19,7 +20,7 @@ export type {
 /**
  * Component exports
  */
-export { CheckableInput, NumericInput, TextualArea, TextualInput };
+export { CheckableInput, NumericInput, RadioInput, TextualArea, TextualInput };
 
 /**
  * Plugin
@@ -30,5 +31,6 @@ export default {
         app.component('NumericInput', NumericInput);
         app.component('TextualInput', TextualInput);
         app.component('TextualArea', TextualArea);
+        app.component('RadioInput', RadioInput);
     }
 };
