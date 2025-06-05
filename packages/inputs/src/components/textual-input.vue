@@ -26,16 +26,18 @@ import { createFilters, createModifiers, transform } from '@/functions/model';
 import type { ValidationFunction } from '@/functions/validation';
 import { createValidators, validate } from '@/functions/validation';
 import { useDebounceFn } from '@vueuse/core';
-import { computed, onBeforeMount, useTemplateRef, watch } from 'vue';
+import { computed, InputHTMLAttributes, onBeforeMount, TextareaHTMLAttributes, useTemplateRef, watch } from 'vue';
 
-// FIXME: InputHTMLAttributes/TextareaHTMLAttributes creates an error when running tests
-type Props = //(InputHTMLAttributes | TextareaHTMLAttributes) &
-    TransformableInputProps & ValidatableInputProps & { textarea?: boolean };
-// type Props = TransformableInputProps & ValidatableInputProps & { textarea?: boolean };
+type TextInputProps = /* @vue-ignore */ InputHTMLAttributes;
+type TextAreaProps = /* @vue-ignore */ TextareaHTMLAttributes;
 
-const emit = defineEmits<FocusableEmits & ValidatableEmits>();
+type Props = (TextInputProps | TextAreaProps) &
+    TransformableInputProps &
+    ValidatableInputProps & { textarea?: boolean };
 
 const { filters = [], modifiers = [], validators = [] } = defineProps<Props>();
+
+const emit = defineEmits<FocusableEmits & ValidatableEmits>();
 
 /**
  * The input model. It transforms the value while setting using the filters and modifiers.

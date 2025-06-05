@@ -6,11 +6,10 @@
 import TextualInput from '@/components/textual-input.vue';
 import type { TransformableInputProps } from '@/components/types';
 import type { Filters } from '@/functions/model';
-import { computed, useTemplateRef } from 'vue';
+import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
 
-// FIXME: InputHTMLAttributes creates an error when running tests
-// InputHTMLAttributes & TransformableInputProps & { allowedCharacters?: string };
-type Props = TransformableInputProps & { allowedCharacters?: string };
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> &
+    TransformableInputProps & { allowedCharacters?: string };
 
 const { filters = [], modifiers = [], allowedCharacters = '' } = defineProps<Props>();
 

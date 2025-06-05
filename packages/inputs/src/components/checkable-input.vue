@@ -14,14 +14,16 @@
 import { useFocusable } from '@/composables/focus';
 import type { StringCollection } from '@/functions/collections';
 import { add as addToCollection, remove as removeFromCollection } from '@/functions/collections';
-import { ref } from 'vue';
+import { InputHTMLAttributes, ref } from 'vue';
 import type { FocusableEmits } from './types';
 
 // TODO: Check if the `true-value` and `false-value` work. Also with objects or other values.
 
-const emit = defineEmits<FocusableEmits>();
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & { value?: string | boolean };
 
-const { value = false } = defineProps<{ value?: string | boolean }>();
+const { value = false } = defineProps<Props>();
+
+const emit = defineEmits<FocusableEmits>();
 
 const model = defineModel<Set<string> | string[] | boolean>();
 

@@ -4,12 +4,12 @@
 
 <script setup lang="ts">
 import TextualInput from '@/components/textual-input.vue';
-import { useTemplateRef } from 'vue';
+import { TextareaHTMLAttributes, useTemplateRef } from 'vue';
 import type { TransformableInputProps } from './types';
 
-// FIXME: TextareaHTMLAttributes creates an error when running tests
-// TextareaHTMLAttributes & TransformableInputProps
-defineProps<TransformableInputProps>();
+type Props = /* @vue-ignore */ TextareaHTMLAttributes & TransformableInputProps;
+
+defineProps<Props>();
 
 const element = useTemplateRef<InstanceType<typeof TextualInput>>('element');
 

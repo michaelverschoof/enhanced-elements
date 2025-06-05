@@ -12,12 +12,14 @@
 
 <script lang="ts" setup>
 import { useFocusable } from '@/composables/focus';
-import { ref } from 'vue';
+import { InputHTMLAttributes, ref } from 'vue';
 import type { FocusableEmits } from './types';
 
-const emit = defineEmits<FocusableEmits>();
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & { value?: string | unknown };
 
-const { value } = defineProps<{ value?: string | unknown }>();
+const { value } = defineProps<Props>();
+
+const emit = defineEmits<FocusableEmits>();
 
 // As objects and other values are allowed, specifically typing these is not possible.
 const model = defineModel<unknown>();
@@ -30,14 +32,14 @@ const element = ref<HTMLInputElement>();
 const focusable = useFocusable(emit);
 
 /**
- * Set the model value according to the model type to check the checkbox
+ * Set the model value according to the model type to check the checkbox.
  */
 function check(): void {
     model.value = value;
 }
 
 /**
- * Unset the model value according to the model type to uncheck the checkbox
+ * Unset the model value according to the model type to uncheck the checkbox.
  */
 function uncheck(): void {
     model.value = undefined;
