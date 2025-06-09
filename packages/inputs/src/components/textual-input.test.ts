@@ -267,7 +267,7 @@ function mountComponent(customProps?: Record<string, unknown> | null, args?: Rec
         props: {
             ...defaultProps,
             modelValue: 'initial',
-            'onUpdate:modelValue': (value) => (testModelValue.value = value as string),
+            'onUpdate:modelValue': (value: string | undefined) => (testModelValue.value = value as string),
             ...(customProps ?? {})
         },
         ...args
