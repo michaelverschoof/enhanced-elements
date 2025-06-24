@@ -22,7 +22,7 @@ describe('Mounting components', () => {
 describe('Focusing/blurring components', () => {
     describe('On focus', () => {
         it('should focus natively', async () => {
-            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
+            const { wrapper, input } = mountComponent({ attachTo: document.body });
             testFocusNative(wrapper, input);
         });
 
@@ -34,7 +34,7 @@ describe('Focusing/blurring components', () => {
 
     describe('On blur', () => {
         it('should blur natively', async () => {
-            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
+            const { wrapper, input } = mountComponent({ attachTo: document.body });
             testBlurNative(wrapper, input);
         });
 
@@ -44,7 +44,7 @@ describe('Focusing/blurring components', () => {
         });
 
         it('should keep focus when focusing quickly after blurring', async () => {
-            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
+            const { wrapper, input } = mountComponent({ attachTo: document.body });
             testRefocus(wrapper, input);
         });
     });
@@ -76,7 +76,7 @@ describe('Showing/hiding password', () => {
     });
 });
 
-function mountComponent(customProps?: Record<string, unknown> | null, args?: Record<string, unknown>) {
+function mountComponent(args?: Record<string, unknown>) {
     const testModelValue = ref<string>('');
 
     const wrapper = mount(PasswordInput, {
@@ -84,8 +84,7 @@ function mountComponent(customProps?: Record<string, unknown> | null, args?: Rec
             ...defaultProps,
             showPassword: false,
             modelValue: 'initial',
-            'onUpdate:modelValue': (value: string) => (testModelValue.value = value as string),
-            ...(customProps ?? {})
+            'onUpdate:modelValue': (value: string) => (testModelValue.value = value as string)
         },
         ...args
     });
@@ -95,10 +94,6 @@ function mountComponent(customProps?: Record<string, unknown> | null, args?: Rec
 
     // Perform base tests
     expect(input.exists()).toBeTruthy();
-
-    if (customProps && !('filters' in customProps) && !('modelModifiers' in customProps)) {
-        expect(testModelValue.value).toBe('initial');
-    }
 
     return { wrapper, input, testModelValue };
 }
