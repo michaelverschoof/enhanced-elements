@@ -48,24 +48,24 @@ describe('Focusing/blurring components', () => {
     describe('On focus', () => {
         it('should focus natively', async () => {
             const { wrapper, input } = mountComponent();
-            testFocusNative(wrapper, input);
+            await testFocusNative(wrapper, input);
         });
 
         it('should focus using function', async () => {
             const { wrapper, input } = mountCallableComponent();
-            testFocusFunction(wrapper, input);
+            await testFocusFunction(wrapper, input);
         });
     });
 
     describe('On blur', () => {
         it('should blur natively', async () => {
             const { wrapper, input } = mountComponent();
-            testBlurNative(wrapper, input);
+            await testBlurNative(wrapper, input);
         });
 
         it('should blur using function', async () => {
             const { wrapper, input } = mountCallableComponent();
-            testBlurFunction(wrapper, input);
+            await testBlurFunction(wrapper, input);
         });
     });
 });

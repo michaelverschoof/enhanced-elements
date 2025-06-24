@@ -6,7 +6,7 @@ export default mergeConfig(
     viteConfig,
     defineConfig({
         test: {
-            workspace: [
+            projects: [
                 {
                     extends: true,
                     test: {

@@ -1,6 +1,6 @@
 import NumericInput from '@/components/numeric-input.vue';
 import * as ModelFunctions from '@/functions/model';
-import { emittedNativeEvents } from '@test/emits';
+import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative, testRefocus } from '@test/input-tests';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
@@ -45,37 +45,31 @@ describe('Mounting components', () => {
 // FIXME: Use same test functions that textual area uses
 describe('Focusing/blurring components', () => {
     describe('On focus', () => {
+        it('should focus natively', async () => {
+            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
+            await testFocusNative(wrapper, input);
+        });
+
         it('should focus using function', async () => {
             const { wrapper, input } = mountCallableComponent();
-            expect(input.element).not.toBe(document.activeElement);
-
-            const component = wrapper.findComponent({ ref: 'element' }).vm;
-            component.focus();
-            expect(input.element).toBe(document.activeElement);
-
-            const emitted = emittedNativeEvents<FocusEvent>(wrapper, 'focus', 1);
-            expect(emitted).not.toBeNull();
-            expect(emitted![0].type).toEqual('focus');
+            await testFocusFunction(wrapper, input);
         });
     });
 
     describe('On blur', () => {
+        it('should blur natively', async () => {
+            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
+            await testBlurNative(wrapper, input);
+        });
+
         it('should blur using function', async () => {
             const { wrapper, input } = mountCallableComponent();
-            expect(input.element).not.toBe(document.activeElement);
+            await testBlurFunction(wrapper, input);
+        });
 
-            const component = wrapper.findComponent({ ref: 'element' }).vm;
-            component.focus();
-            expect(input.element).toBe(document.activeElement);
-
-            let emitted = emittedNativeEvents<FocusEvent>(wrapper, 'focus', 1);
-            expect(emitted![0].type).toEqual('focus');
-
-            component.blur();
-            expect(input.element).not.toBe(document.activeElement);
-
-            emitted = emittedNativeEvents<FocusEvent>(wrapper, 'blur', 1);
-            expect(emitted![0].type).toEqual('blur');
+        it('should keep focus when focusing quickly after blurring', async () => {
+            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
+            await testRefocus(wrapper, input);
         });
     });
 });
