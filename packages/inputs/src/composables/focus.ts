@@ -4,6 +4,7 @@ type FocusableEmits = ((name: 'focus', event: FocusEvent) => void) & ((name: 'bl
 
 export const useFocusable = (emit: FocusableEmits) => {
     const focused = ref<boolean>();
+
     /**
      * Trigger the "focused" class and emit the focus event when focused.
      *

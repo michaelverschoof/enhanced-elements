@@ -3,10 +3,10 @@
         ref="element"
         v-model="model"
         :value="value"
-        :class="{ focused: focusable.focused }"
+        :class="{ focused }"
         type="radio"
-        @focus="focusable.onFocus"
-        @blur="focusable.onBlur"
+        @focus="onFocus"
+        @blur="onBlur"
     />
 </template>
 
@@ -29,8 +29,7 @@ const element = ref<HTMLInputElement>();
 /**
  * Composable for all inputs that have a "focused" state and corresponding emits.
  */
-const focusable = useFocusable(emit);
-
+const { focused, onBlur, onFocus } = useFocusable(emit);
 /**
  * Set the model value according to the model type to check the checkbox.
  */

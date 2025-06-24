@@ -3,13 +3,13 @@
         ref="element"
         :is="textarea ? 'textarea' : 'input'"
         :value="model"
-        :class="{ focused: focusable.focused }"
+        :class="{ focused }"
         :model-modifiers="nativeModifiers"
         @input="onInput"
         @keypress="onKeypress"
         @paste.capture="onPaste"
-        @focus="focusable.onFocus"
-        @blur="onBlur"
+        @focus="onFocus"
+        @blur="onBlurDebounced"
     />
 </template>
 
@@ -125,7 +125,7 @@ const onPaste = (event: ClipboardEvent): void => {
 /**
  * Composable for all inputs that have a "focused" state and corresponding emits.
  */
-const focusable = useFocusable(emit);
+const { focused, onBlur, onFocus } = useFocusable(emit);
 
 /**
  * Remove the "focused" class and emit the blur event when blurred.
@@ -133,7 +133,7 @@ const focusable = useFocusable(emit);
  *
  * @param event The native focus event.
  */
-const onBlur = useDebounceFn((event: FocusEvent): void => focusable.onBlur(event), 100);
+const onBlurDebounced = useDebounceFn((event: FocusEvent): void => onBlur(event), 100);
 
 function validateModel(): void {
     emit('validated', validate(model.value ?? '', ...validatorFunctions.value));
