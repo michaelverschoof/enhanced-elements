@@ -18,7 +18,8 @@ import type {
     FocusableEmits,
     TransformableInputProps,
     ValidatableEmits,
-    ValidatableInputProps
+    ValidatableInputProps,
+    ValidationResult
 } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
 import type { ModifierPreset, TransformFunction } from '@/functions/model';
@@ -55,7 +56,9 @@ const element = useTemplateRef<HTMLInputElement>('element');
 /**
  * Validate the model value when it changes and emit the result.
  */
-watch(model, () => validateModel());
+watch(model, () => {
+    emit('validated', validateModel());
+});
 
 /**
  * Subset of the provided modifiers.
@@ -135,8 +138,8 @@ const { focused, onBlur, onFocus } = useFocusable(emit);
  */
 const onBlurDebounced = useDebounceFn((event: FocusEvent): void => onBlur(event), 100);
 
-function validateModel(): void {
-    emit('validated', validate(model.value ?? '', ...validatorFunctions.value));
+function validateModel(): ValidationResult {
+    return validate(model.value ?? '', ...validatorFunctions.value);
 }
 
 /**
