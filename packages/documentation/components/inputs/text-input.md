@@ -90,9 +90,234 @@ const model = ref('FOO');
 
 The TextualInput element allows all default HTML properties and attributes. Apart from those the following properties are added:
 
+### `filters`
+
+Filters can be used to filter out characters on input. This prevents characters from being added when typing, when pasting and when providing an initial value. These are either a single filter or an array of multiple filters. They can be predefined presets, regular expressions or custom functions.
+
+When you use multiple filters, they are executed in order in which they are provided.
+
+### A single filter
+
+A single filter can be directly added to the prop. This can be done directly in the template or as a variable.
+
+::: code-group
+
+```vue [Typescript]
+<script setup lang="ts">
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <textual-input filters="letters" />
+    <!-- [!code focus] -->
+    <!-- A single regular expression -->
+    <!-- [!code focus] -->
+    <textual-input :filters="/[^A-Za-z]/g" />
+    <!-- [!code focus] -->
+    <!-- A single function -->
+    <!-- [!code focus] -->
+    <textual-input :filters="filter" />
+</template>
+```
+
+```vue [JavaScript]
+<script setup>
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <textual-input filters="letters" />
+    <!-- [!code focus] -->
+    <!-- A single regular expression -->
+    <!-- [!code focus] -->
+    <textual-input :filters="/[^A-Za-z]/g" />
+    <!-- [!code focus] -->
+    <!-- A single function -->
+    <!-- [!code focus] -->
+    <textual-input :filters="filter" />
+</template>
+```
+
+:::
+
+#### Multiple filters
+
+Multiple filters can be added as an array. This can be a combination of custom functions, regular expressions and/or presets.
+
+::: code-group
+
+```vue [Typescript]
+<script setup lang="ts">
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <textual-input :filters="['letters', /[^A-Za-z]/g, filter]" />
+</template>
+```
+
+```vue [JavaScript]
+<script setup>
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <textual-input :filters="['letters', /[^A-Za-z]/g, filter]" />
+</template>
+```
+
+:::
+
+::: details Type definition
+
+```ts
+// One or more filter presets, regular expressions and/or custom functions
+filters?: Filters | Filters[];
+
+// Combination of presets and/or functions
+type Filters = FilterPreset | RegExp | TransformFunction;
+
+// Available filter presets
+type FilterPreset = 'letters' | 'numbers';
+
+// Filter function. Needs to return a string.
+type TransformFunction = (value: string) => string;
+```
+
+:::
+
+### `modifiers`
+
+Modifiers can be used to modify values on input. This modifies the value when typing, when pasting and when providing an initial value. These are either a single filter or an array of multiple modifiers. They can be predefined presets, regular expressions or custom functions.
+
+When you use multiple modifiers, they are executed in order in which they are provided.
+
+### A single modifier
+
+A single modifier can be directly added to the prop. This can be done directly in the template or as a variable.
+
+::: code-group
+
+```vue [Typescript]
+<script setup lang="ts">
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const modifier = (value: string) => value.toUpperCase();
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <textual-input modifiers="uppercase" />
+    <!-- [!code focus] -->
+    <!-- A single function -->
+    <!-- [!code focus] -->
+    <textual-input :modifiers="modifier" />
+</template>
+```
+
+```vue [JavaScript]
+<script setup>
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const modifier = (value) => value.toUpperCase();
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <textual-input modifiers="uppercase" />
+    <!-- [!code focus] -->
+    <!-- A single function -->
+    <!-- [!code focus] -->
+    <textual-input :modifiers="modifier" />
+</template>
+```
+
+:::
+
+#### Multiple modifiers
+
+Multiple modifiers can be added as an array. This can be a combination of custom functions and/or presets.
+
+::: code-group
+
+```vue [Typescript]
+<script setup lang="ts">
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const modifier = (value: string) => value.toUpperCase();
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <textual-input :modifiers="['uppercase', modifier]" />
+</template>
+```
+
+```vue [JavaScript]
+<script setup>
+import { TextualInput } from '@enhanced-elements/inputs';
+
+// [!code focus]
+const modifier = (value) => value.toUpperCase();
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <textual-input :modifiers="['uppercase', modifier]" />
+</template>
+```
+
+:::
+
+::: details Type definition
+
+```ts
+// One or more modifier presets and/or custom functions
+modifiers?: Modifiers | Modifiers[];
+
+// Combination of presets and/or functions
+type Modifiers = ModifierPreset | TransformFunction;
+
+// Available modifiers presets
+type ModifierPreset = 'uppercase' | 'lowercase';
+
+// Filter function. Needs to return a string.
+type TransformFunction = (value: string) => string;
+```
+
+:::
+
 ### `validators`
 
-Either a single or an array of multiple validators. These can be predefined presets or custom functions.
+Validators are used to validate the user's input. The validators are triggered when the value is updated. Validation can also be triggered manually by using the [validate](#validate) function.
+These are either a single validator or an array of multiple validators. These can be predefined presets or custom functions.
 
 #### A single validator
 
