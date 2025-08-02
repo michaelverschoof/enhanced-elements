@@ -88,7 +88,7 @@ const model = ref('FOO');
 
 ## Props
 
-The TextualArea element allows all default HTML properties and attributes. Apart from those the following properties are added:
+The `TextualArea` element allows all default HTML properties and attributes. Apart from those the following properties are added:
 
 ### `filters`
 
@@ -308,7 +308,7 @@ type Modifiers = ModifierPreset | TransformFunction;
 // Available modifiers presets
 type ModifierPreset = 'uppercase' | 'lowercase';
 
-// Filter function. Needs to return a string.
+// Modifier function. Needs to return a string.
 type TransformFunction = (value: string) => string;
 ```
 
