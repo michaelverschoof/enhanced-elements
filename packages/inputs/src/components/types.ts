@@ -1,12 +1,12 @@
-import type { Filters, Modifiers } from '../functions/model';
+import type { Filter, Modifier } from '../functions/model';
 import type { Validation } from '../functions/validation';
 
 /**
  * Properties for the textual-input and textual-area inputs
  */
 export type TransformableInputProps = {
-    filters?: Filters | Filters[];
-    modifiers?: Modifiers | Modifiers[];
+    filters?: Filter | Filter[];
+    modifiers?: Modifier | Modifier[];
 };
 
 /**
