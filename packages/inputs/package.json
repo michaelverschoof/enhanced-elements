@@ -1,6 +1,6 @@
 {
     "name": "@enhanced-elements/inputs",
-    "description": "Simple, type safe and flexible component library that improves native HTML elements.",
+    "description": "Simple, type safe and flexible component library that improves native HTML input elements.",
     "version": "0.1.0",
     "author": {
         "name": "Michael Verschoof",
