@@ -38,6 +38,7 @@ export default mergeConfig(
             coverage: {
                 exclude: [
                     ...(configDefaults.coverage.exclude ?? []),
+                    '**/*.test.browser.ts',
                     '**/index.ts',
                     '**/types.ts',
                     '**/tsdown.config.ts',
