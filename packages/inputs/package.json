@@ -1,6 +1,6 @@
 {
     "name": "@enhanced-elements/inputs",
-    "description": "Simple, type safe and flexible component library that improves native HTML elements.",
+    "description": "Simple, type safe and flexible component library that improves native HTML input elements.",
     "version": "0.1.0",
     "author": {
         "name": "Michael Verschoof",
@@ -30,19 +30,14 @@
     ],
     "types": "./dist/types/index.d.ts",
     "module": "./dist/index.js",
-    "main": "./dist/index.umd.cjs",
     "exports": {
         ".": {
             "types": "./dist/types.d.ts",
-            "import": "./dist/index.js",
-            "require": "./dist/index.umd.cjs"
+            "import": "./dist/index.js"
         }
     },
     "scripts": {
-        "build": "npm run types:check && npm run build:only && npm run types:generate",
-        "build:only": "vite build",
-        "types:check": "vue-tsc --build",
-        "types:generate": "vue-tsc --declaration --emitDeclarationOnly -p ./tsconfig.declaration.json",
+        "build": "tsdown",
         "test": "clear && vitest run",
         "test:watch": "clear && vitest",
         "test:coverage": "clear && vitest run --coverage",
@@ -50,13 +45,10 @@
         "test:browser": "clear && vitest run --project browser",
         "release": "clear && npm install && npm run build && npm publish"
     },
-    "peerDependencies": {
-        "typescript": ">=4.4.4",
-        "vue": "^2.7.0 || ^3.5.11"
-    },
-    "peerDependenciesMeta": {
-        "typescript": {
-            "optional": true
-        }
+    "devDependencies": {
+        "tsdown": "^0.13.3",
+        "typescript": "^5.9.2",
+        "unplugin-vue": "^7.0.1",
+        "vue-tsc": "^3.0.5"
     }
 }

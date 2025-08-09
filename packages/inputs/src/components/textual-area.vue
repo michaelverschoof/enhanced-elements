@@ -15,6 +15,7 @@ const element = useTemplateRef<InstanceType<typeof TextualInput>>('element');
 
 defineExpose({
     focus: () => element.value?.focus(),
-    blur: () => element.value?.blur()
+    blur: () => element.value?.blur(),
+    validate: () => element.value?.validate()
 });
 </script>

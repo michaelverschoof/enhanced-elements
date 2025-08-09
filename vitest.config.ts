@@ -38,10 +38,10 @@ export default mergeConfig(
             coverage: {
                 exclude: [
                     ...(configDefaults.coverage.exclude ?? []),
-                    './playground',
+                    '**/*.test.browser.ts',
                     '**/index.ts',
-                    '**/main.ts',
                     '**/types.ts',
+                    '**/tsdown.config.ts',
                     '**/dist',
                     'packages/playground/'
                 ]

@@ -1,8 +1,8 @@
 export type TransformFunction = (value: string) => string;
 
-export type Filters = FilterPreset | RegExp | TransformFunction;
+export type Filter = FilterPreset | RegExp | TransformFunction;
 
-export type Modifiers = ModifierPreset | TransformFunction;
+export type Modifier = ModifierPreset | TransformFunction;
 
 export type FilterPreset = 'letters' | 'numbers';
 const FilterPresets: Record<FilterPreset, TransformFunction> = {
@@ -22,7 +22,7 @@ const ModifierPresets: Record<ModifierPreset, TransformFunction> = {
  * @param filters one or multiple presets, regular expressions or functions
  * @returns an array of filter functions
  */
-export function createFilters(filters: Filters | Filters[]): TransformFunction[] {
+export function createFilters(filters: Filter | Filter[]): TransformFunction[] {
     if (!filters) {
         return [];
     }
@@ -68,7 +68,7 @@ export function createFilters(filters: Filters | Filters[]): TransformFunction[]
  * @param modifiers one or multiple presets or functions
  * @returns an array of modifier functions
  */
-export function createModifiers(modifiers: Modifiers | Modifiers[]): TransformFunction[] {
+export function createModifiers(modifiers: Modifier | Modifier[]): TransformFunction[] {
     if (!modifiers || !modifiers.length) {
         return [];
     }
@@ -123,4 +123,16 @@ export function transform(value: string, ...transformers: TransformFunction[]): 
     }
 
     return transformed;
+}
+
+/**
+ * Filter out presets from the transformers
+ *
+ * @param transformers the collection of presets, regular expressions and/or transform functions
+ * @returns the filtered array of transformers
+ */
+export function filterPresets<Transformer>(transformers: Transformer | Transformer[]): Transformer[] {
+    const items = Array.isArray(transformers) ? transformers : [transformers];
+
+    return items.filter((filter) => typeof filter !== 'string');
 }

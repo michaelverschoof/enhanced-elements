@@ -3,11 +3,11 @@ import { App } from 'vue';
 /**
  * Base components
  */
-import CheckableInput from './src/components/checkable-input.vue';
-import NumericInput from './src/components/numeric-input.vue';
-import RadioInput from './src/components/radio-input.vue';
-import TextualArea from './src/components/textual-area.vue';
-import TextualInput from './src/components/textual-input.vue';
+import CheckableInput from './components/checkable-input.vue';
+import NumericInput from './components/numeric-input.vue';
+import RadioInput from './components/radio-input.vue';
+import TextualArea from './components/textual-area.vue';
+import TextualInput from './components/textual-input.vue';
 
 export type {
     FocusableEmits,
@@ -15,7 +15,7 @@ export type {
     ValidatableEmits,
     ValidatableInputProps,
     ValidationResult
-} from './src/components/types';
+} from './components/types';
 
 /**
  * Component exports
