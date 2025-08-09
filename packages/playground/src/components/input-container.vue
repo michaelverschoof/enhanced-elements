@@ -7,7 +7,7 @@
                 <slot name="inputs" />
             </div>
 
-            <div v-if="$slots.buttons">
+            <div v-if="$slots.buttons" class="buttons">
                 <slot name="buttons" />
             </div>
         </div>
@@ -30,6 +30,11 @@ section {
         .inputs {
             display: flex;
             gap: 0.5rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0.25rem;
         }
     }
 }
