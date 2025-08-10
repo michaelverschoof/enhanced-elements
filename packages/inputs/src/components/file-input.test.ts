@@ -3,6 +3,7 @@ import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative, t
 import { mount } from '@vue/test-utils';
 import { File } from 'happy-dom';
 import { beforeAll, describe, expect, it } from 'vitest';
+import { defineComponent } from 'vue';
 
 const defaultProps = {
     name: 'testing-textual-input'
@@ -35,8 +36,8 @@ describe('Focusing/blurring components', () => {
         });
 
         it('should focus using function', async () => {
-            const { wrapper, component, input } = mountComponent();
-            await testFocusFunction(wrapper, component, input);
+            const { wrapper, input } = mountCallableComponent();
+            await testFocusFunction(wrapper, input);
         });
     });
 
@@ -47,8 +48,8 @@ describe('Focusing/blurring components', () => {
         });
 
         it('should blur using function', async () => {
-            const { wrapper, component, input } = mountComponent();
-            await testBlurFunction(wrapper, component, input);
+            const { wrapper, input } = mountCallableComponent();
+            await testBlurFunction(wrapper, input);
         });
 
         it('should keep focus when focusing quickly after blurring', async () => {
@@ -122,4 +123,19 @@ function mountComponent(args?: Record<string, unknown>) {
     expect(input.exists()).toBeTruthy();
 
     return { wrapper, component, input };
+}
+
+function mountCallableComponent() {
+    const wrapper = mount(
+        defineComponent({
+            components: { FileInput },
+            template: `<file-input ref="element" name="${defaultProps.name}" />`
+        }),
+        { attachTo: document.body }
+    );
+
+    const input = wrapper.find('input');
+    expect(input.exists()).toBeTruthy();
+
+    return { wrapper, input };
 }
