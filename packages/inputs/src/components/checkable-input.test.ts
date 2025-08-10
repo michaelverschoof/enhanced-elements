@@ -1,7 +1,7 @@
 import CheckableInput from '@/components/checkable-input.vue';
 import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative } from '@test/input-tests';
 import { mount } from '@vue/test-utils';
-import { afterEach, beforeAll, describe, expect, it, test, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { defineComponent } from 'vue';
 
 const warnSpy = vi.spyOn(console, 'warn').mockImplementation(vi.fn());
@@ -29,7 +29,7 @@ describe('Mounting components', () => {
     });
 
     describe('Mounting with checked initial values', async () => {
-        test('should mount with a checked boolean value', async () => {
+        it('should mount with a checked boolean value', async () => {
             const wrapper = mount(CheckableInput, {
                 props: { ...defaultProps, modelValue: true }
             });
@@ -39,7 +39,7 @@ describe('Mounting components', () => {
             expect(input.element.checked).toBe(true);
         });
 
-        test('should mount with a checked array value', async () => {
+        it('should mount with a checked array value', async () => {
             const wrapper = mount(CheckableInput, {
                 props: { ...defaultProps, value: 'test', modelValue: ['test'] }
             });
@@ -50,7 +50,7 @@ describe('Mounting components', () => {
             expect(input.element.checked).toBe(true);
         });
 
-        test('should mount with a checked Set value', async () => {
+        it('should mount with a checked Set value', async () => {
             const wrapper = mount(CheckableInput, {
                 props: { ...defaultProps, value: 'test', modelValue: new Set(['test']) }
             });

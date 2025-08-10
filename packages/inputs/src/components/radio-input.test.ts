@@ -1,7 +1,7 @@
 import RadioInput from '@/components/radio-input.vue';
 import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative } from '@test/input-tests';
 import { mount } from '@vue/test-utils';
-import { afterEach, beforeAll, describe, expect, it, test, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
 
 const defaultProps = {
@@ -22,12 +22,12 @@ describe('Mounting components', () => {
     });
 
     describe('Mounting with checked initial values', async () => {
-        test('should mount with a checked string value', async () => {
+        it('should mount with a checked string value', async () => {
             const { wrapper } = mountComponent('test');
             expect(wrapper.props('modelValue')).toBe('test');
         });
 
-        test('should mount with a checked object value', async () => {
+        it('should mount with a checked object value', async () => {
             const wrapper = mount(RadioInput, {
                 props: {
                     ...defaultProps,
