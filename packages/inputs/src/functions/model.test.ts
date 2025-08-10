@@ -13,42 +13,6 @@ afterEach(() => {
     vi.clearAllMocks();
 });
 
-describe('Transforming values', () => {
-    it('should transform value with a single function', async () => {
-        const testValue = 'AbC123dEf';
-
-        expect(transform(testValue, letterFilter)).toEqual('AbCdEf');
-        expect(transform(testValue, numberFilter)).toEqual('123');
-        expect(transform(testValue, uppercaseModifier)).toEqual('ABC123DEF');
-        expect(transform(testValue, lowercaseModifier)).toEqual('abc123def');
-    });
-
-    it('should transform value with a multiple functions', async () => {
-        const testValue = 'AbC123dEf';
-
-        expect(transform(testValue, letterFilter, uppercaseModifier)).toEqual('ABCDEF');
-        expect(transform(testValue, letterFilter, uppercaseModifier, lowercaseModifier)).toEqual('abcdef');
-    });
-
-    it('should return an empty string if there is no value', async () => {
-        expect(transform('', letterFilter)).toEqual('');
-        // @ts-expect-error Type is not allowed as a parameter
-        expect(transform(null, letterFilter)).toEqual('');
-        // @ts-expect-error Type is not allowed as a parameter
-        expect(transform(undefined, letterFilter)).toEqual('');
-    });
-
-    it('should return the value if there are no functions', async () => {
-        expect(transform('test')).toEqual('test');
-        // @ts-expect-error Type is not allowed as a parameter
-        expect(transform('test', null)).toEqual('test');
-        // @ts-expect-error Type is not allowed as a parameter
-        expect(transform('test', null, null)).toEqual('test');
-        // @ts-expect-error Type is not allowed as a parameter
-        expect(transform('test', undefined, undefined)).toEqual('test');
-    });
-});
-
 describe('Creating filters', () => {
     it('should return functions from filter presets', async () => {
         areFunctions(createFilters('letters'));
@@ -140,6 +104,42 @@ describe('Creating modifiers', () => {
         expect(createModifiers(['lowercase', 42]).length).toEqual(1);
         // @ts-expect-error Type is not allowed as a parameter
         expect(createModifiers(['uppercase', null, undefined]).length).toEqual(1);
+    });
+});
+
+describe('Transforming values', () => {
+    it('should transform value with a single function', async () => {
+        const testValue = 'AbC123dEf';
+
+        expect(transform(testValue, letterFilter)).toEqual('AbCdEf');
+        expect(transform(testValue, numberFilter)).toEqual('123');
+        expect(transform(testValue, uppercaseModifier)).toEqual('ABC123DEF');
+        expect(transform(testValue, lowercaseModifier)).toEqual('abc123def');
+    });
+
+    it('should transform value with a multiple functions', async () => {
+        const testValue = 'AbC123dEf';
+
+        expect(transform(testValue, letterFilter, uppercaseModifier)).toEqual('ABCDEF');
+        expect(transform(testValue, letterFilter, uppercaseModifier, lowercaseModifier)).toEqual('abcdef');
+    });
+
+    it('should return an empty string if there is no value', async () => {
+        expect(transform('', letterFilter)).toEqual('');
+        // @ts-expect-error Type is not allowed as a parameter
+        expect(transform(null, letterFilter)).toEqual('');
+        // @ts-expect-error Type is not allowed as a parameter
+        expect(transform(undefined, letterFilter)).toEqual('');
+    });
+
+    it('should return the value if there are no functions', async () => {
+        expect(transform('test')).toEqual('test');
+        // @ts-expect-error Type is not allowed as a parameter
+        expect(transform('test', null)).toEqual('test');
+        // @ts-expect-error Type is not allowed as a parameter
+        expect(transform('test', null, null)).toEqual('test');
+        // @ts-expect-error Type is not allowed as a parameter
+        expect(transform('test', undefined, undefined)).toEqual('test');
     });
 });
 

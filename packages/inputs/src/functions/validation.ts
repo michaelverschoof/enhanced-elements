@@ -1,12 +1,12 @@
 import type { ValidationResult } from '../components/types';
 
-export type ValidationFunction = (value: string) => boolean | string;
+export type ValidationFunction = ((value: string) => boolean) | ((value: string) => boolean | string);
 
 export type Validation = ValidationPreset | ValidationFunction;
 
 export type ValidationPreset = 'required';
 const ValidationPresets: Record<ValidationPreset, ValidationFunction> = {
-    required: (value: string) => value && value.trim() !== ''
+    required: (value: string) => !!value && value.trim() !== ''
 };
 
 /**
@@ -16,11 +16,14 @@ const ValidationPresets: Record<ValidationPreset, ValidationFunction> = {
  * @returns an array of validation functions
  */
 export function createValidators(validators: Validation | Validation[]): ValidationFunction[] {
-    if (!validators || !validators.length) {
+    if (!validators) {
         return [];
     }
 
     const validatorArray = Array.isArray(validators) ? validators : [validators];
+    if (!validatorArray.length) {
+        return [];
+    }
 
     const validatorFunctions = [];
 
