@@ -28,7 +28,6 @@ describe('Mounting components', () => {
     });
 });
 
-// TODO: Add focus test for the file button
 // Call the focus/blur test-suite
 testFocus(FileInput, 'input', { ...defaultProps });
 testRefocus(FileInput, 'input', { ...defaultProps });
@@ -53,9 +52,10 @@ describe('Selecting files', () => {
 
         await wrapper.vm.select();
 
-        // FIXME: Check if file select opened
-        // expect(wrapper.emitted('files')).toHaveLength(1);
-        // expect(wrapper.emitted('files')).toEqual([[[fileMock]]]);
+        // As no files are actually selected, we trigger the change manually and the emits will be empty
+        await wrapper.trigger('change');
+        expect(wrapper.emitted('files')).toHaveLength(1);
+        expect(wrapper.emitted('files')![0]).toEqual([[]]);
     });
 
     it('should clear selected file using function', async () => {
@@ -71,13 +71,11 @@ describe('Selecting files', () => {
         expect(input.element.files).toEqual([fileMock]);
 
         expect(wrapper.emitted('files')).toHaveLength(1);
-        expect(wrapper.emitted('files')).toEqual([[[fileMock]]]);
+        expect(wrapper.emitted('files')![0]).toEqual([[fileMock]]);
 
         await wrapper.vm.clear();
         expect(wrapper.emitted('files')).toHaveLength(2);
-
-        // FIXME: Files are not updated
-        // expect(wrapper.emitted('files')![0]).toEqual([[[]]]);
+        expect(wrapper.emitted('files')![1]).toEqual([[]]);
     });
 });
 

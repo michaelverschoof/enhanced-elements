@@ -17,8 +17,6 @@ import { add as addToCollection, remove as removeFromCollection } from '@/functi
 import { InputHTMLAttributes, ref } from 'vue';
 import type { FocusableEmits } from './types';
 
-// TODO: Check if the `true-value` and `false-value` work. Also with objects or other values.
-
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & { value?: string | boolean };
 
 const { value = false } = defineProps<Props>();
