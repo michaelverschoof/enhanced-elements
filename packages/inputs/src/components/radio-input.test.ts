@@ -1,11 +1,13 @@
 import RadioInput from '@/components/radio-input.vue';
-import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative } from '@test/input-tests';
-import { mount } from '@vue/test-utils';
+import { testFocus, testRefocus } from '@test/focus';
+import { mountComponent } from '@test/util/mount';
+import { DOMWrapper, mount } from '@vue/test-utils';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
 
 const defaultProps = {
-    name: 'testing-radio-input'
+    name: 'testing-radio-input',
+    value: 'test'
 };
 
 beforeAll(() => {
@@ -16,85 +18,60 @@ afterEach(() => vi.clearAllMocks());
 
 describe('Mounting components', () => {
     it('should mount the radio component', async () => {
-        const { wrapper, input } = mountComponent();
+        const wrapper = mount(RadioInput, { props: defaultProps });
+        const input = wrapper.find('input');
+
+        expect(input.exists()).toBeTruthy();
         expect(input.element.type).toBe('radio');
-        expect(wrapper.props('modelValue')).toBe(undefined);
+        expect(input.element.checked).toBe(false);
     });
 
     describe('Mounting with checked initial values', async () => {
         it('should mount with a checked string value', async () => {
-            const { wrapper } = mountComponent('test');
-            expect(wrapper.props('modelValue')).toBe('test');
+            const { input, testModel } = mountRadioInput({ modelValue: 'test' });
+            expect(testModel.value).toBe('test');
+            expect(input.element.checked).toBe(true);
         });
 
         it('should mount with a checked object value', async () => {
-            const wrapper = mount(RadioInput, {
-                props: {
-                    ...defaultProps,
-                    value: { foo: 'test' },
-                    modelValue: { foo: 'test' },
-                    'onUpdate:modelValue': (event) => wrapper.setProps({ modelValue: event })
-                }
+            const { input, testModel } = mountRadioInput({
+                value: { foo: 'test' },
+                modelValue: { foo: 'test' }
             });
-
-            const input = wrapper.find('input');
-            expect(input.exists()).toBeTruthy();
-            expect(wrapper.props('modelValue')).toEqual({ foo: 'test' });
+            expect(testModel.value).toEqual({ foo: 'test' });
+            expect(input.element.checked).toBe(true);
         });
     });
 });
 
-describe('Focusing/blurring components', () => {
-    describe('On focus', () => {
-        it('should focus natively', async () => {
-            const { wrapper, input } = mountComponent();
-            await testFocusNative(wrapper, input);
-        });
-
-        it('should focus using function', async () => {
-            const { wrapper, input } = mountCallableComponent();
-            await testFocusFunction(wrapper, input);
-        });
-    });
-
-    describe('On blur', () => {
-        it('should blur natively', async () => {
-            const { wrapper, input } = mountComponent();
-            await testBlurNative(wrapper, input);
-        });
-
-        it('should blur using function', async () => {
-            const { wrapper, input } = mountCallableComponent();
-            await testBlurFunction(wrapper, input);
-        });
-    });
-});
+// Call the focus/blur test-suite
+testFocus(RadioInput, 'input', { ...defaultProps });
+testRefocus(RadioInput, 'input', { ...defaultProps });
 
 describe('Checking/unchecking components', () => {
     describe('Checking', () => {
         describe('Single item', () => {
             it('should check using click', async () => {
-                const { wrapper, input } = mountComponent();
-                expect(wrapper.props('modelValue')).toBe(undefined);
+                const { input, testModel } = mountRadioInput();
+                expect(testModel.value).toBeUndefined();
 
                 await input.trigger('click');
-                await input.trigger('change');
-                expect(wrapper.props('modelValue')).toBe('test');
+                expect(testModel.value).toBe('test');
             });
 
             it('should check using model value', async () => {
-                const { wrapper } = mountComponent();
-                expect(wrapper.props('modelValue')).toBe(undefined);
+                const { wrapper, testModel } = mountRadioInput();
+                expect(testModel.value).toBeUndefined();
 
-                await wrapper.setProps({ modelValue: 'test' });
-                expect(wrapper.props('modelValue')).toBe('test');
+                await wrapper.setValue('test');
+                expect(testModel.value).toBe('test');
             });
 
             it('should check using function', async () => {
-                const { testComponent, testModel } = mountCallableComponent();
+                const { wrapper, testModel } = mountRadioInput();
                 expect(testModel.value).toBeUndefined();
 
-                await testComponent.vm.check();
+                await wrapper.vm.check();
                 expect(testModel.value).toBe('test');
             });
         });
@@ -221,65 +198,44 @@ describe('Checking/unchecking components', () => {
 
     describe('Unchecking', () => {
         it('should not uncheck using click', async () => {
-            const { wrapper, input } = mountComponent('test');
-            expect(wrapper.props('modelValue')).toBe('test');
+            const { input, testModel } = mountRadioInput({ modelValue: 'test' });
+            expect(testModel.value).toBe('test');
 
             await input.trigger('click');
-            await input.trigger('change');
-            expect(wrapper.props('modelValue')).toBe('test');
+            expect(testModel.value).toBe('test');
         });
 
         it('should uncheck using model value', async () => {
-            const { wrapper } = mountComponent('test');
-            expect(wrapper.props('modelValue')).toBe('test');
+            const { wrapper, testModel } = mountRadioInput({ modelValue: 'test' });
+            expect(testModel.value).toBe('test');
 
-            await wrapper.setProps({ modelValue: undefined });
-            expect(wrapper.props('modelValue')).toBe(undefined);
+            await wrapper.setValue(undefined);
+            expect(testModel.value).toBeUndefined();
         });
 
         it('should uncheck using function', async () => {
-            const { testComponent, testModel } = mountCallableComponent('test');
+            const { wrapper, testModel } = mountRadioInput({ modelValue: 'test' });
             expect(testModel.value).toBe('test');
 
-            await testComponent.vm.uncheck();
+            await wrapper.vm.uncheck();
             expect(testModel.value).toBeUndefined();
         });
     });
 });
 
-function mountComponent(modelValue?: string) {
-    const wrapper = mount(RadioInput, {
-        props: {
-            ...defaultProps,
-            value: 'test',
-            modelValue: modelValue,
-            'onUpdate:modelValue': (event) => wrapper.setProps({ modelValue: event })
-        },
-        attachTo: document.body
+function mountRadioInput(customProps: Record<string, unknown> = {}) {
+    const testModel = ref(customProps.modelValue ?? undefined);
+
+    const result = mountComponent<typeof RadioInput>(RadioInput, 'input', {
+        ...defaultProps,
+        ...customProps,
+        modelValue: testModel.value,
+        'onUpdate:modelValue': (value: string | Record<string, unknown> | undefined) => (testModel.value = value)
     });
 
-    const input = wrapper.find('input');
-    expect(input.exists()).toBeTruthy();
-
-    return { wrapper, input };
-}
-
-function mountCallableComponent(modelValue?: string) {
-    const testModel = ref<string | undefined>(modelValue);
-
-    const wrapper = mount(
-        defineComponent({
-            components: { RadioInput },
-            template: `<radio-input ref="element" v-model="model" value="test" name="${defaultProps.name}" />`,
-            data: () => ({ model: testModel })
-        }),
-        { attachTo: document.body }
-    );
-
-    const testComponent = wrapper.findComponent({ ref: 'element' });
-
-    const input = wrapper.find('input');
-    expect(input.exists()).toBeTruthy();
-
-    return { wrapper, input, testComponent, testModel };
+    return {
+        wrapper: result.wrapper,
+        input: result.input as DOMWrapper<HTMLInputElement>,
+        testModel
+    };
 }

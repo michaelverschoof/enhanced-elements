@@ -159,6 +159,6 @@ onBeforeMount(() => {
 defineExpose({
     focus: () => element.value?.focus(),
     blur: () => element.value?.blur(),
-    validate: () => validateModel()
+    validate: validateModel
 });
 </script>

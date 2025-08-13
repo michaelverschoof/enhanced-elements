@@ -1,12 +1,15 @@
 import NumericInput from '@/components/numeric-input.vue';
 import * as ModelFunctions from '@/functions/model';
-import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative, testRefocus } from '@test/input-tests';
+import { testFocus, testRefocus } from '@test/focus';
+import { mountComponent } from '@test/util/mount';
+import { testRequiredValidation } from '@test/validate';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 
 const defaultProps = {
-    name: 'testing-numeric-input'
+    name: 'testing-numeric-input',
+    modelValue: '12345'
 };
 
 beforeAll(() => {
@@ -32,9 +35,8 @@ describe('Mounting components', () => {
     });
 
     it('should mount with a filtered initial value', async () => {
-        const { testModelValue } = mountComponent({ filters: /[^3]/g });
-
-        expect(testModelValue.value).toBe('1245');
+        const { testModel } = mountNumberInput({ filters: /[^3]/g });
+        expect(testModel.value).toBe('1245');
 
         expect(createFiltersSpy).toHaveBeenCalledOnce();
         expect(createModifiersSpy).toHaveBeenCalledOnce();
@@ -42,44 +44,16 @@ describe('Mounting components', () => {
     });
 });
 
-// FIXME: Use same test functions that textual area uses
-describe('Focusing/blurring components', () => {
-    describe('On focus', () => {
-        it('should focus natively', async () => {
-            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
-            await testFocusNative(wrapper, input);
-        });
-
-        it('should focus using function', async () => {
-            const { wrapper, input } = mountCallableComponent();
-            await testFocusFunction(wrapper, input);
-        });
-    });
-
-    describe('On blur', () => {
-        it('should blur natively', async () => {
-            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
-            await testBlurNative(wrapper, input);
-        });
-
-        it('should blur using function', async () => {
-            const { wrapper, input } = mountCallableComponent();
-            await testBlurFunction(wrapper, input);
-        });
-
-        it('should keep focus when focusing quickly after blurring', async () => {
-            const { wrapper, input } = mountComponent(null, { attachTo: document.body });
-            await testRefocus(wrapper, input);
-        });
-    });
-});
+// Call the focus/blur test-suite
+testFocus(NumericInput, 'input', { ...defaultProps });
+testRefocus(NumericInput, 'input', { ...defaultProps });
 
 describe('Updating model value', () => {
     it('should update the model value', async () => {
-        const { input, testModelValue } = mountComponent();
+        const { input, testModel } = mountNumberInput();
 
         await input.setValue('98765');
-        expect(testModelValue.value).toBe('98765');
+        expect(testModel.value).toBe('98765');
 
         expect(createFiltersSpy).toHaveBeenCalledOnce();
         expect(createFiltersSpy).toHaveBeenCalledWith([/[0-9]/g]);
@@ -90,10 +64,10 @@ describe('Updating model value', () => {
 
     describe('Using default filters', () => {
         it('should filter the value using the default', async () => {
-            const { input, testModelValue } = mountComponent();
+            const { input, testModel } = mountNumberInput();
 
             await input.setValue('Updated 98765');
-            expect(testModelValue.value).toBe('98765');
+            expect(testModel.value).toBe('98765');
 
             expect(createFiltersSpy).toHaveBeenCalledTimes(1);
             expect(createModifiersSpy).toHaveBeenCalledOnce();
@@ -101,13 +75,13 @@ describe('Updating model value', () => {
         });
 
         it('should not filter out decimal signs', async () => {
-            const { input, testModelValue } = mountComponent({ allowedCharacters: '.,' });
+            const { input, testModel } = mountNumberInput({ allowedCharacters: '.,' });
 
             await input.setValue('12345.789');
-            expect(testModelValue.value).toBe('12345.789');
+            expect(testModel.value).toBe('12345.789');
 
             await input.setValue('12345,789');
-            expect(testModelValue.value).toBe('12345,789');
+            expect(testModel.value).toBe('12345,789');
 
             expect(createFiltersSpy).toHaveBeenCalledTimes(1);
             expect(createModifiersSpy).toHaveBeenCalledOnce();
@@ -115,10 +89,10 @@ describe('Updating model value', () => {
         });
 
         it('should not filter out dashes', async () => {
-            const { input, testModelValue } = mountComponent({ allowedCharacters: '-' });
+            const { input, testModel } = mountNumberInput({ allowedCharacters: '-' });
 
             await input.setValue('123-456-789');
-            expect(testModelValue.value).toBe('123-456-789');
+            expect(testModel.value).toBe('123-456-789');
 
             expect(createFiltersSpy).toHaveBeenCalledTimes(1);
             expect(createModifiersSpy).toHaveBeenCalledOnce();
@@ -128,17 +102,17 @@ describe('Updating model value', () => {
 
     describe('Using filters', () => {
         it('should filter the value using regexes', async () => {
-            const { wrapper, input, testModelValue } = mountComponent();
+            const { wrapper, input, testModel } = mountNumberInput();
 
             // Filter the number 3
             await wrapper.setProps({ filters: /[^3]/g });
             await input.setValue('Updated with 12345');
-            expect(testModelValue.value).toBe('1245');
+            expect(testModel.value).toBe('1245');
 
             // Filter out the number 3 and then the number 5
             await wrapper.setProps({ filters: [/[^3]/g, /[^5]/g] });
             await input.setValue('Updated with 12345');
-            expect(testModelValue.value).toBe('124');
+            expect(testModel.value).toBe('124');
 
             expect(createFiltersSpy).toHaveBeenCalledTimes(3);
             expect(createModifiersSpy).toHaveBeenCalledOnce();
@@ -146,7 +120,7 @@ describe('Updating model value', () => {
         });
 
         it('should filter the value using functions', async () => {
-            const { wrapper, input, testModelValue } = mountComponent();
+            const { wrapper, input, testModel } = mountNumberInput();
 
             const filterFunction = (value: string) => (value.match(/[^3]/g) || []).join('');
 
@@ -155,14 +129,14 @@ describe('Updating model value', () => {
                 filters: filterFunction
             });
             await input.setValue('Updated with 12345');
-            expect(testModelValue.value).toBe('1245');
+            expect(testModel.value).toBe('1245');
 
             // Filter out numbers and then uppercase letters
             await wrapper.setProps({
                 filters: [filterFunction, (value: string) => (value.match(/[^5]/g) || []).join('')]
             });
             await input.setValue('Updated with 12345');
-            expect(testModelValue.value).toBe('124');
+            expect(testModel.value).toBe('124');
 
             expect(createFiltersSpy).toHaveBeenCalledTimes(3);
             expect(createModifiersSpy).toHaveBeenCalledOnce();
@@ -172,7 +146,7 @@ describe('Updating model value', () => {
 
     describe('Using modifiers', () => {
         it('should modify the value using functions', async () => {
-            const { wrapper, input, testModelValue } = mountComponent();
+            const { wrapper, input, testModel } = mountNumberInput();
 
             // Double each number in the string
             await wrapper.setProps({
@@ -183,7 +157,7 @@ describe('Updating model value', () => {
                         .join('')
             });
             await input.setValue('123');
-            expect(testModelValue.value).toBe('246');
+            expect(testModel.value).toBe('246');
 
             const doublerFunction = (value: string) =>
                 value
@@ -194,7 +168,7 @@ describe('Updating model value', () => {
             // Double each number in the string, twice
             await wrapper.setProps({ modifiers: [doublerFunction, doublerFunction] });
             await input.setValue('123');
-            expect(testModelValue.value).toBe('4812');
+            expect(testModel.value).toBe('4812');
 
             expect(createFiltersSpy).toHaveBeenCalledOnce();
             expect(createModifiersSpy).toHaveBeenCalledTimes(3);
@@ -203,39 +177,37 @@ describe('Updating model value', () => {
     });
 });
 
-function mountComponent(customProps?: Record<string, unknown> | null, args?: Record<string, unknown>) {
-    const testModelValue = ref<string>('');
+describe('Validating model value', () => {
+    // Call the 'required' validation test-suite
+    testRequiredValidation(NumericInput, 'input');
 
-    const wrapper = mount(NumericInput, {
-        props: {
-            ...defaultProps,
-            modelValue: '12345',
-            'onUpdate:modelValue': (value: string) => (testModelValue.value = value as string),
-            ...(customProps ?? {})
-        },
-        ...args
+    it('should validate the model value', async () => {
+        const { wrapper } = mountNumberInput();
+        await wrapper.setProps({ validators: (value: string) => Number(value) > 10 });
+
+        const component = wrapper.findComponent({ name: 'NumericInput' });
+        const validation = await component.vm.validate();
+        expect(validation).toEqual({ valid: true, failed: [] });
     });
 
-    // Get the input
-    const input = wrapper.find('input');
+    it('should invalidate the model value', async () => {
+        const { wrapper } = mountNumberInput();
+        await wrapper.setProps({ validators: (value: string) => Number(value) < 10 });
 
-    // Perform base tests
-    expect(input.exists()).toBeTruthy();
+        const component = wrapper.findComponent({ name: 'NumericInput' });
+        const validation = await component.vm.validate();
+        expect(validation).toEqual({ valid: false, failed: [] });
+    });
+});
 
-    return { wrapper, input, testModelValue };
-}
+function mountNumberInput(customProps: Record<string, unknown> = {}) {
+    const testModel = ref<string>('');
 
-function mountCallableComponent() {
-    const wrapper = mount(
-        defineComponent({
-            components: { NumericInput },
-            template: `<numeric-input ref="element" name="${defaultProps.name}" />`
-        }),
-        { attachTo: document.body }
-    );
+    const result = mountComponent<typeof NumericInput>(NumericInput, 'input', {
+        ...defaultProps,
+        ...customProps,
+        'onUpdate:modelValue': (value: string) => (testModel.value = value)
+    });
 
-    const input = wrapper.find('input');
-    expect(input.exists()).toBeTruthy();
-
-    return { wrapper, input };
+    return { ...result, testModel };
 }

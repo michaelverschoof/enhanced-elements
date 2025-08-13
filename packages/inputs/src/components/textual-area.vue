@@ -5,9 +5,9 @@
 <script setup lang="ts">
 import TextualInput from '@/components/textual-input.vue';
 import { TextareaHTMLAttributes, useTemplateRef } from 'vue';
-import type { TransformableInputProps } from './types';
+import type { TransformableInputProps, ValidatableInputProps } from './types';
 
-type Props = /* @vue-ignore */ TextareaHTMLAttributes & TransformableInputProps;
+type Props = /* @vue-ignore */ TextareaHTMLAttributes & TransformableInputProps & ValidatableInputProps;
 
 defineProps<Props>();
 

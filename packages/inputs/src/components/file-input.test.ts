@@ -1,9 +1,10 @@
 import FileInput from '@/components/file-input.vue';
-import { testBlurFunction, testBlurNative, testFocusFunction, testFocusNative, testRefocus } from '@test/input-tests';
-import { mount } from '@vue/test-utils';
+import { testFocus, testRefocus } from '@test/focus';
+import { mountComponent } from '@test/util/mount';
+import { DOMWrapper, mount } from '@vue/test-utils';
 import { File } from 'happy-dom';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { defineComponent } from 'vue';
+import { ref } from 'vue';
 
 const defaultProps = {
     name: 'testing-textual-input'
@@ -28,40 +29,13 @@ describe('Mounting components', () => {
 });
 
 // TODO: Add focus test for the file button
-describe('Focusing/blurring components', () => {
-    describe('On focus', () => {
-        it('should focus natively', async () => {
-            const { wrapper, input } = mountComponent({ attachTo: document.body });
-            await testFocusNative(wrapper, input);
-        });
-
-        it('should focus using function', async () => {
-            const { wrapper, input } = mountCallableComponent();
-            await testFocusFunction(wrapper, input);
-        });
-    });
-
-    describe('On blur', () => {
-        it('should blur natively', async () => {
-            const { wrapper, input } = mountComponent();
-            await testBlurNative(wrapper, input);
-        });
-
-        it('should blur using function', async () => {
-            const { wrapper, input } = mountCallableComponent();
-            await testBlurFunction(wrapper, input);
-        });
-
-        it('should keep focus when focusing quickly after blurring', async () => {
-            const { wrapper, input } = mountComponent();
-            await testRefocus(wrapper, input);
-        });
-    });
-});
+// Call the focus/blur test-suite
+testFocus(FileInput, 'input', { ...defaultProps });
+testRefocus(FileInput, 'input', { ...defaultProps });
 
 describe('Selecting files', () => {
     it('should select a file setting files directly', async () => {
-        const { wrapper, input } = mountComponent();
+        const { wrapper, input } = mountFileInput();
 
         // Directly inject the file in the input
         Object.defineProperty(input.element, 'files', {
@@ -75,9 +49,9 @@ describe('Selecting files', () => {
     });
 
     it('should trigger file select using function', async () => {
-        const { component } = mountComponent();
+        const { wrapper } = mountFileInput();
 
-        await component.vm.select();
+        await wrapper.vm.select();
 
         // FIXME: Check if file select opened
         // expect(wrapper.emitted('files')).toHaveLength(1);
@@ -85,7 +59,7 @@ describe('Selecting files', () => {
     });
 
     it('should clear selected file using function', async () => {
-        const { wrapper, component, input } = mountComponent();
+        const { wrapper, input } = mountFileInput();
 
         // Directly inject the file in the input
         Object.defineProperty(input.element, 'files', {
@@ -99,43 +73,26 @@ describe('Selecting files', () => {
         expect(wrapper.emitted('files')).toHaveLength(1);
         expect(wrapper.emitted('files')).toEqual([[[fileMock]]]);
 
-        await component.vm.clear();
-        expect(component.emitted('files')).toHaveLength(2);
+        await wrapper.vm.clear();
+        expect(wrapper.emitted('files')).toHaveLength(2);
 
         // FIXME: Files are not updated
-        // expect(component.emitted('files')![0]).toEqual([[[]]]);
+        // expect(wrapper.emitted('files')![0]).toEqual([[[]]]);
     });
 });
 
-function mountComponent(args?: Record<string, unknown>) {
-    const wrapper = mount(FileInput, {
-        props: defaultProps,
-        attachTo: document.body,
-        ...args
+function mountFileInput(customProps: Record<string, unknown> = {}) {
+    const testModel = ref<string>('');
+
+    const { wrapper, input } = mountComponent<typeof FileInput>(FileInput, 'input', {
+        ...defaultProps,
+        ...customProps,
+        'onUpdate:modelValue': (value: string) => (testModel.value = value)
     });
 
-    const component = wrapper.findComponent({ name: 'FileInput' });
-
-    // Get the input
-    const input = wrapper.find('input');
-
-    // Perform base tests
-    expect(input.exists()).toBeTruthy();
-
-    return { wrapper, component, input };
-}
-
-function mountCallableComponent() {
-    const wrapper = mount(
-        defineComponent({
-            components: { FileInput },
-            template: `<file-input ref="element" name="${defaultProps.name}" />`
-        }),
-        { attachTo: document.body }
-    );
-
-    const input = wrapper.find('input');
-    expect(input.exists()).toBeTruthy();
-
-    return { wrapper, input };
+    return {
+        wrapper,
+        input: input as DOMWrapper<HTMLInputElement & { files: FileList }>,
+        testModel
+    };
 }

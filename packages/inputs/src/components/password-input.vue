@@ -1,13 +1,15 @@
 <template>
-    <textual-input ref="element" :type="type" />
+    <textual-input ref="element" v-bind="$props" :type="type" />
 </template>
 
 <script setup lang="ts">
 import TextualInput from '@/components/textual-input.vue';
 import { InputHTMLAttributes, ref, useTemplateRef, watch } from 'vue';
-import type { TransformableInputProps } from './types';
+import type { TransformableInputProps, ValidatableInputProps } from './types';
 
-type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & TransformableInputProps & { showPassword?: boolean };
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> &
+    TransformableInputProps &
+    ValidatableInputProps & { showPassword?: boolean };
 
 const { showPassword = false } = defineProps<Props>();
 
@@ -37,6 +39,7 @@ function hide(): void {
 defineExpose({
     focus: () => element.value?.focus(),
     blur: () => element.value?.blur(),
+    validate: () => element.value?.validate(),
     showPassword: show,
     hidePassword: hide
 });

@@ -1,5 +1,5 @@
 <template>
-    <textual-input ref="element" :filters="adjustedFilters" :modifiers="adjustedModifiers" />
+    <textual-input ref="element" v-bind="$props" :filters="adjustedFilters" :modifiers="adjustedModifiers" />
 </template>
 
 <script setup lang="ts">
