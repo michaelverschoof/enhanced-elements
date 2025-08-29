@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import TextualInput from '@/components/textual-input.vue';
 import type { TransformableInputProps, ValidatableInputProps } from '@/components/types';
-import { filterPresets, Modifier, type Filter } from '@/functions/model';
+import { filterPresets, Modifier, type Filter } from '@/util/model';
 import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
 
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> &

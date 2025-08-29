@@ -1,5 +1,5 @@
 import TextualInput from '@/components/textual-input.vue';
-import * as ModelFunctions from '@/functions/model';
+import * as ModelFunctions from '@/util/model';
 import { testFocus, testRefocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
 import { testRequiredValidation } from '@test/validate';

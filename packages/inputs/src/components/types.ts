@@ -1,5 +1,5 @@
-import type { Filter, Modifier } from '../functions/model';
-import type { Validation } from '../functions/validation';
+import type { Filter, Modifier } from '../util/model';
+import type { Validation } from '../util/validation';
 
 /**
  * Properties for the textual-input and textual-area inputs

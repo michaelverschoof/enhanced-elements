@@ -22,10 +22,11 @@ import type {
     ValidationResult
 } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
-import type { ModifierPreset, TransformFunction } from '@/functions/model';
-import { createFilters, createModifiers, transform } from '@/functions/model';
-import type { ValidationFunction } from '@/functions/validation';
-import { createValidators, validate } from '@/functions/validation';
+import { toArray } from '@/util/arrays';
+import type { ModifierPreset, TransformFunction } from '@/util/model';
+import { createFilters, createModifiers, transform } from '@/util/model';
+import type { Validation, ValidationFunction } from '@/util/validation';
+import { replaceRequiredPreset, validate } from '@/util/validation';
 import { useDebounceFn } from '@vueuse/core';
 import { computed, InputHTMLAttributes, onBeforeMount, TextareaHTMLAttributes, useTemplateRef, watch } from 'vue';
 
@@ -88,9 +89,16 @@ const modifierFunctions = computed<TransformFunction[]>(() =>
 );
 
 /**
- * Reactive list of validators to execute when the model is changed
+ * Validator function for 'required' preset.
  */
-const validatorFunctions = computed<ValidationFunction[]>(() => createValidators(validators));
+const required = (value: string) => !!value && value.trim() !== '';
+
+/**
+ * Reactive list of validators to execute when the model is changed.
+ */
+const validatorFunctions = computed<ValidationFunction[]>(() =>
+    replaceRequiredPreset(toArray<Validation>(validators), required)
+);
 
 /**
  * Set the model value on input.

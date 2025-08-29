@@ -12,8 +12,8 @@
 
 <script lang="ts" setup>
 import { useFocusable } from '@/composables/focus';
-import type { StringCollection } from '@/functions/collections';
-import { add as addToCollection, remove as removeFromCollection } from '@/functions/collections';
+import type { StringCollection } from '@/util/collections';
+import { add as addToCollection, remove as removeFromCollection } from '@/util/collections';
 import { InputHTMLAttributes, ref } from 'vue';
 import type { FocusableEmits } from './types';
 
