@@ -4,14 +4,18 @@ export type Filter = FilterPreset | RegExp | TransformFunction;
 
 export type Modifier = ModifierPreset | TransformFunction;
 
-export type FilterPreset = 'letters' | 'numbers';
-const FilterPresets: Record<FilterPreset, TransformFunction> = {
+export const FilterPresets = ['letters', 'numbers'] as const;
+export type FilterPreset = (typeof FilterPresets)[number];
+
+const FilterPresetFunctions: Record<FilterPreset, TransformFunction> = {
     letters: (value: string) => (value.match(/[^A-Za-z]/g) || []).join(''),
     numbers: (value: string) => (value.match(/[^0-9]/g) || []).join('')
 };
 
-export type ModifierPreset = 'uppercase' | 'lowercase';
-const ModifierPresets: Record<ModifierPreset, TransformFunction> = {
+export const ModifierPresets = ['uppercase', 'lowercase'] as const;
+export type ModifierPreset = (typeof ModifierPresets)[number];
+
+const ModifierPresetFunctions: Record<ModifierPreset, TransformFunction> = {
     uppercase: (value: string) => value.toUpperCase(),
     lowercase: (value: string) => value.toLowerCase()
 };
@@ -47,12 +51,12 @@ export function createFilters(filters: Filter | Filter[]): TransformFunction[] {
         }
 
         if (typeof filter === 'string') {
-            if (!Object.keys(FilterPresets).includes(filter)) {
+            if (!Object.keys(FilterPresetFunctions).includes(filter)) {
                 console.warn('Unknown filter preset provided');
                 continue;
             }
 
-            filterFunctions.push(FilterPresets[filter]);
+            filterFunctions.push(FilterPresetFunctions[filter]);
             continue;
         }
 
@@ -85,12 +89,12 @@ export function createModifiers(modifiers: Modifier | Modifier[]): TransformFunc
         }
 
         if (typeof modifier === 'string') {
-            if (!Object.keys(ModifierPresets).includes(modifier)) {
+            if (!Object.keys(ModifierPresetFunctions).includes(modifier)) {
                 console.warn('Unknown modifier preset provided');
                 continue;
             }
 
-            modifierFunctions.push(ModifierPresets[modifier]);
+            modifierFunctions.push(ModifierPresetFunctions[modifier]);
             continue;
         }
 
@@ -107,7 +111,7 @@ export function createModifiers(modifiers: Modifier | Modifier[]): TransformFunc
  * @param transformers the array or transformers to execute
  * @returns the transformed value
  */
-export function transform(value: string, ...transformers: TransformFunction[]): string {
+export function transform(value: string | undefined, ...transformers: TransformFunction[]): string {
     if (!value) {
         return '';
     }

@@ -33,7 +33,7 @@ testFocus(FileInput, 'input', { ...defaultProps });
 testRefocus(FileInput, 'input', { ...defaultProps });
 
 describe('Selecting files', () => {
-    it('should select a file setting files directly', async () => {
+    it('should select a file by setting files directly', async () => {
         const { wrapper, input } = mountFileInput();
 
         // Directly inject the file in the input
@@ -76,6 +76,20 @@ describe('Selecting files', () => {
         await wrapper.vm.clear();
         expect(wrapper.emitted('files')).toHaveLength(2);
         expect(wrapper.emitted('files')![1]).toEqual([[]]);
+    });
+
+    it('should not select a file setting files directly', async () => {
+        const { wrapper, input } = mountFileInput();
+
+        // Directly inject the file in the input
+        Object.defineProperty(input.element, 'files', {
+            value: null,
+            writable: false
+        });
+
+        await input.trigger('change');
+        expect(input.element.files).toEqual(null);
+        expect(wrapper.emitted('files')).toEqual([[[]]]);
     });
 });
 

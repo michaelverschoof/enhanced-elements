@@ -128,7 +128,6 @@ describe('Transforming values', () => {
         expect(transform('', letterFilter)).toEqual('');
         // @ts-expect-error Type is not allowed as a parameter
         expect(transform(null, letterFilter)).toEqual('');
-        // @ts-expect-error Type is not allowed as a parameter
         expect(transform(undefined, letterFilter)).toEqual('');
     });
 

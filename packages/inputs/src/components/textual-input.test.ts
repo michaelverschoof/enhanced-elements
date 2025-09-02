@@ -65,10 +65,16 @@ describe('Updating model value', () => {
             await input.setValue('updated 12345');
             expect(testModel.value).toBe(' 12345');
 
+            await input.setValue('updated');
+            expect(testModel.value).toBe('');
+
             // Filter out numbers
             await wrapper.setProps({ filters: 'numbers' });
             await input.setValue('updated 12345');
             expect(testModel.value).toBe('updated ');
+
+            await input.setValue('12345');
+            expect(testModel.value).toBe('');
 
             // Filter out numbers and then letters
             await wrapper.setProps({ filters: ['numbers', 'letters'] });
@@ -78,7 +84,7 @@ describe('Updating model value', () => {
             // Once for the inital value and thrice for the updates to the filters
             expect(createFiltersSpy).toHaveBeenCalledTimes(4);
             expect(createModifiersSpy).toHaveBeenCalledOnce();
-            expect(transformSpy).toHaveBeenCalledTimes(3);
+            expect(transformSpy).toHaveBeenCalledTimes(5);
         });
 
         it('should filter the value using regexes', async () => {

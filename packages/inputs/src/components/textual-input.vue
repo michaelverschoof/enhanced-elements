@@ -24,7 +24,7 @@ import type {
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
 import type { ModifierPreset, TransformFunction } from '@/util/model';
-import { createFilters, createModifiers, transform } from '@/util/model';
+import { createFilters, createModifiers, ModifierPresets, transform } from '@/util/model';
 import type { Validation, ValidationFunction } from '@/util/validation';
 import { replaceRequiredPreset, validate } from '@/util/validation';
 import { useDebounceFn } from '@vueuse/core';
@@ -68,11 +68,7 @@ watch(model, () => {
  */
 const nativeModifiers = computed<Record<string, true | undefined>>(() =>
     Object.fromEntries(
-        Object.entries(modelModifiers).filter(
-            (modifier) =>
-                // FIXME: Get these values dynamically
-                !['lowercase', 'uppercase'].includes(modifier[0])
-        )
+        Object.entries(modelModifiers).filter((modifier) => !ModifierPresets.includes(modifier[0] as ModifierPreset))
     )
 );
 
@@ -91,7 +87,7 @@ const modifierFunctions = computed<TransformFunction[]>(() =>
 /**
  * Validator function for 'required' preset.
  */
-const required = (value: string) => !!value && value.trim() !== '';
+const required: ValidationFunction = (value: string): boolean => !!value && value.trim() !== '';
 
 /**
  * Reactive list of validators to execute when the model is changed.
@@ -128,7 +124,7 @@ const onKeypress = (event: KeyboardEvent): void => {
  */
 const onPaste = (event: ClipboardEvent): void => {
     event.preventDefault();
-    const value = event.clipboardData?.getData('text') ?? '';
+    const value = event.clipboardData?.getData('text');
     const filtered = transform(value, ...filterFunctions.value);
     model.value = filtered;
 };
@@ -146,6 +142,9 @@ const { focused, onBlur, onFocus } = useFocusable(emit);
  */
 const onBlurDebounced = useDebounceFn((event: FocusEvent): void => onBlur(event), 100);
 
+/**
+ * Validate the model against the provided validators.
+ */
 function validateModel(): ValidationResult {
     return validate(model.value ?? '', ...validatorFunctions.value);
 }
