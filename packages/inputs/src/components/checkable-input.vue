@@ -12,14 +12,16 @@
 
 <script lang="ts" setup>
 import { useFocusable } from '@/composables/focus';
+import { toArray } from '@/util/arrays';
 import type { StringCollection } from '@/util/collections';
-import { add as addToCollection, remove as removeFromCollection } from '@/util/collections';
-import { InputHTMLAttributes, ref } from 'vue';
-import type { FocusableEmits } from './types';
+import { add as addToCollection, has, remove as removeFromCollection } from '@/util/collections';
+import { replaceRequiredPreset, validate, Validation, ValidationFunction } from '@/util/validation';
+import { computed, InputHTMLAttributes, ref } from 'vue';
+import type { FocusableEmits, ValidatableInputProps, ValidationResult } from './types';
 
-type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & { value?: string | boolean };
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string };
 
-const { value = false } = defineProps<Props>();
+const { value, validators = [] } = defineProps<Props>();
 
 const emit = defineEmits<FocusableEmits>();
 
@@ -33,6 +35,38 @@ const element = ref<HTMLInputElement>();
 const { focused, onBlur, onFocus } = useFocusable(emit);
 
 /**
+ * Validator function for 'required' preset.
+ */
+const required: ValidationFunction = (value: string): boolean => {
+    if (model.value === undefined || typeof model.value === 'boolean') {
+        return !!model.value;
+    }
+
+    if (!value) {
+        console.warn('Could validate checkbox-item.', 'There is no value to validate.');
+        return false;
+    }
+
+    return has(value, model.value);
+};
+
+/**
+ * Reactive list of validators to execute when the model is changed.
+ */
+const validatorFunctions = computed<ValidationFunction[]>(() =>
+    replaceRequiredPreset(toArray<Validation>(validators), required)
+);
+
+/**
+ * Validate the model against the provided validators.
+ */
+function validateModel(): ValidationResult {
+    // TODO: Do we really send the value here instead of the model value?
+    // Will this work for other validations?
+    return validate(value, ...validatorFunctions.value);
+}
+
+/**
  * Set the model value according to the model type to check the checkbox
  */
 function check(): void {
@@ -42,7 +76,7 @@ function check(): void {
     }
 
     if (!value) {
-        console.warn(`Could not tick checkbox-item.`, 'There is no value to set.');
+        console.warn('Could not tick checkbox-item.', 'There is no value to set.');
         return;
     }
 
@@ -59,7 +93,7 @@ function uncheck(): void {
     }
 
     if (!value) {
-        console.warn(`Could not untick checkbox-item.`, 'There is no value to unset.');
+        console.warn('Could not untick checkbox-item.', 'There is no value to unset.');
         return;
     }
 
@@ -73,6 +107,7 @@ defineExpose({
     focus: () => element.value?.focus(),
     blur: () => element.value?.blur(),
     check,
-    uncheck
+    uncheck,
+    validate: validateModel
 });
 </script>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { add, remove } from './collections';
+import { add, has, remove } from './collections';
 
 describe('Adding to collections', () => {
     describe('Arrays', () => {
@@ -87,6 +87,34 @@ describe('Removing from collections', () => {
             expect(remove(null, new Set(['foo']))).toEqual(new Set(['foo']));
             // @ts-expect-error Value is not allowed
             expect(remove(undefined, new Set(['foo']))).toEqual(new Set(['foo']));
+        });
+    });
+});
+
+describe('Checking if collections contain values', () => {
+    describe('Arrays', () => {
+        it('should find values', async () => {
+            expect(has('foo', ['foo'])).toBe(true);
+            expect(has('bar', ['foo', 'bar'])).toBe(true);
+            expect(has('baz', ['foo', 'bar', 'baz'])).toBe(true);
+        });
+
+        it('should not find non-existing values', async () => {
+            expect(has('bar', ['foo'])).toBe(false);
+            expect(has('baz', ['foo', 'bar'])).toBe(false);
+        });
+    });
+
+    describe('Sets', () => {
+        it('should remove values', async () => {
+            expect(has('foo', new Set(['foo']))).toBe(true);
+            expect(has('bar', new Set(['foo', 'bar']))).toBe(true);
+            expect(has('baz', new Set(['foo', 'bar', 'baz']))).toBe(true);
+        });
+
+        it('should not remove non-existing values', async () => {
+            expect(has('bar', new Set(['foo']))).toBe(false);
+            expect(has('baz', new Set(['foo', 'bar']))).toBe(false);
         });
     });
 });

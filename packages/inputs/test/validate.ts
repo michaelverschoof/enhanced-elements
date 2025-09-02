@@ -6,7 +6,7 @@ import { mountComponent } from './util/mount';
 
 type ValidatableComponent = DefineComponent<'', { validate: () => ValidationResult | undefined }>;
 
-type ValidatableComponentWrapper = VueWrapper<ValidatableComponent>;
+export type ValidatableComponentWrapper = VueWrapper<ValidatableComponent>;
 
 export function testRequiredValidation(component: Component, selector: string) {
     return describe('"required" validation', () => {
@@ -19,6 +19,13 @@ export function testRequiredValidation(component: Component, selector: string) {
 
         it('should invalidate the model value', async () => {
             const { wrapper } = mountComponent(component, selector, { modelValue: '', validators: 'required' });
+
+            const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+            expect(validation).toEqual({ valid: false, failed: [] });
+        });
+
+        it('should invalidate when missing a model value', async () => {
+            const { wrapper } = mountComponent(component, selector, { modelValue: undefined, validators: 'required' });
 
             const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
             expect(validation).toEqual({ valid: false, failed: [] });

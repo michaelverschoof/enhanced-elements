@@ -17,6 +17,7 @@ export function add(value: string, collection: StringCollection): StringCollecti
     if (value) {
         collection.add(value);
     }
+
     return collection;
 }
 
@@ -38,5 +39,20 @@ export function remove(value: string, collection: StringCollection): StringColle
     if (value) {
         collection.delete(value);
     }
+
     return collection;
+}
+
+/**
+ * Determine if a value exists in an Array or Set.
+ *
+ * @param value The value to find.
+ * @param collection The Array or Set to find the value in.
+ */
+export function has(value: string, collection: StringCollection): boolean {
+    if (Array.isArray(collection)) {
+        return collection.includes(value);
+    }
+
+    return collection.has(value);
 }
