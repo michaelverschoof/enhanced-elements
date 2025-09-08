@@ -25,7 +25,7 @@ import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
 import type { ModifierPreset, TransformFunction } from '@/util/model';
 import { createFilters, createModifiers, ModifierPresets, transform } from '@/util/model';
-import type { Validation, ValidationFunction } from '@/util/validation';
+import type { BaseValidationFunction, Validation } from '@/util/validation';
 import { replaceRequiredPreset, validate } from '@/util/validation';
 import { useDebounceFn } from '@vueuse/core';
 import { computed, InputHTMLAttributes, onBeforeMount, TextareaHTMLAttributes, useTemplateRef, watch } from 'vue';
@@ -87,12 +87,12 @@ const modifierFunctions = computed<TransformFunction[]>(() =>
 /**
  * Validator function for 'required' preset.
  */
-const required: ValidationFunction = (value: string): boolean => !!value && value.trim() !== '';
+const required: BaseValidationFunction = (value: string): boolean => !!value && value.trim() !== '';
 
 /**
  * Reactive list of validators to execute when the model is changed.
  */
-const validatorFunctions = computed<ValidationFunction[]>(() =>
+const validatorFunctions = computed<BaseValidationFunction[]>(() =>
     replaceRequiredPreset(toArray<Validation>(validators), required)
 );
 

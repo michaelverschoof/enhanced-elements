@@ -11,13 +11,13 @@
 </template>
 
 <script lang="ts" setup>
+import type { CheckableModel, FocusableEmits, ValidatableInputProps, ValidationResult } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
 import type { StringCollection } from '@/util/collections';
 import { add as addToCollection, has, remove as removeFromCollection } from '@/util/collections';
-import { replaceRequiredPreset, validate, Validation, ValidationFunction } from '@/util/validation';
+import { CheckableValidationFunction, replaceRequiredPreset, validateCheckable, Validation } from '@/util/validation';
 import { computed, InputHTMLAttributes, ref } from 'vue';
-import type { FocusableEmits, ValidatableInputProps, ValidationResult } from './types';
 
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string };
 
@@ -25,7 +25,7 @@ const { value, validators = [] } = defineProps<Props>();
 
 const emit = defineEmits<FocusableEmits>();
 
-const model = defineModel<Set<string> | string[] | boolean>();
+const model = defineModel<CheckableModel>();
 
 const element = ref<HTMLInputElement>();
 
@@ -37,33 +37,36 @@ const { focused, onBlur, onFocus } = useFocusable(emit);
 /**
  * Validator function for 'required' preset.
  */
-const required: ValidationFunction = (value: string): boolean => {
-    if (model.value === undefined || typeof model.value === 'boolean') {
-        return !!model.value;
+const required: CheckableValidationFunction = (modelValue: CheckableModel, value: string): boolean => {
+    if (modelValue === undefined || typeof modelValue === 'boolean') {
+        return !!modelValue;
     }
 
     if (!value) {
-        console.warn('Could validate checkbox-item.', 'There is no value to validate.');
+        console.warn('Could not validate checkbox-item.', 'There is no value to validate.');
         return false;
     }
 
-    return has(value, model.value);
+    return has(value, modelValue);
 };
 
 /**
  * Reactive list of validators to execute when the model is changed.
  */
-const validatorFunctions = computed<ValidationFunction[]>(() =>
-    replaceRequiredPreset(toArray<Validation>(validators), required)
+const validatorFunctions = computed<CheckableValidationFunction[]>(() =>
+    replaceRequiredPreset<CheckableValidationFunction>(toArray<Validation>(validators), required)
 );
 
 /**
  * Validate the model against the provided validators.
  */
-function validateModel(): ValidationResult {
-    // TODO: Do we really send the value here instead of the model value?
-    // Will this work for other validations?
-    return validate(value, ...validatorFunctions.value);
+function validateModel(): ValidationResult | void {
+    if (model.value === null || model.value === undefined) {
+        console.warn('Could not validate checkbox-item.', 'There is no model value.');
+        return;
+    }
+
+    return validateCheckable(model.value, value, validatorFunctions.value);
 }
 
 /**

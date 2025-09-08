@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { validate, type ValidationFunction } from './validation';
+import { validate, type BaseValidationFunction } from './validation';
 
-const booleanValidation: ValidationFunction = (value: string) => value.length < 5;
-const stringValidation: ValidationFunction = (value: string) => (value.length < 5 ? true : 'Value is too long');
+const booleanValidation: BaseValidationFunction = (value: string) => value.length < 5;
+const stringValidation: BaseValidationFunction = (value: string) => (value.length < 5 ? true : 'Value is too long');
 
 const validResponse = { valid: true, failed: [] };
 const invalidResponse = { valid: false, failed: [] };
@@ -12,7 +12,7 @@ afterEach(() => {
     vi.clearAllMocks();
 });
 
-describe('Validating values', () => {
+describe('Validating string values', () => {
     it('should validate value with a single function', () => {
         // Valid values
         expect(validate('abc', booleanValidation)).toEqual(validResponse);
@@ -32,7 +32,9 @@ describe('Validating values', () => {
     });
 
     it('should filter out non-usable validators', () => {
-        // @ts-expect-error null and undefined are not allowed
+        // @ts-expect-error the provided  validators are not allowed types, which we're testing.
         expect(validate('abc', null, undefined, '')).toEqual(validResponse);
     });
 });
+
+// TODO: Checkable values

@@ -1,5 +1,5 @@
-import type { Filter, Modifier } from '../util/model';
-import type { Validation } from '../util/validation';
+import type { Filter, Modifier } from '@/util/model';
+import type { Validation } from '@/util/validation';
 
 /**
  * Properties for the textual-input and textual-area inputs
@@ -35,3 +35,8 @@ export type ValidationResult = {
 export type ValidatableEmits = {
     validated: [result: ValidationResult];
 };
+
+/**
+ * Checkable model
+ */
+export type CheckableModel = Set<string> | string[] | boolean;

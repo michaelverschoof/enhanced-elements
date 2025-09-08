@@ -1,17 +1,23 @@
-import type { ValidationResult } from '../components/types';
+import type { CheckableModel, ValidationResult } from '@/components/types';
 
-export type ValidationFunction = ((value: string) => boolean) | ((value: string) => boolean | string);
+export type BaseValidationFunction = ((modelValue: string) => boolean) | ((modelValue: string) => boolean | string);
+
+export type CheckableValidationFunction = (modelValue: CheckableModel, value: string) => boolean | string;
+
+export type ValidationFunction = BaseValidationFunction | CheckableValidationFunction;
 
 export type Validation = 'required' | ValidationFunction;
 
 /**
  * Validate a value using the provided functions.
  *
- * @param value the value to validate.
+ * TODO: Create a generic function for validation
+ *
+ * @param modelValue the value to validate.
  * @param validators the array of validators to execute.
  * @returns an object with the validation results.
  */
-export function validate(value: string, ...validators: ValidationFunction[]): ValidationResult {
+export function validate(modelValue: string, ...validators: BaseValidationFunction[]): ValidationResult {
     const validationResult: ValidationResult = { valid: true, failed: [] };
 
     const filtered = validators.filter((validator) => !!validator);
@@ -20,7 +26,36 @@ export function validate(value: string, ...validators: ValidationFunction[]): Va
     }
 
     for (const validator of filtered) {
-        const result = validator(value);
+        const result = validator(modelValue);
+        if (result === true) {
+            continue;
+        }
+
+        validationResult.valid = false;
+        if (typeof result !== 'string') {
+            continue;
+        }
+
+        validationResult.failed.push(result);
+    }
+
+    return validationResult;
+}
+
+export function validateCheckable(
+    modelValue: CheckableModel,
+    value: string,
+    validators: CheckableValidationFunction[]
+): ValidationResult {
+    const validationResult: ValidationResult = { valid: true, failed: [] };
+
+    const filtered = validators.filter((validator) => !!validator);
+    if (!filtered.length) {
+        return validationResult;
+    }
+
+    for (const validator of filtered) {
+        const result = validator(modelValue, value);
         if (result === true) {
             continue;
         }
@@ -43,7 +78,7 @@ export function validate(value: string, ...validators: ValidationFunction[]): Va
  * @param required the function to inject.
  * @returns the updated array.
  */
-export function replaceRequiredPreset(validations: Validation[], required: ValidationFunction): ValidationFunction[] {
+export function replaceRequiredPreset<T extends ValidationFunction>(validations: Validation[], required: T): T[] {
     if (!validations.length) {
         return [];
     }
@@ -53,5 +88,5 @@ export function replaceRequiredPreset(validations: Validation[], required: Valid
         validations.splice(index, 1, required);
     }
 
-    return validations as ValidationFunction[];
+    return validations as T[];
 }
