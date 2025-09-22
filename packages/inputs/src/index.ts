@@ -19,7 +19,6 @@ export { CheckableInput, FileInput, NumericInput, PasswordInput, RadioInput, Tex
 export type {
     FocusableEmits,
     TransformableInputProps,
-    ValidatableEmits,
     ValidatableInputProps,
     ValidationResult
 } from './components/types';

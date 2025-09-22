@@ -32,10 +32,6 @@ export type ValidationResult = {
     failed: string[];
 };
 
-export type ValidatableEmits = {
-    validated: [result: ValidationResult];
-};
-
 /**
  * Checkable model
  */

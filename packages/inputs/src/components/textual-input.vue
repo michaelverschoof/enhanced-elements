@@ -17,7 +17,6 @@
 import type {
     FocusableEmits,
     TransformableInputProps,
-    ValidatableEmits,
     ValidatableInputProps,
     ValidationResult
 } from '@/components/types';
@@ -28,7 +27,7 @@ import { createFilters, createModifiers, ModifierPresets, transform } from '@/ut
 import type { BaseValidationFunction, Validation } from '@/util/validation';
 import { replaceRequiredPreset, validate } from '@/util/validation';
 import { useDebounceFn } from '@vueuse/core';
-import { computed, InputHTMLAttributes, onBeforeMount, TextareaHTMLAttributes, useTemplateRef, watch } from 'vue';
+import { computed, InputHTMLAttributes, onBeforeMount, TextareaHTMLAttributes, useTemplateRef } from 'vue';
 
 type TextInputProps = /* @vue-ignore */ InputHTMLAttributes;
 type TextAreaProps = /* @vue-ignore */ TextareaHTMLAttributes;
@@ -39,7 +38,7 @@ type Props = (TextInputProps | TextAreaProps) &
 
 const { filters = [], modifiers = [], validators = [] } = defineProps<Props>();
 
-const emit = defineEmits<FocusableEmits & ValidatableEmits>();
+const emit = defineEmits<FocusableEmits>();
 
 /**
  * The input model. It transforms the value while setting using the filters and modifiers.
@@ -53,13 +52,6 @@ const [model, modelModifiers] = defineModel<string, ModifierPreset>({
 });
 
 const element = useTemplateRef<HTMLInputElement>('element');
-
-/**
- * Validate the model value when it changes and emit the result.
- */
-watch(model, () => {
-    emit('validated', validateModel());
-});
 
 /**
  * Subset of the provided modifiers.
@@ -87,7 +79,7 @@ const modifierFunctions = computed<TransformFunction[]>(() =>
 /**
  * Validator function for 'required' preset.
  */
-const required: BaseValidationFunction = (value: string): boolean => !!value && value.trim() !== '';
+const required: BaseValidationFunction = (modelValue: string): boolean => !!modelValue && modelValue.trim() !== '';
 
 /**
  * Reactive list of validators to execute when the model is changed.
