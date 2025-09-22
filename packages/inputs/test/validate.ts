@@ -4,7 +4,7 @@ import { Component, DefineComponent } from 'vue';
 import type { ValidationResult } from '../src/components/types';
 import { mountComponent } from './util/mount';
 
-type ValidatableComponent = DefineComponent<'', { validate: () => ValidationResult | undefined }>;
+type ValidatableComponent = DefineComponent<{ validate: () => ValidationResult | undefined }>;
 
 export type ValidatableComponentWrapper = VueWrapper<ValidatableComponent>;
 
