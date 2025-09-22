@@ -12,17 +12,19 @@
 
 <script lang="ts" setup>
 import { useFocusable } from '@/composables/focus';
-import { InputHTMLAttributes, ref } from 'vue';
-import type { FocusableEmits } from './types';
+import { toArray } from '@/util/arrays';
+import { RadioValidationFunction, replaceRequiredPreset, validateRadio, Validation } from '@/util/validation';
+import { computed, InputHTMLAttributes, ref } from 'vue';
+import type { FocusableEmits, ValidatableInputProps, ValidationResult } from './types';
 
-type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & { value?: string | unknown };
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string | unknown };
 
-const { value } = defineProps<Props>();
+const { value, validators = [] } = defineProps<Props>();
 
 const emit = defineEmits<FocusableEmits>();
 
 // As objects and other values are allowed, specifically typing these is not possible.
-const model = defineModel<unknown>();
+const model = defineModel<string | unknown>();
 
 const element = ref<HTMLInputElement>();
 
@@ -30,6 +32,28 @@ const element = ref<HTMLInputElement>();
  * Composable for all inputs that have a "focused" state and corresponding emits.
  */
 const { focused, onBlur, onFocus } = useFocusable(emit);
+
+/**
+ * Validator function for 'required' preset.
+ */
+const required: RadioValidationFunction = (modelValue: string | unknown): boolean => {
+    return modelValue !== null && modelValue !== undefined;
+};
+
+/**
+ * Reactive list of validators to execute when the model is changed.
+ */
+const validatorFunctions = computed<RadioValidationFunction[]>(() =>
+    replaceRequiredPreset<RadioValidationFunction>(toArray<Validation>(validators), required)
+);
+
+/**
+ * Validate the model against the provided validators.
+ */
+function validateModel(): ValidationResult {
+    return validateRadio(model.value, ...validatorFunctions.value);
+}
+
 /**
  * Set the model value according to the model type to check the checkbox.
  */
@@ -51,6 +75,7 @@ defineExpose({
     focus: () => element.value?.focus(),
     blur: () => element.value?.blur(),
     check,
-    uncheck
+    uncheck,
+    validate: validateModel
 });
 </script>

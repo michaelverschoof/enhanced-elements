@@ -3,20 +3,22 @@
 </template>
 
 <script setup lang="ts">
-import type { FocusableEmits, ValidatableEmits } from '@/components/types';
+import type { FocusableEmits, ValidatableInputProps, ValidationResult } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
-import { InputHTMLAttributes, ref, useTemplateRef } from 'vue';
+import { toArray } from '@/util/arrays';
+import { FileValidationFunction, replaceRequiredPreset, validateFile, Validation } from '@/util/validation';
+import { computed, InputHTMLAttributes, ref, useTemplateRef } from 'vue';
 
-type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'>;
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps;
 
-defineProps<Props>();
+const { validators = [] } = defineProps<Props>();
 
-const emit = defineEmits<{ files: [files: File[]] } & FocusableEmits & ValidatableEmits>();
+const emit = defineEmits<{ 'update:modelValue': [files: File[]] } & FocusableEmits>();
 
 /**
  * The file input model. It is a list of files.
  */
-const files = ref<File[]>([]);
+const model = ref<File[]>([]);
 
 const element = useTemplateRef<HTMLInputElement>('element');
 
@@ -32,9 +34,30 @@ const { focused, onBlur, onFocus } = useFocusable(emit);
  */
 function onChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    files.value = Array.from(input.files || []);
+    model.value = Array.from(input.files || []);
 
-    emit('files', files.value);
+    emit('update:modelValue', model.value);
+}
+
+/**
+ * Validator function for 'required' preset.
+ */
+const required: FileValidationFunction = (modelValue: File[]): boolean => {
+    return !!modelValue.length;
+};
+
+/**
+ * Reactive list of validators to execute when the model is changed.
+ */
+const validatorFunctions = computed<FileValidationFunction[]>(() =>
+    replaceRequiredPreset<FileValidationFunction>(toArray<Validation>(validators), required)
+);
+
+/**
+ * Validate the model against the provided validators.
+ */
+function validateModel(): ValidationResult {
+    return validateFile(model.value, ...validatorFunctions.value);
 }
 
 /**
@@ -59,8 +82,8 @@ function clear() {
     }
 
     element.value.value = '';
-    files.value = [];
-    emit('files', files.value);
+    model.value = [];
+    emit('update:modelValue', model.value);
 }
 
 /**
@@ -70,6 +93,7 @@ defineExpose({
     focus: () => element.value?.focus(),
     blur: () => element.value?.blur(),
     select,
-    clear
+    clear,
+    validate: validateModel
 });
 </script>

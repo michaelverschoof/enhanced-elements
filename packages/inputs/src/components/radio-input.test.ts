@@ -1,6 +1,7 @@
 import RadioInput from '@/components/radio-input.vue';
 import { testFocus, testRefocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
+import { ValidatableComponentWrapper } from '@test/validate';
 import { DOMWrapper, mount } from '@vue/test-utils';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { defineComponent, ref } from 'vue';
@@ -223,8 +224,35 @@ describe('Checking/unchecking components', () => {
     });
 });
 
+describe('Validating model value', () => {
+    it('should validate the string model value', async () => {
+        const { wrapper } = mountRadioInput({ modelValue: 'test', validators: 'required' });
+
+        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        expect(validation).toEqual({ valid: true, failed: [] });
+    });
+
+    it('should validate the object model value', async () => {
+        const { wrapper } = mountRadioInput({ modelValue: { foo: 'test', bar: true }, validators: 'required' });
+
+        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        expect(validation).toEqual({ valid: true, failed: [] });
+    });
+
+    it('should invalidate the model value', async () => {
+        const { wrapper } = mountRadioInput({ modelValue: null, validators: 'required' });
+
+        let validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        expect(validation).toEqual({ valid: false, failed: [] });
+
+        await wrapper.setValue(undefined);
+        validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        expect(validation).toEqual({ valid: false, failed: [] });
+    });
+});
+
 function mountRadioInput(customProps: Record<string, unknown> = {}) {
-    const testModel = ref(customProps.modelValue ?? undefined);
+    const testModel = ref<string | unknown>(customProps.modelValue ?? undefined);
 
     const result = mountComponent<typeof RadioInput>(RadioInput, 'input', {
         ...defaultProps,

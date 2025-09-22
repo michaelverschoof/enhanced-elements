@@ -66,7 +66,7 @@ function validateModel(): ValidationResult | void {
         return;
     }
 
-    return validateCheckable(model.value, value, validatorFunctions.value);
+    return validateCheckable(model.value, value, ...validatorFunctions.value);
 }
 
 /**

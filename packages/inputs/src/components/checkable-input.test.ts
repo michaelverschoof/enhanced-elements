@@ -219,6 +219,20 @@ describe('Validating model value', () => {
             expect(validation).toEqual({ valid: false, failed: [] });
         });
     });
+
+    it('should give a warning when the model value is unset', async () => {
+        const warnSpy = vi.spyOn(console, 'warn').mockImplementation(vi.fn());
+
+        const { wrapper } = mountComponent(CheckableInput, 'input', {
+            modelValue: null,
+            validators: 'required'
+        });
+
+        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        expect(validation).toBeUndefined();
+        expect(warnSpy).toHaveBeenCalledOnce();
+        expect(warnSpy).toHaveBeenCalledWith('Could not validate checkbox-item.', 'There is no model value.');
+    });
 });
 
 type CheckboxValues = boolean | string[] | Set<string>;

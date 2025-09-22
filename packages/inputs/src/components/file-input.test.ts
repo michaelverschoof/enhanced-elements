@@ -1,10 +1,10 @@
 import FileInput from '@/components/file-input.vue';
 import { testFocus, testRefocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
+import { ValidatableComponentWrapper } from '@test/validate';
 import { DOMWrapper, mount } from '@vue/test-utils';
 import { File } from 'happy-dom';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { ref } from 'vue';
 
 const defaultProps = {
     name: 'testing-textual-input'
@@ -44,7 +44,7 @@ describe('Selecting files', () => {
 
         await input.trigger('change');
         expect(input.element.files).toEqual([fileMock]);
-        expect(wrapper.emitted('files')).toEqual([[[fileMock]]]);
+        expect(wrapper.emitted('update:modelValue')).toEqual([[[fileMock]]]);
     });
 
     it('should trigger file select using function', async () => {
@@ -54,8 +54,8 @@ describe('Selecting files', () => {
 
         // As no files are actually selected, we trigger the change manually and the emits will be empty
         await wrapper.trigger('change');
-        expect(wrapper.emitted('files')).toHaveLength(1);
-        expect(wrapper.emitted('files')![0]).toEqual([[]]);
+        expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
+        expect(wrapper.emitted('update:modelValue')![0]).toEqual([[]]);
     });
 
     it('should clear selected file using function', async () => {
@@ -70,12 +70,12 @@ describe('Selecting files', () => {
         await input.trigger('change');
         expect(input.element.files).toEqual([fileMock]);
 
-        expect(wrapper.emitted('files')).toHaveLength(1);
-        expect(wrapper.emitted('files')![0]).toEqual([[fileMock]]);
+        expect(wrapper.emitted('update:modelValue')).toHaveLength(1);
+        expect(wrapper.emitted('update:modelValue')![0]).toEqual([[fileMock]]);
 
         await wrapper.vm.clear();
-        expect(wrapper.emitted('files')).toHaveLength(2);
-        expect(wrapper.emitted('files')![1]).toEqual([[]]);
+        expect(wrapper.emitted('update:modelValue')).toHaveLength(2);
+        expect(wrapper.emitted('update:modelValue')![1]).toEqual([[]]);
     });
 
     it('should not select a file setting files directly', async () => {
@@ -89,22 +89,42 @@ describe('Selecting files', () => {
 
         await input.trigger('change');
         expect(input.element.files).toEqual(null);
-        expect(wrapper.emitted('files')).toEqual([[[]]]);
+        expect(wrapper.emitted('update:modelValue')).toEqual([[[]]]);
+    });
+});
+
+describe('Validating model value', () => {
+    it('should validate the string model value', async () => {
+        const { wrapper, input } = mountFileInput({ validators: 'required' });
+
+        // Directly inject the file in the input
+        Object.defineProperty(input.element, 'files', {
+            value: [fileMock],
+            writable: false
+        });
+
+        await input.trigger('change');
+
+        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        expect(validation).toEqual({ valid: true, failed: [] });
+    });
+
+    it('should invalidate the model value', async () => {
+        const { wrapper } = mountFileInput({ validators: 'required' });
+
+        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        expect(validation).toEqual({ valid: false, failed: [] });
     });
 });
 
 function mountFileInput(customProps: Record<string, unknown> = {}) {
-    const testModel = ref<string>('');
-
     const { wrapper, input } = mountComponent<typeof FileInput>(FileInput, 'input', {
         ...defaultProps,
-        ...customProps,
-        'onUpdate:modelValue': (value: string) => (testModel.value = value)
+        ...customProps
     });
 
     return {
         wrapper,
-        input: input as DOMWrapper<HTMLInputElement & { files: FileList }>,
-        testModel
+        input: input as DOMWrapper<HTMLInputElement & { files: FileList }>
     };
 }
