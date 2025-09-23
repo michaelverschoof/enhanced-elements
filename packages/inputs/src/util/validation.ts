@@ -4,9 +4,9 @@ export type BaseValidationFunction = ((modelValue: string) => boolean) | ((model
 
 export type CheckableValidationFunction = (modelValue: CheckableModel, value: string) => boolean | string;
 
-export type RadioValidationFunction = (modelValue: string | unknown) => boolean;
+export type RadioValidationFunction = (modelValue: string | unknown) => boolean | string;
 
-export type FileValidationFunction = (modelValue: File[]) => boolean;
+export type FileValidationFunction = (modelValue: File[]) => boolean | string;
 
 type ValidationFunction =
     | BaseValidationFunction
@@ -160,15 +160,24 @@ export function validateFile(modelValue: File[], ...validators: FileValidationFu
  * @param required the function to inject.
  * @returns the updated array.
  */
-export function replaceRequiredPreset<T extends ValidationFunction>(validations: Validation[], required: T): T[] {
-    if (!validations.length) {
+export function replaceRequiredPreset<T extends ValidationFunction>(
+    validations: Validation[],
+    required: ValidationFunction
+): T[] {
+    if (!validations?.length) {
         return [];
     }
 
     const index = validations.findIndex((validator) => validator === 'required');
-    if (index !== -1) {
-        validations.splice(index, 1, required);
+    if (index === -1) {
+        return validations as T[];
     }
 
+    if (!required) {
+        validations.splice(index, 1);
+        return validations as T[];
+    }
+
+    validations.splice(index, 1, required);
     return validations as T[];
 }

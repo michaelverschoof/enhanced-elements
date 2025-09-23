@@ -36,9 +36,8 @@ const { focused, onBlur, onFocus } = useFocusable(emit);
 /**
  * Validator function for 'required' preset.
  */
-const required: RadioValidationFunction = (modelValue: string | unknown): boolean => {
-    return modelValue !== null && modelValue !== undefined;
-};
+const required: RadioValidationFunction = (modelValue: string | unknown): boolean =>
+    modelValue !== null && modelValue !== undefined;
 
 /**
  * Reactive list of validators to execute when the model is changed.

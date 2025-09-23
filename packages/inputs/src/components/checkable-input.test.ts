@@ -1,7 +1,6 @@
 import CheckableInput from '@/components/checkable-input.vue';
 import { testFocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
-import { ValidatableComponentWrapper } from '@test/validate';
 import { DOMWrapper, mount } from '@vue/test-utils';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { ref } from 'vue';
@@ -163,22 +162,22 @@ describe('Checking/unchecking components', () => {
 describe('Validating model value', () => {
     describe('boolean validation', () => {
         it('should validate the model value', async () => {
-            const { wrapper } = mountComponent(CheckableInput, 'input', {
+            const { wrapper } = mountCheckboxInput({
                 modelValue: true,
                 validators: 'required'
             });
 
-            const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+            const validation = wrapper.vm.validate();
             expect(validation).toEqual({ valid: true, failed: [] });
         });
 
         it('should invalidate the model value', async () => {
-            const { wrapper } = mountComponent(CheckableInput, 'input', {
+            const { wrapper } = mountCheckboxInput({
                 modelValue: false,
                 validators: 'required'
             });
 
-            const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+            const validation = wrapper.vm.validate();
             expect(validation).toEqual({ valid: false, failed: [] });
         });
     });
@@ -186,36 +185,36 @@ describe('Validating model value', () => {
     // TODO: Can we make the generic "required" validation work for this as well?
     describe('string collection validation', () => {
         it('should validate the model value', async () => {
-            const { wrapper } = mountComponent(CheckableInput, 'input', {
+            const { wrapper } = mountCheckboxInput({
                 modelValue: ['test'],
                 value: 'test',
                 validators: 'required'
             });
 
-            const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+            const validation = wrapper.vm.validate();
             expect(validation).toEqual({ valid: true, failed: [] });
         });
 
         // TODO: Can we make the generic "required" validation work for this as well?
         it('should invalidate the model value', async () => {
-            const { wrapper } = mountComponent(CheckableInput, 'input', {
+            const { wrapper } = mountCheckboxInput({
                 modelValue: ['test'],
                 value: 'other',
                 validators: 'required'
             });
 
-            const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+            const validation = wrapper.vm.validate();
             expect(validation).toEqual({ valid: false, failed: [] });
         });
 
         it('should invalidate the model value', async () => {
-            const { wrapper } = mountComponent(CheckableInput, 'input', {
+            const { wrapper } = mountCheckboxInput({
                 modelValue: [],
                 value: null,
                 validators: 'required'
             });
 
-            const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+            const validation = wrapper.vm.validate();
             expect(validation).toEqual({ valid: false, failed: [] });
         });
     });
@@ -223,12 +222,12 @@ describe('Validating model value', () => {
     it('should give a warning when the model value is unset', async () => {
         const warnSpy = vi.spyOn(console, 'warn').mockImplementation(vi.fn());
 
-        const { wrapper } = mountComponent(CheckableInput, 'input', {
+        const { wrapper } = mountCheckboxInput({
             modelValue: null,
             validators: 'required'
         });
 
-        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        const validation = wrapper.vm.validate();
         expect(validation).toBeUndefined();
         expect(warnSpy).toHaveBeenCalledOnce();
         expect(warnSpy).toHaveBeenCalledWith('Could not validate checkbox-item.', 'There is no model value.');

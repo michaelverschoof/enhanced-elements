@@ -1,7 +1,6 @@
 import FileInput from '@/components/file-input.vue';
 import { testFocus, testRefocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
-import { ValidatableComponentWrapper } from '@test/validate';
 import { DOMWrapper, mount } from '@vue/test-utils';
 import { File } from 'happy-dom';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -105,14 +104,14 @@ describe('Validating model value', () => {
 
         await input.trigger('change');
 
-        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        const validation = wrapper.vm.validate();
         expect(validation).toEqual({ valid: true, failed: [] });
     });
 
     it('should invalidate the model value', async () => {
         const { wrapper } = mountFileInput({ validators: 'required' });
 
-        const validation = (wrapper as ValidatableComponentWrapper).vm.validate();
+        const validation = wrapper.vm.validate();
         expect(validation).toEqual({ valid: false, failed: [] });
     });
 });

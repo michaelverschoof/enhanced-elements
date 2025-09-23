@@ -42,10 +42,7 @@ function onChange(event: Event): void {
 /**
  * Validator function for 'required' preset.
  */
-const required: FileValidationFunction = (modelValue: File[]): boolean => {
-    return !!modelValue.length;
-};
-
+const required: FileValidationFunction = (modelValue: File[]): boolean => !!modelValue.length;
 /**
  * Reactive list of validators to execute when the model is changed.
  */

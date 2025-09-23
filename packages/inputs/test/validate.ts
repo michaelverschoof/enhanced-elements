@@ -6,7 +6,7 @@ import { mountComponent } from './util/mount';
 
 type ValidatableComponent = DefineComponent<{ validate: () => ValidationResult | undefined }>;
 
-export type ValidatableComponentWrapper = VueWrapper<ValidatableComponent>;
+type ValidatableComponentWrapper = VueWrapper<ValidatableComponent>;
 
 export function testRequiredValidation(component: Component, selector: string) {
     return describe('"required" validation', () => {
