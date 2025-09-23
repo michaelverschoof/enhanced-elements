@@ -1,9 +1,9 @@
 <template>
-    <textual-input ref="element" v-bind="$props" :filters="adjustedFilters" :modifiers="adjustedModifiers" />
+    <text-input ref="element" v-bind="$props" :filters="adjustedFilters" :modifiers="adjustedModifiers" />
 </template>
 
 <script setup lang="ts">
-import TextualInput from '@/components/textual-input.vue';
+import TextInput from '@/components/text-input.vue';
 import type { TransformableInputProps, ValidatableInputProps } from '@/components/types';
 import { filterPresets, Modifier, type Filter } from '@/util/model';
 import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
@@ -14,7 +14,7 @@ type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> &
 
 const { filters = [], modifiers = [], allowedCharacters = '' } = defineProps<Props>();
 
-const element = useTemplateRef<InstanceType<typeof TextualInput>>('element');
+const element = useTemplateRef<InstanceType<typeof TextInput>>('element');
 
 const adjustedFilters = computed<Filter[]>(() =>
     [new RegExp(`[0-9${allowedCharacters}]`, 'g'), filterPresets<Filter>(filters)].flat()

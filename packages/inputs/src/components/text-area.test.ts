@@ -1,4 +1,4 @@
-import TextualArea from '@/components/textual-area.vue';
+import TextArea from '@/components/text-area.vue';
 import * as ModelFunctions from '@/util/model';
 import { testFocus, testRefocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
@@ -8,12 +8,12 @@ import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { ref } from 'vue';
 
 const defaultProps = {
-    name: 'testing-textual-area',
+    name: 'testing-text-area',
     modelValue: 'initial'
 };
 
 beforeAll(() => {
-    expect(TextualArea).toBeTruthy();
+    expect(TextArea).toBeTruthy();
 });
 
 const createFiltersSpy = vi.spyOn(ModelFunctions, 'createFilters');
@@ -24,7 +24,7 @@ afterEach(() => vi.clearAllMocks());
 
 describe('Mounting components', () => {
     it('should mount the textarea component', async () => {
-        const wrapper = mount(TextualArea, { props: defaultProps });
+        const wrapper = mount(TextArea, { props: defaultProps });
         expect(wrapper.find('textarea').exists()).toBeTruthy();
     });
 
@@ -39,8 +39,8 @@ describe('Mounting components', () => {
 });
 
 // Call the focus/blur test-suite
-testFocus(TextualArea, 'textarea', { ...defaultProps });
-testRefocus(TextualArea, 'textarea', { ...defaultProps });
+testFocus(TextArea, 'textarea', { ...defaultProps });
+testRefocus(TextArea, 'textarea', { ...defaultProps });
 
 describe('Updating model value', () => {
     it('should update the model value', async () => {
@@ -237,13 +237,13 @@ describe('Updating model value', () => {
 
 describe('Validating model value', () => {
     // Call the 'required' validation test-suite
-    testRequiredValidation(TextualArea, 'textarea');
+    testRequiredValidation(TextArea, 'textarea');
 });
 
 function mountTextArea(customProps: Record<string, unknown> = {}) {
     const testModel = ref<string>('');
 
-    const result = mountComponent<typeof TextualArea>(TextualArea, 'textarea', {
+    const result = mountComponent<typeof TextArea>(TextArea, 'textarea', {
         ...defaultProps,
         ...customProps,
         'onUpdate:modelValue': (value: string) => (testModel.value = value)

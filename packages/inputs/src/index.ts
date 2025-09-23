@@ -3,18 +3,18 @@ import { App } from 'vue';
 /**
  * Base components
  */
-import CheckableInput from './components/checkable-input.vue';
+import CheckboxInput from './components/checkbox-input.vue';
 import FileInput from './components/file-input.vue';
-import NumericInput from './components/numeric-input.vue';
+import NumberInput from './components/number-input.vue';
 import PasswordInput from './components/password-input.vue';
 import RadioInput from './components/radio-input.vue';
-import TextualArea from './components/textual-area.vue';
-import TextualInput from './components/textual-input.vue';
+import TextArea from './components/text-area.vue';
+import TextInput from './components/text-input.vue';
 
 /**
  * Component exports
  */
-export { CheckableInput, FileInput, NumericInput, PasswordInput, RadioInput, TextualArea, TextualInput };
+export { CheckboxInput, FileInput, NumberInput, PasswordInput, RadioInput, TextArea, TextInput };
 
 export type {
     FocusableEmits,
@@ -28,12 +28,12 @@ export type {
  */
 export default {
     install: (app: App) => {
-        app.component('CheckableInput', CheckableInput);
+        app.component('CheckboxInput', CheckboxInput);
         app.component('FileInput', FileInput);
-        app.component('NumericInput', NumericInput);
+        app.component('NumberInput', NumberInput);
         app.component('PasswordInput', PasswordInput);
-        app.component('TextualInput', TextualInput);
-        app.component('TextualArea', TextualArea);
+        app.component('TextInput', TextInput);
+        app.component('TextArea', TextArea);
         app.component('RadioInput', RadioInput);
     }
 };

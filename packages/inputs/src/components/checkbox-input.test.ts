@@ -1,4 +1,4 @@
-import CheckableInput from '@/components/checkable-input.vue';
+import CheckboxInput from '@/components/checkbox-input.vue';
 import { testFocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
 import { DOMWrapper, mount } from '@vue/test-utils';
@@ -8,18 +8,18 @@ import { ref } from 'vue';
 const warnSpy = vi.spyOn(console, 'warn').mockImplementation(vi.fn());
 
 const defaultProps = {
-    name: 'testing-checkable-input'
+    name: 'testing-checkbox-input'
 };
 
 beforeAll(() => {
-    expect(CheckableInput).toBeTruthy();
+    expect(CheckboxInput).toBeTruthy();
 });
 
 afterEach(() => vi.clearAllMocks());
 
 describe('Mounting components', () => {
     it('should mount the checkbox component', async () => {
-        const wrapper = mount(CheckableInput, { props: defaultProps });
+        const wrapper = mount(CheckboxInput, { props: defaultProps });
         const input = wrapper.find('input');
         expect(input.exists()).toBeTruthy();
         expect(input.element.type).toBe('checkbox');
@@ -47,7 +47,7 @@ describe('Mounting components', () => {
 });
 
 // Call the focus/blur test-suite
-testFocus(CheckableInput, 'input', { ...defaultProps });
+testFocus(CheckboxInput, 'input', { ...defaultProps });
 
 describe('Checking/unchecking components', () => {
     describe('Checking', () => {
@@ -195,7 +195,6 @@ describe('Validating model value', () => {
             expect(validation).toEqual({ valid: true, failed: [] });
         });
 
-        // TODO: Can we make the generic "required" validation work for this as well?
         it('should invalidate the model value', async () => {
             const { wrapper } = mountCheckboxInput({
                 modelValue: ['test'],
@@ -239,7 +238,7 @@ type CheckboxValues = boolean | string[] | Set<string>;
 function mountCheckboxInput(customProps: Record<string, unknown> = {}) {
     const testModel = ref<CheckboxValues>(customProps.modelValue as CheckboxValues);
 
-    const result = mountComponent<typeof CheckableInput>(CheckableInput, 'input', {
+    const result = mountComponent<typeof CheckboxInput>(CheckboxInput, 'input', {
         ...defaultProps,
         ...customProps,
         modelValue: testModel.value,

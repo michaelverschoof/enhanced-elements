@@ -1,8 +1,8 @@
-import type { CheckableModel, ValidationResult } from '@/components/types';
+import type { CheckboxModel, ValidationResult } from '@/components/types';
 
 export type BaseValidationFunction = ((modelValue: string) => boolean) | ((modelValue: string) => boolean | string);
 
-export type CheckableValidationFunction = (modelValue: CheckableModel, value: string) => boolean | string;
+export type CheckboxValidationFunction = (modelValue: CheckboxModel, value: string) => boolean | string;
 
 export type RadioValidationFunction = (modelValue: string | unknown) => boolean | string;
 
@@ -10,7 +10,7 @@ export type FileValidationFunction = (modelValue: File[]) => boolean | string;
 
 type ValidationFunction =
     | BaseValidationFunction
-    | CheckableValidationFunction
+    | CheckboxValidationFunction
     | RadioValidationFunction
     | FileValidationFunction;
 
@@ -57,10 +57,10 @@ export function validate(modelValue: string, ...validators: BaseValidationFuncti
  * @param validators the array of validators to execute.
  * @returns an object with the validation results.
  */
-export function validateCheckable(
-    modelValue: CheckableModel,
+export function validateCheckbox(
+    modelValue: CheckboxModel,
     value: string,
-    ...validators: CheckableValidationFunction[]
+    ...validators: CheckboxValidationFunction[]
 ): ValidationResult {
     const validationResult: ValidationResult = { valid: true, failed: [] };
 

@@ -1,9 +1,9 @@
 <template>
-    <textual-input ref="element" v-bind="$props" :type="type" />
+    <text-input ref="element" v-bind="$props" :type="type" />
 </template>
 
 <script setup lang="ts">
-import TextualInput from '@/components/textual-input.vue';
+import TextInput from '@/components/text-input.vue';
 import { InputHTMLAttributes, ref, useTemplateRef, watch } from 'vue';
 import type { TransformableInputProps, ValidatableInputProps } from './types';
 
@@ -13,7 +13,7 @@ type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> &
 
 const { showPassword = false } = defineProps<Props>();
 
-const element = useTemplateRef<InstanceType<typeof TextualInput>>('element');
+const element = useTemplateRef<InstanceType<typeof TextInput>>('element');
 
 const type = ref<'password' | 'text'>('password');
 

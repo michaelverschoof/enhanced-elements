@@ -2,7 +2,7 @@ import type { Filter, Modifier } from '@/util/model';
 import type { Validation } from '@/util/validation';
 
 /**
- * Properties for the textual-input and textual-area inputs
+ * Properties for the text-input and text-area inputs
  */
 export type TransformableInputProps = {
     filters?: Filter | Filter[];
@@ -33,6 +33,6 @@ export type ValidationResult = {
 };
 
 /**
- * Checkable model
+ * Checkbox model
  */
-export type CheckableModel = Set<string> | string[] | boolean;
+export type CheckboxModel = Set<string> | string[] | boolean;

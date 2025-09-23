@@ -1,4 +1,4 @@
-import NumericInput from '@/components/numeric-input.vue';
+import NumberInput from '@/components/number-input.vue';
 import * as ModelFunctions from '@/util/model';
 import { testFocus, testRefocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
@@ -8,12 +8,12 @@ import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { ref } from 'vue';
 
 const defaultProps = {
-    name: 'testing-numeric-input',
+    name: 'testing-number-input',
     modelValue: '12345'
 };
 
 beforeAll(() => {
-    expect(NumericInput).toBeTruthy();
+    expect(NumberInput).toBeTruthy();
 });
 
 const createFiltersSpy = vi.spyOn(ModelFunctions, 'createFilters');
@@ -24,7 +24,7 @@ afterEach(() => vi.clearAllMocks());
 
 describe('Mounting components', () => {
     it('should mount the input component', async () => {
-        const wrapper = mount(NumericInput, {
+        const wrapper = mount(NumberInput, {
             props: defaultProps,
             attrs: { inputMode: 'numeric' }
         });
@@ -45,8 +45,8 @@ describe('Mounting components', () => {
 });
 
 // Call the focus/blur test-suite
-testFocus(NumericInput, 'input', { ...defaultProps });
-testRefocus(NumericInput, 'input', { ...defaultProps });
+testFocus(NumberInput, 'input', { ...defaultProps });
+testRefocus(NumberInput, 'input', { ...defaultProps });
 
 describe('Updating model value', () => {
     it('should update the model value', async () => {
@@ -179,13 +179,13 @@ describe('Updating model value', () => {
 
 describe('Validating model value', () => {
     // Call the 'required' validation test-suite
-    testRequiredValidation(NumericInput, 'input');
+    testRequiredValidation(NumberInput, 'input');
 
     it('should validate the model value', async () => {
         const { wrapper } = mountNumberInput();
         await wrapper.setProps({ validators: (value: string) => Number(value) > 10 });
 
-        const component = wrapper.findComponent({ name: 'NumericInput' });
+        const component = wrapper.findComponent({ name: 'NumberInput' });
         const validation = await component.vm.validate();
         expect(validation).toEqual({ valid: true, failed: [] });
     });
@@ -194,7 +194,7 @@ describe('Validating model value', () => {
         const { wrapper } = mountNumberInput();
         await wrapper.setProps({ validators: (value: string) => Number(value) < 10 });
 
-        const component = wrapper.findComponent({ name: 'NumericInput' });
+        const component = wrapper.findComponent({ name: 'NumberInput' });
         const validation = await component.vm.validate();
         expect(validation).toEqual({ valid: false, failed: [] });
     });
@@ -203,7 +203,7 @@ describe('Validating model value', () => {
 function mountNumberInput(customProps: Record<string, unknown> = {}) {
     const testModel = ref<string>('');
 
-    const result = mountComponent<typeof NumericInput>(NumericInput, 'input', {
+    const result = mountComponent<typeof NumberInput>(NumberInput, 'input', {
         ...defaultProps,
         ...customProps,
         'onUpdate:modelValue': (value: string) => (testModel.value = value)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CheckableInput, FileInput, PasswordInput, RadioInput, TextualInput } from '@enhanced-elements/inputs';
+import { FileInput, PasswordInput, RadioInput, TextInput } from '@enhanced-elements/inputs';
 import { ref, useTemplateRef } from 'vue';
 // import FileInput from '../../inputs/src/components/file-input.vue';
 // import PasswordInput from '../../inputs/src/components/password-input.vue';
@@ -107,25 +107,25 @@ function togglePasswordFunction() {
             </template>
         </input-container>
 
-        <input-container title="Checkable input">
+        <input-container title="Checkbox input">
             <template #inputs>
                 <radio-input v-model="radioModel" value="test" />
                 <div>Value: {{ radioModel }}</div>
             </template>
         </input-container>
 
-        <input-container title="Textual input">
+        <input-container title="Text input">
             <template #inputs>
-                <textual-input v-model="textModel" />
+                <text-input v-model="textModel" />
                 <div>Value: {{ textModel }}</div>
             </template>
         </input-container>
 
-        <input-container title="Checkable input">
+        <input-container title="Checkbox input">
             <template #inputs>
-                <checkable-input ref="checkbox-element" v-model="checkboxModel" value="a" />
-                <checkable-input v-model="checkboxModel" value="b" />
-                <checkable-input v-model="checkboxModel" value="c" />
+                <checkbox-input ref="checkbox-element" v-model="checkboxModel" value="a" />
+                <checkbox-input v-model="checkboxModel" value="b" />
+                <checkbox-input v-model="checkboxModel" value="c" />
                 <div>Value: {{ checkboxModel }}</div>
             </template>
 

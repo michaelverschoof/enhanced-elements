@@ -7,7 +7,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { ref } from 'vue';
 
 const defaultProps = {
-    name: 'testing-textual-input'
+    name: 'testing-text-input'
 };
 
 beforeAll(() => {

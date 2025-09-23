@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 import { ref } from 'vue';
 
 const model = ref<string>('12345');
 </script>
 
 <p class="example-container">
-    <numeric-input class="example-element" v-model="model" />
+    <number-input class="example-element" v-model="model" />
     Model value: {{ model }}
 </p>
 
@@ -31,7 +31,7 @@ const model = ref<string>('12345');
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { NumberInput } from '@enhanced-elements/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref<string>('12345'); // [!code focus]
@@ -40,7 +40,7 @@ const model = ref<string>('12345'); // [!code focus]
 <template>
     <p class="example-container">
         <!-- [!code focus] -->
-        <numeric-input class="example-element" v-model="model" />
+        <number-input class="example-element" v-model="model" />
         <!-- [!code focus] -->
         Model value: {{ model }}
     </p>
@@ -66,7 +66,7 @@ const model = ref<string>('12345'); // [!code focus]
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { NumberInput } from '@enhanced-elements/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref('12345'); // [!code focus]
@@ -75,7 +75,7 @@ const model = ref('12345'); // [!code focus]
 <template>
     <p class="example-container">
         <!-- [!code focus] -->
-        <numeric-input class="example-element" v-model="model" />
+        <number-input class="example-element" v-model="model" />
         <!-- [!code focus] -->
         Model value: {{ model }}
     </p>

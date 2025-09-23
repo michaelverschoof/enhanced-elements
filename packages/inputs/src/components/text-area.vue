@@ -1,9 +1,9 @@
 <template>
-    <textual-input ref="element" v-bind="$props" textarea />
+    <text-input ref="element" v-bind="$props" textarea />
 </template>
 
 <script setup lang="ts">
-import TextualInput from '@/components/textual-input.vue';
+import TextInput from '@/components/text-input.vue';
 import { TextareaHTMLAttributes, useTemplateRef } from 'vue';
 import type { TransformableInputProps, ValidatableInputProps } from './types';
 
@@ -11,7 +11,7 @@ type Props = /* @vue-ignore */ TextareaHTMLAttributes & TransformableInputProps 
 
 defineProps<Props>();
 
-const element = useTemplateRef<InstanceType<typeof TextualInput>>('element');
+const element = useTemplateRef<InstanceType<typeof TextInput>>('element');
 
 defineExpose({
     focus: () => element.value?.focus(),

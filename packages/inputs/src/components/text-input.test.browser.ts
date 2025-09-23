@@ -1,4 +1,4 @@
-import TextualInput from '@/components/textual-input.vue';
+import TextInput from '@/components/text-input.vue';
 import { page, userEvent } from '@vitest/browser/context';
 import { mount, VueWrapper } from '@vue/test-utils';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
@@ -6,7 +6,7 @@ import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 let wrapper: VueWrapper;
 
 beforeAll(() => {
-    expect(TextualInput).toBeTruthy();
+    expect(TextInput).toBeTruthy();
     wrapper = mountComponent();
 });
 
@@ -51,9 +51,9 @@ describe('Filtering paste', () => {
 });
 
 function mountComponent(): VueWrapper {
-    return mount(TextualInput, {
+    return mount(TextInput, {
         props: {
-            name: 'testing-textual-input',
+            name: 'testing-text-input',
             placeholder: 'test',
             filters: 'numbers'
         },

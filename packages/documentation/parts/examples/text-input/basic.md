@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 import { ref } from 'vue';
 
 const model = ref<string>('initial value');
 </script>
 
 <p class="example-container">
-    <textual-input class="example-element" v-model="model" />
+    <text-input class="example-element" v-model="model" />
     Model value: {{ model }}
 </p>
 
@@ -31,7 +31,7 @@ const model = ref<string>('initial value');
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { TextInput } from '@enhanced-elements/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref<string>('initial value'); // [!code focus]
@@ -40,7 +40,7 @@ const model = ref<string>('initial value'); // [!code focus]
 <template>
     <p class="example-container">
         <!-- [!code focus] -->
-        <textual-input class="example-element" v-model="model" />
+        <text-input class="example-element" v-model="model" />
         <!-- [!code focus] -->
         Model value: {{ model }}
     </p>
@@ -66,7 +66,7 @@ const model = ref<string>('initial value'); // [!code focus]
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { TextInput } from '@enhanced-elements/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref('initial value'); // [!code focus]
@@ -75,7 +75,7 @@ const model = ref('initial value'); // [!code focus]
 <template>
     <p class="example-container">
         <!-- [!code focus] -->
-        <textual-input class="example-element" v-model="model" />
+        <text-input class="example-element" v-model="model" />
         <!-- [!code focus] -->
         Model value: {{ model }}
     </p>

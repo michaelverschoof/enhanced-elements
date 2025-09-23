@@ -4,13 +4,10 @@ import { Component, DefineComponent } from 'vue';
 import { emittedNativeEvents } from './util/emits';
 import { InputElement, mountComponent } from './util/mount';
 
-type FocusableComponent = DefineComponent<
-    '',
-    {
-        focus: () => void | undefined;
-        blur: () => void | undefined;
-    }
->;
+type FocusableComponent = DefineComponent<{
+    focus: () => void | undefined;
+    blur: () => void | undefined;
+}>;
 
 type FocusableComponentWrapper = VueWrapper<FocusableComponent>;
 

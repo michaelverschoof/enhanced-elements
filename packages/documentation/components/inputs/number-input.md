@@ -10,7 +10,7 @@ You can use the `v-model` as you're used to in Vue. Check the [official document
 
 ## Props
 
-The `NumericInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
+The `NumberInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
 
 ### `filters`
 
@@ -26,7 +26,7 @@ A single filter can be directly added to the prop. This can be done directly in 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
@@ -36,17 +36,17 @@ const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
     <!-- [!code focus] -->
     <!-- A single regular expression -->
     <!-- [!code focus] -->
-    <numeric-input :filters="/[^7]/g" />
+    <number-input :filters="/[^7]/g" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <numeric-input :filters="filter" />
+    <number-input :filters="filter" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value) => (value.match(/[^5]/g) || []).join('');
@@ -56,11 +56,11 @@ const filter = (value) => (value.match(/[^5]/g) || []).join('');
     <!-- [!code focus] -->
     <!-- A single regular expression -->
     <!-- [!code focus] -->
-    <numeric-input :filters="/[^7]/g" />
+    <number-input :filters="/[^7]/g" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <numeric-input :filters="filter" />
+    <number-input :filters="filter" />
 </template>
 ```
 
@@ -74,7 +74,7 @@ Multiple filters can be added as an array. This can be a combination of custom f
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
@@ -82,13 +82,13 @@ const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input :filters="[/[^7]/g, filter]" />
+    <number-input :filters="[/[^7]/g, filter]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value) => (value.match(/[^5]/g) || []).join('');
@@ -96,7 +96,7 @@ const filter = (value) => (value.match(/[^5]/g) || []).join('');
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input :filters="[/[^7]/g, filter]" />
+    <number-input :filters="[/[^7]/g, filter]" />
 </template>
 ```
 
@@ -131,7 +131,7 @@ A single modifier can be directly added to the prop. This can be done directly i
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const modifier = (value: string) => (Number(value) * 2)?.toString();
@@ -141,13 +141,13 @@ const modifier = (value: string) => (Number(value) * 2)?.toString();
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <numeric-input :modifiers="modifier" />
+    <number-input :modifiers="modifier" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const modifier = (value: string) => (Number(value) * 2)?.toString();
@@ -157,7 +157,7 @@ const modifier = (value: string) => (Number(value) * 2)?.toString();
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <numeric-input :modifiers="modifier" />
+    <number-input :modifiers="modifier" />
 </template>
 ```
 
@@ -171,7 +171,7 @@ Multiple modifiers can be added as an array.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const double = (value: string) => (Number(value) * 2)?.toString();
@@ -181,13 +181,13 @@ const increase = (value: string) => (Number(value) + 1)?.toString();
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input :modifiers="[double, increase]" />
+    <number-input :modifiers="[double, increase]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const double = (value) => (Number(value) * 2)?.toString();
@@ -196,7 +196,7 @@ const increase = (value) => (Number(value) + 1)?.toString();
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input :modifiers="[double, increase]" />
+    <number-input :modifiers="[double, increase]" />
 </template>
 ```
 
@@ -230,35 +230,35 @@ A single validator can be directly added to the prop. This can be done directly 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <numeric-input validators="required" />
+    <number-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <numeric-input :validators="(value: string) => value?.length > 5" />
+    <number-input :validators="(value: string) => value?.length > 5" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <numeric-input validators="required" />
+    <number-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <numeric-input :validators="(value) => value?.length > 5" />
+    <number-input :validators="(value) => value?.length > 5" />
 </template>
 ```
 
@@ -272,7 +272,7 @@ Multiple validators can be added as an array. This can be a combination of custo
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const validatorFunction = (value: string) => value?.length > 5;
@@ -280,13 +280,13 @@ const validatorFunction = (value: string) => value?.length > 5;
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input :validators="['required', validatorFunction]" />
+    <number-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const validatorFunction = (value) => value?.length > 5;
@@ -294,7 +294,7 @@ const validatorFunction = (value) => value?.length > 5;
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input :validators="['required', validatorFunction]" />
+    <number-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
@@ -323,7 +323,7 @@ export type ValidationFunction = (value: string) => boolean | string;
 
 ## Emits
 
-The NumericInput element allows the default HTML events that are normally emitted. Apart from that it emits the following events:
+The NumberInput element allows the default HTML events that are normally emitted. Apart from that it emits the following events:
 
 ### `validated`
 
@@ -333,7 +333,7 @@ If validators are provided in the props, and the value changes, the result of th
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationResult, NumericInput } from '@enhanced-elements/inputs';
+import { type ValidationResult, NumberInput } from '@enhanced-elements/inputs';
 
 const model = ref<string>('my special value');
 
@@ -346,13 +346,13 @@ function handleValidation(result: ValidationResult): void {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input v-model="model" @validated="handleValidation" />
+    <number-input v-model="model" @validated="handleValidation" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 
 const model = ref('my special value');
 
@@ -365,7 +365,7 @@ function handleValidation(result) {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input v-model="model" @validated="handleValidation" />
+    <number-input v-model="model" @validated="handleValidation" />
 </template>
 ```
 
@@ -394,11 +394,11 @@ Programmatically trigger focus on the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('numeric-input');
+const element = useTemplateRef<HTMLInputElement>('number-input');
 
 function focus(): void {
     // [!code focus]
@@ -408,7 +408,7 @@ function focus(): void {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input ref="numeric-input" />
+    <number-input ref="number-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -417,11 +417,11 @@ function focus(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('numeric-input');
+const element = useTemplateRef('number-input');
 
 function focus() {
     // [!code focus]
@@ -431,7 +431,7 @@ function focus() {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input ref="numeric-input" />
+    <number-input ref="number-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -448,11 +448,11 @@ Programmatically remove focus from the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('numeric-input');
+const element = useTemplateRef<HTMLInputElement>('number-input');
 
 function blur(): void {
     // [!code focus]
@@ -462,7 +462,7 @@ function blur(): void {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input ref="numeric-input" />
+    <number-input ref="number-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -471,11 +471,11 @@ function blur(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('numeric-input');
+const element = useTemplateRef('number-input');
 
 function blur() {
     // [!code focus]
@@ -485,7 +485,7 @@ function blur() {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input ref="numeric-input" />
+    <number-input ref="number-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -502,11 +502,11 @@ Programmatically trigger validation of the current value. Runs all the provided 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationFunction, NumericInput } from '@enhanced-elements/inputs';
+import { type ValidationFunction, NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('numeric-input');
+const element = useTemplateRef<HTMLInputElement>('number-input');
 
 // [!code focus]
 const validators: ValidationFunction[] = [
@@ -526,7 +526,7 @@ function validate(): void {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input ref="numeric-input" :validators="validators" />
+    <number-input ref="number-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>
@@ -535,11 +535,11 @@ function validate(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumericInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('numeric-input');
+const element = useTemplateRef('number-input');
 
 // [!code focus]
 const validators = [
@@ -559,7 +559,7 @@ function validate() {
 
 <template>
     <!-- [!code focus] -->
-    <numeric-input ref="numeric-input" :validators="validators" />
+    <number-input ref="number-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>

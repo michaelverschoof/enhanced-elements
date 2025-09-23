@@ -6,7 +6,7 @@ import { File } from 'happy-dom';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 const defaultProps = {
-    name: 'testing-textual-input'
+    name: 'testing-text-input'
 };
 
 const fileMock = new File(['(file content)'], 'test-file.txt', {

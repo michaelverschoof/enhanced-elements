@@ -11,12 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { CheckableModel, FocusableEmits, ValidatableInputProps, ValidationResult } from '@/components/types';
+import type { CheckboxModel, FocusableEmits, ValidatableInputProps, ValidationResult } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
 import type { StringCollection } from '@/util/collections';
 import { add as addToCollection, has, remove as removeFromCollection } from '@/util/collections';
-import { CheckableValidationFunction, replaceRequiredPreset, validateCheckable, Validation } from '@/util/validation';
+import { CheckboxValidationFunction, replaceRequiredPreset, validateCheckbox, Validation } from '@/util/validation';
 import { computed, InputHTMLAttributes, ref } from 'vue';
 
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string };
@@ -25,7 +25,7 @@ const { value, validators = [] } = defineProps<Props>();
 
 const emit = defineEmits<FocusableEmits>();
 
-const model = defineModel<CheckableModel>();
+const model = defineModel<CheckboxModel>();
 
 const element = ref<HTMLInputElement>();
 
@@ -37,7 +37,7 @@ const { focused, onBlur, onFocus } = useFocusable(emit);
 /**
  * Validator function for 'required' preset.
  */
-const required: CheckableValidationFunction = (modelValue: CheckableModel, value: string): boolean => {
+const required: CheckboxValidationFunction = (modelValue: CheckboxModel, value: string): boolean => {
     if (modelValue === undefined || typeof modelValue === 'boolean') {
         return !!modelValue;
     }
@@ -53,8 +53,8 @@ const required: CheckableValidationFunction = (modelValue: CheckableModel, value
 /**
  * Reactive list of validators to execute when the model is changed.
  */
-const validatorFunctions = computed<CheckableValidationFunction[]>(() =>
-    replaceRequiredPreset<CheckableValidationFunction>(toArray<Validation>(validators), required)
+const validatorFunctions = computed<CheckboxValidationFunction[]>(() =>
+    replaceRequiredPreset<CheckboxValidationFunction>(toArray<Validation>(validators), required)
 );
 
 /**
@@ -66,7 +66,7 @@ function validateModel(): ValidationResult | void {
         return;
     }
 
-    return validateCheckable(model.value, value, ...validatorFunctions.value);
+    return validateCheckbox(model.value, value, ...validatorFunctions.value);
 }
 
 /**

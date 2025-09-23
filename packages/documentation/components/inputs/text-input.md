@@ -18,7 +18,7 @@ The uppercase modifier changes the value (as you've guessed) to an uppercased va
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 const model = ref<string>('my special value');
 </script>
@@ -27,13 +27,13 @@ const model = ref<string>('my special value');
     <!-- [!code focus] -->
     <!-- Will display the value "foo" as "FOO" -->
     <!-- [!code focus] -->
-    <textual-input v-model.uppercase="model" />
+    <text-input v-model.uppercase="model" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 const model = ref('my special value');
 </script>
@@ -42,7 +42,7 @@ const model = ref('my special value');
     <!-- [!code focus] -->
     <!-- Will display the value "foo" as "FOO" -->
     <!-- [!code focus] -->
-    <textual-input v-model.uppercase="model" />
+    <text-input v-model.uppercase="model" />
 </template>
 ```
 
@@ -56,7 +56,7 @@ The uppercase modifier changes the value (shockingly) to an lowercased variant.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 const model = ref<string>('FOO');
 </script>
@@ -65,13 +65,13 @@ const model = ref<string>('FOO');
     <!-- [!code focus] -->
     <!-- Will display the value "FOO" as "foo" -->
     <!-- [!code focus] -->
-    <textual-input v-model.lowercase="model" />
+    <text-input v-model.lowercase="model" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 const model = ref('FOO');
 </script>
@@ -80,7 +80,7 @@ const model = ref('FOO');
     <!-- [!code focus] -->
     <!-- Will display the value "FOO" as "foo" -->
     <!-- [!code focus] -->
-    <textual-input v-model.lowercase="model" />
+    <text-input v-model.lowercase="model" />
 </template>
 ```
 
@@ -88,7 +88,7 @@ const model = ref('FOO');
 
 ## Props
 
-The `TextualInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
+The `TextInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
 
 ### `filters`
 
@@ -104,7 +104,7 @@ A single filter can be directly added to the prop. This can be done directly in 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
@@ -114,21 +114,21 @@ const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <textual-input filters="letters" />
+    <text-input filters="letters" />
     <!-- [!code focus] -->
     <!-- A single regular expression -->
     <!-- [!code focus] -->
-    <textual-input :filters="/[^A-Za-z]/g" />
+    <text-input :filters="/[^A-Za-z]/g" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <textual-input :filters="filter" />
+    <text-input :filters="filter" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
@@ -138,15 +138,15 @@ const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <textual-input filters="letters" />
+    <text-input filters="letters" />
     <!-- [!code focus] -->
     <!-- A single regular expression -->
     <!-- [!code focus] -->
-    <textual-input :filters="/[^A-Za-z]/g" />
+    <text-input :filters="/[^A-Za-z]/g" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <textual-input :filters="filter" />
+    <text-input :filters="filter" />
 </template>
 ```
 
@@ -160,7 +160,7 @@ Multiple filters can be added as an array. This can be a combination of custom f
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
@@ -168,13 +168,13 @@ const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
 
 <template>
     <!-- [!code focus] -->
-    <textual-input :filters="['letters', /[^A-Za-z]/g, filter]" />
+    <text-input :filters="['letters', /[^A-Za-z]/g, filter]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
@@ -182,7 +182,7 @@ const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
 
 <template>
     <!-- [!code focus] -->
-    <textual-input :filters="['letters', /[^A-Za-z]/g, filter]" />
+    <text-input :filters="['letters', /[^A-Za-z]/g, filter]" />
 </template>
 ```
 
@@ -220,7 +220,7 @@ A single modifier can be directly added to the prop. This can be done directly i
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const modifier = (value: string) => value.toUpperCase();
@@ -230,17 +230,17 @@ const modifier = (value: string) => value.toUpperCase();
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <textual-input modifiers="uppercase" />
+    <text-input modifiers="uppercase" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <textual-input :modifiers="modifier" />
+    <text-input :modifiers="modifier" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const modifier = (value) => value.toUpperCase();
@@ -250,11 +250,11 @@ const modifier = (value) => value.toUpperCase();
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <textual-input modifiers="uppercase" />
+    <text-input modifiers="uppercase" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <textual-input :modifiers="modifier" />
+    <text-input :modifiers="modifier" />
 </template>
 ```
 
@@ -268,7 +268,7 @@ Multiple modifiers can be added as an array. This can be a combination of custom
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const modifier = (value: string) => value.toUpperCase();
@@ -276,13 +276,13 @@ const modifier = (value: string) => value.toUpperCase();
 
 <template>
     <!-- [!code focus] -->
-    <textual-input :modifiers="['uppercase', modifier]" />
+    <text-input :modifiers="['uppercase', modifier]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const modifier = (value) => value.toUpperCase();
@@ -290,7 +290,7 @@ const modifier = (value) => value.toUpperCase();
 
 <template>
     <!-- [!code focus] -->
-    <textual-input :modifiers="['uppercase', modifier]" />
+    <text-input :modifiers="['uppercase', modifier]" />
 </template>
 ```
 
@@ -327,35 +327,35 @@ A single validator can be directly added to the prop. This can be done directly 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <textual-input validators="required" />
+    <text-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <textual-input :validators="(value: string) => value?.length > 5" />
+    <text-input :validators="(value: string) => value?.length > 5" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <textual-input validators="required" />
+    <text-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <textual-input :validators="(value) => value?.length > 5" />
+    <text-input :validators="(value) => value?.length > 5" />
 </template>
 ```
 
@@ -369,7 +369,7 @@ Multiple validators can be added as an array. This can be a combination of custo
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const validatorFunction = (value: string) => value?.length > 5;
@@ -377,13 +377,13 @@ const validatorFunction = (value: string) => value?.length > 5;
 
 <template>
     <!-- [!code focus] -->
-    <textual-input :validators="['required', validatorFunction]" />
+    <text-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 // [!code focus]
 const validatorFunction = (value) => value?.length > 5;
@@ -391,7 +391,7 @@ const validatorFunction = (value) => value?.length > 5;
 
 <template>
     <!-- [!code focus] -->
-    <textual-input :validators="['required', validatorFunction]" />
+    <text-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
@@ -428,27 +428,27 @@ When set, it renders a `<textarea>` element instead of an `<input />` element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <textual-input textarea />
+    <text-input textarea />
     <!-- [!code focus] -->
-    <textual-input :textarea="true" />
+    <text-input :textarea="true" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <textual-input textarea />
+    <text-input textarea />
     <!-- [!code focus] -->
-    <textual-input :textarea="true" />
+    <text-input :textarea="true" />
 </template>
 ```
 
@@ -465,7 +465,7 @@ textarea?: boolean;
 
 ## Emits
 
-The TextualInput element allows the default HTML events that are normally emitted. Apart from that it emits the following events:
+The TextInput element allows the default HTML events that are normally emitted. Apart from that it emits the following events:
 
 ### `validated`
 
@@ -475,7 +475,7 @@ If validators are provided in the props, and the value changes, the result of th
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationResult, TextualInput } from '@enhanced-elements/inputs';
+import { type ValidationResult, TextInput } from '@enhanced-elements/inputs';
 
 const model = ref<string>('my special value');
 
@@ -488,13 +488,13 @@ function handleValidation(result: ValidationResult): void {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input v-model="model" @validated="handleValidation" />
+    <text-input v-model="model" @validated="handleValidation" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 
 const model = ref('my special value');
 
@@ -507,7 +507,7 @@ function handleValidation(result) {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input v-model="model" @validated="handleValidation" />
+    <text-input v-model="model" @validated="handleValidation" />
 </template>
 ```
 
@@ -536,11 +536,11 @@ Programmatically trigger focus on the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('textual-input');
+const element = useTemplateRef<HTMLInputElement>('text-input');
 
 function focus(): void {
     // [!code focus]
@@ -550,7 +550,7 @@ function focus(): void {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input ref="textual-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -559,11 +559,11 @@ function focus(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('textual-input');
+const element = useTemplateRef('text-input');
 
 function focus() {
     // [!code focus]
@@ -573,7 +573,7 @@ function focus() {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input ref="textual-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -590,11 +590,11 @@ Programmatically remove focus from the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('textual-input');
+const element = useTemplateRef<HTMLInputElement>('text-input');
 
 function blur(): void {
     // [!code focus]
@@ -604,7 +604,7 @@ function blur(): void {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input ref="textual-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -613,11 +613,11 @@ function blur(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('textual-input');
+const element = useTemplateRef('text-input');
 
 function blur() {
     // [!code focus]
@@ -627,7 +627,7 @@ function blur() {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input ref="textual-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -644,11 +644,11 @@ Programmatically trigger validation of the current value. Runs all the provided 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationFunction, TextualInput } from '@enhanced-elements/inputs';
+import { type ValidationFunction, TextInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('textual-input');
+const element = useTemplateRef<HTMLInputElement>('text-input');
 
 // [!code focus]
 const validators: ValidationFunction[] = [
@@ -668,7 +668,7 @@ function validate(): void {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input ref="textual-input" :validators="validators" />
+    <text-input ref="text-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>
@@ -677,11 +677,11 @@ function validate(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { TextualInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('textual-input');
+const element = useTemplateRef('text-input');
 
 // [!code focus]
 const validators = [
@@ -701,7 +701,7 @@ function validate() {
 
 <template>
     <!-- [!code focus] -->
-    <textual-input ref="textual-input" :validators="validators" />
+    <text-input ref="text-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>
