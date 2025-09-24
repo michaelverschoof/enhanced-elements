@@ -14,7 +14,7 @@
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
 import { RadioValidationFunction, replaceRequiredPreset, validateRadio, Validation } from '@/util/validation';
-import { computed, InputHTMLAttributes, ref } from 'vue';
+import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
 import type { FocusableEmits, ValidatableInputProps, ValidationResult } from './types';
 
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string | unknown };
@@ -26,7 +26,7 @@ const emit = defineEmits<FocusableEmits>();
 // As objects and other values are allowed, specifically typing these is not possible.
 const model = defineModel<string | unknown>();
 
-const element = ref<HTMLInputElement>();
+const element = useTemplateRef<HTMLInputElement>('element');
 
 /**
  * Composable for all inputs that have a "focused" state and corresponding emits.

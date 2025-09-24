@@ -186,7 +186,7 @@ describe('Validating model value', () => {
         await wrapper.setProps({ validators: (value: string) => Number(value) > 10 });
 
         const component = wrapper.findComponent({ name: 'NumberInput' });
-        const validation = await component.vm.validate();
+        const validation = component.vm.validate();
         expect(validation).toEqual({ valid: true, failed: [] });
     });
 
@@ -195,7 +195,7 @@ describe('Validating model value', () => {
         await wrapper.setProps({ validators: (value: string) => Number(value) < 10 });
 
         const component = wrapper.findComponent({ name: 'NumberInput' });
-        const validation = await component.vm.validate();
+        const validation = component.vm.validate();
         expect(validation).toEqual({ valid: false, failed: [] });
     });
 });

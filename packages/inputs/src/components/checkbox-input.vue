@@ -17,7 +17,7 @@ import { toArray } from '@/util/arrays';
 import type { StringCollection } from '@/util/collections';
 import { add as addToCollection, has, remove as removeFromCollection } from '@/util/collections';
 import { CheckboxValidationFunction, replaceRequiredPreset, validateCheckbox, Validation } from '@/util/validation';
-import { computed, InputHTMLAttributes, ref } from 'vue';
+import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
 
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string };
 
@@ -27,7 +27,7 @@ const emit = defineEmits<FocusableEmits>();
 
 const model = defineModel<CheckboxModel>();
 
-const element = ref<HTMLInputElement>();
+const element = useTemplateRef<HTMLInputElement>('element');
 
 /**
  * Composable for all inputs that have a "focused" state and corresponding emits.
