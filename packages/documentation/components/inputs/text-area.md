@@ -416,64 +416,7 @@ export type ValidationFunction = (value: string) => boolean | string;
 
 ## Emits
 
-The TextArea element allows the default HTML events that are normally emitted. Apart from that it emits the following events:
-
-### `validated`
-
-If validators are provided in the props, and the value changes, the result of the validation is emitted.
-
-::: code-group
-
-```vue [Typescript]
-<script setup lang="ts">
-import { type ValidationResult, TextArea } from '@enhanced-elements/inputs';
-
-const model = ref<string>('my special value');
-
-// [!code focus]
-function handleValidation(result: ValidationResult): void {
-    console.log('Is valid?', result.valid); // [!code focus]
-    console.log('Failed validations', result.string); // [!code focus]
-} // [!code focus]
-</script>
-
-<template>
-    <!-- [!code focus] -->
-    <text-area v-model="model" @validated="handleValidation" />
-</template>
-```
-
-```vue [JavaScript]
-<script setup>
-import { TextArea } from '@enhanced-elements/inputs';
-
-const model = ref('my special value');
-
-// [!code focus]
-function handleValidation(result) {
-    console.log('Is valid?', result.valid); // [!code focus]
-    console.log('Failed validations', result.string); // [!code focus]
-} // [!code focus]
-</script>
-
-<template>
-    <!-- [!code focus] -->
-    <text-area v-model="model" @validated="handleValidation" />
-</template>
-```
-
-:::
-
-::: details Event type definition
-
-```ts
-type ValidationResult = {
-    valid: boolean;
-    failed: string[];
-};
-```
-
-:::
+The TextArea element allows the default HTML events that are normally emitted.
 
 ## Exposed functions
 

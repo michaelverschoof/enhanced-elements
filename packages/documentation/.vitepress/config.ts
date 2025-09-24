@@ -11,8 +11,8 @@ export default defineConfig({
 
         // https://vitepress.dev/reference/default-theme-config
         nav: [
-            { text: 'Components', link: '/components' },
-            { text: 'Examples', link: '/markdown-examples' }
+            { text: 'Components', link: '/components' }
+            // { text: 'Examples', link: '/examples' }
         ],
 
         sidebar: [
@@ -30,13 +30,13 @@ export default defineConfig({
                     {
                         text: 'Input elements',
                         items: [
-                            { text: 'Text input', link: '/components/inputs/text-input' },
-                            { text: 'Text area', link: '/components/inputs/text-area' },
+                            { text: 'Checkbox input', link: '/components/inputs/checkbox-input' },
+                            { text: 'File input', link: '/components/inputs/file-input' },
                             { text: 'Number input', link: '/components/inputs/number-input' },
                             { text: 'Password input', link: '/components/inputs/password-input' },
                             { text: 'Radio input', link: '/components/inputs/radio-input' },
-                            { text: 'Checkbox input', link: '/components/inputs/checkbox-input' },
-                            { text: 'File input', link: '/components/inputs/file-input' }
+                            { text: 'Text area', link: '/components/inputs/text-area' },
+                            { text: 'Text input', link: '/components/inputs/text-input' }
                         ]
                     }
                     // { text: 'Dialog elements' }

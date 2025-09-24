@@ -33,6 +33,8 @@ const model = ref<string>('initial value');
 
         span {
             display: inline-block;
+            font-weight: 600;
+            font-style: italic;
             white-space: pre-wrap;
         }
     }
@@ -54,7 +56,11 @@ const model = ref<string>('initial value'); // [!code focus]
         <!-- [!code focus] -->
         <text-area class="example-element" v-model="model" />
         <!-- [!code focus] -->
-        Model value: {{ model }}
+        <span class="model-value">
+            <!-- [!code focus] -->
+            Model value: <span>{{ model }}</span>
+            <!-- [!code focus] -->
+        </span>
     </p>
 </template>
 
@@ -81,6 +87,8 @@ const model = ref<string>('initial value'); // [!code focus]
 
 .example-container .model-value span {
     display: inline-block;
+    font-weight: 500;
+    font-style: italic;
     white-space: pre-wrap;
 }
 </style>
@@ -99,7 +107,11 @@ const model = ref('initial value'); // [!code focus]
         <!-- [!code focus] -->
         <text-area class="example-element" v-model="model" />
         <!-- [!code focus] -->
-        Model value: {{ model }}
+        <span class="model-value">
+            <!-- [!code focus] -->
+            Model value: <span>{{ model }}</span>
+            <!-- [!code focus] -->
+        </span>
     </p>
 </template>
 
@@ -126,6 +138,8 @@ const model = ref('initial value'); // [!code focus]
 
 .example-container .model-value span {
     display: inline-block;
+    font-weight: 500;
+    font-style: italic;
     white-space: pre-wrap;
 }
 </style>

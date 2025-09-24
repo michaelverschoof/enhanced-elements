@@ -7,7 +7,9 @@ const model = ref<string>('initial value');
 
 <p class="example-container">
     <text-input class="example-element" v-model="model" />
-    Model value: {{ model }}
+    <span class="model-value">
+        Model value: <span>{{ model }}</span>
+    </span>
 </p>
 
 <style lang="postcss" scoped>
@@ -22,6 +24,13 @@ const model = ref<string>('initial value');
 
         .focused {
             border: 1px solid var(--vp-c-brand-2);
+        }
+    }
+
+    .model-value {
+        span {
+            font-weight: 600;
+            font-style: italic;
         }
     }
 }
@@ -42,7 +51,11 @@ const model = ref<string>('initial value'); // [!code focus]
         <!-- [!code focus] -->
         <text-input class="example-element" v-model="model" />
         <!-- [!code focus] -->
-        Model value: {{ model }}
+        <span class="model-value">
+            <!-- [!code focus] -->
+            Model value: <span>{{ model }}</span>
+            <!-- [!code focus] -->
+        </span>
     </p>
 </template>
 
@@ -60,6 +73,11 @@ const model = ref<string>('initial value'); // [!code focus]
 
 .example-container .example-element.focused {
     border: 1px solid var(--vp-c-brand-2);
+}
+
+.example-container .model-value span {
+    font-weight: 600;
+    font-style: italic;
 }
 </style>
 ```
@@ -77,7 +95,11 @@ const model = ref('initial value'); // [!code focus]
         <!-- [!code focus] -->
         <text-input class="example-element" v-model="model" />
         <!-- [!code focus] -->
-        Model value: {{ model }}
+        <span class="model-value">
+            <!-- [!code focus] -->
+            Model value: <span>{{ model }}</span>
+            <!-- [!code focus] -->
+        </span>
     </p>
 </template>
 
@@ -95,6 +117,11 @@ const model = ref('initial value'); // [!code focus]
 
 .example-container .example-element.focused {
     border: 1px solid var(--vp-c-brand-2);
+}
+
+.example-container .model-value span {
+    font-weight: 600;
+    font-style: italic;
 }
 </style>
 ```
