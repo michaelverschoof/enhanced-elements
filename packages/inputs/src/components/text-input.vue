@@ -14,27 +14,21 @@
 </template>
 
 <script setup lang="ts">
-import type {
-    FocusableEmits,
-    TransformableInputProps,
-    ValidatableInputProps,
-    ValidationResult
-} from '@/components/types';
+import type { FocusableEmits, MaybeArray, TransformableInputProps, ValidationResult } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
 import type { ModifierPreset, TransformFunction } from '@/util/model';
 import { createFilters, createModifiers, ModifierPresets, transform } from '@/util/model';
-import type { BaseValidationFunction, Validation } from '@/util/validation';
+import type { ValidationFunction, ValidationPresets } from '@/util/validation';
 import { replaceRequiredPreset, validate } from '@/util/validation';
 import { useDebounceFn } from '@vueuse/core';
 import { computed, InputHTMLAttributes, onBeforeMount, TextareaHTMLAttributes, useTemplateRef } from 'vue';
 
 type TextInputProps = /* @vue-ignore */ InputHTMLAttributes;
 type TextAreaProps = /* @vue-ignore */ TextareaHTMLAttributes;
+type ValidatableProp = { validators?: MaybeArray<ValidationPresets | ValidationFunction<string>> };
 
-type Props = (TextInputProps | TextAreaProps) &
-    TransformableInputProps &
-    ValidatableInputProps & { textarea?: boolean };
+type Props = (TextInputProps | TextAreaProps) & TransformableInputProps & ValidatableProp & { textarea?: boolean };
 
 const { filters = [], modifiers = [], validators = [] } = defineProps<Props>();
 
@@ -79,14 +73,12 @@ const modifierFunctions = computed<TransformFunction[]>(() =>
 /**
  * Validator function for 'required' preset.
  */
-const required: BaseValidationFunction = (modelValue: string): boolean => !!modelValue && modelValue.trim() !== '';
+const required = (modelValue: string): boolean => !!modelValue && modelValue.trim() !== '';
 
 /**
  * Reactive list of validators to execute when the model is changed.
  */
-const validatorFunctions = computed<BaseValidationFunction[]>(() =>
-    replaceRequiredPreset(toArray<Validation>(validators), required)
-);
+const validatorFunctions = computed<ValidationFunction[]>(() => replaceRequiredPreset(toArray(validators), required));
 
 /**
  * Set the model value on input.

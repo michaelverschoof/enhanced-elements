@@ -3,22 +3,29 @@
 </template>
 
 <script setup lang="ts">
-import type { FocusableEmits, ValidatableInputProps, ValidationResult } from '@/components/types';
+import type { FocusableEmits, MaybeArray, ValidationResult } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
-import { FileValidationFunction, replaceRequiredPreset, validateFile, Validation } from '@/util/validation';
-import { computed, InputHTMLAttributes, ref, useTemplateRef } from 'vue';
+import type { ValidationPresets } from '@/util/validation';
+import { replaceRequiredPreset, validate } from '@/util/validation';
+import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
 
-type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps;
+type FileValidationFunction = (modelValue: File[], ...args: unknown[]) => boolean | string;
+type ValidatableProp = { validators?: MaybeArray<ValidationPresets | FileValidationFunction> };
+
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableProp;
 
 const { validators = [] } = defineProps<Props>();
 
-const emit = defineEmits<{ 'update:modelValue': [files: File[]] } & FocusableEmits>();
+const emit = defineEmits<FocusableEmits>();
 
 /**
  * The file input model. It is a list of files.
+ *
+ * As the HTML file input element does not support programmatically setting the value,
+ * it does not show selected files that are set by the parent.
  */
-const model = ref<File[]>([]);
+const model = defineModel<File[]>({ default: [] });
 
 const element = useTemplateRef<HTMLInputElement>('element');
 
@@ -35,26 +42,25 @@ const { focused, onBlur, onFocus } = useFocusable(emit);
 function onChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     model.value = Array.from(input.files || []);
-
-    emit('update:modelValue', model.value);
 }
 
 /**
  * Validator function for 'required' preset.
  */
 const required: FileValidationFunction = (modelValue: File[]): boolean => !!modelValue.length;
+
 /**
  * Reactive list of validators to execute when the model is changed.
  */
 const validatorFunctions = computed<FileValidationFunction[]>(() =>
-    replaceRequiredPreset<FileValidationFunction>(toArray<Validation>(validators), required)
+    replaceRequiredPreset(toArray(validators), required)
 );
 
 /**
  * Validate the model against the provided validators.
  */
 function validateModel(): ValidationResult {
-    return validateFile(model.value, ...validatorFunctions.value);
+    return validate(model.value, ...validatorFunctions.value);
 }
 
 /**
@@ -80,7 +86,6 @@ function clear() {
 
     element.value.value = '';
     model.value = [];
-    emit('update:modelValue', model.value);
 }
 
 /**

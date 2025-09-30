@@ -1,5 +1,5 @@
+import { StringCollection } from '@/util/collections';
 import type { Filter, Modifier } from '@/util/model';
-import type { Validation } from '@/util/validation';
 
 /**
  * Properties for the text-input and text-area inputs
@@ -7,13 +7,6 @@ import type { Validation } from '@/util/validation';
 export type TransformableInputProps = {
     filters?: Filter | Filter[];
     modifiers?: Modifier | Modifier[];
-};
-
-/**
- * Properties for validatable components
- */
-export type ValidatableInputProps = {
-    validators?: Validation | Validation[];
 };
 
 /**
@@ -34,5 +27,11 @@ export type ValidationResult = {
 
 /**
  * Checkbox model
+ * TODO: Move this to the Checkbox component?
  */
-export type CheckboxModel = Set<string> | string[] | boolean;
+export type CheckboxModel = StringCollection | boolean;
+
+/**
+ * A single or array of the provided type
+ */
+export type MaybeArray<T> = T | T[];

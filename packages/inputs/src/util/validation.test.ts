@@ -1,7 +1,7 @@
 import { CheckboxModel } from '@/components/types';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { has } from './collections';
-import { replaceRequiredPreset, validate, validateCheckbox, validateFile, validateRadio } from './validation';
+import { replaceRequiredPreset, validate, validateCheckbox } from './validation';
 
 const validResponse = { valid: true, failed: [] };
 const invalidResponse = { valid: false, failed: [] };
@@ -48,27 +48,25 @@ describe('Validating radio values', () => {
 
     it('should validate value with a single function', () => {
         // Valid values
-        expect(validateRadio('abc', requiredValidation)).toEqual(validResponse);
-        expect(validateRadio('abc', specificValueValidation)).toEqual(validResponse);
+        expect(validate('abc', requiredValidation)).toEqual(validResponse);
+        expect(validate('abc', specificValueValidation)).toEqual(validResponse);
 
         // Invalid values
-        expect(validateRadio(null, requiredValidation)).toEqual(invalidResponse);
-        expect(validateRadio('abcdef', specificValueValidation)).toEqual(invalidResponseWithMessage);
+        expect(validate(null, requiredValidation)).toEqual(invalidResponse);
+        expect(validate('abcdef', specificValueValidation)).toEqual(invalidResponseWithMessage);
     });
 
     it('should validate value with a multiple functions', () => {
         // Valid values
-        expect(validateRadio('abc', requiredValidation, specificValueValidation)).toEqual(validResponse);
+        expect(validate('abc', requiredValidation, specificValueValidation)).toEqual(validResponse);
 
         // Invalid values
-        expect(validateRadio('abcdef', requiredValidation, specificValueValidation)).toEqual(
-            invalidResponseWithMessage
-        );
+        expect(validate('abcdef', requiredValidation, specificValueValidation)).toEqual(invalidResponseWithMessage);
     });
 
     it('should filter out non-usable validators', () => {
         // @ts-expect-error the provided  validators are not allowed types, which we're testing.
-        expect(validateRadio('abc', null, undefined, '')).toEqual(validResponse);
+        expect(validate('abc', null, undefined, '')).toEqual(validResponse);
     });
 });
 
@@ -85,29 +83,29 @@ describe('Validating file values', () => {
 
     it('should validate value with a single function', () => {
         // Valid values
-        expect(validateFile([fileMock], requiredValidation)).toEqual(validResponse);
-        expect(validateFile([fileMock], specificValueValidation)).toEqual(validResponse);
+        expect(validate([fileMock], requiredValidation)).toEqual(validResponse);
+        expect(validate([fileMock], specificValueValidation)).toEqual(validResponse);
 
         // Invalid values
-        expect(validateFile([], requiredValidation)).toEqual(invalidResponse);
-        expect(validateFile([{ ...fileMock, name: 'invalid-file.txt' }], specificValueValidation)).toEqual(
+        expect(validate([], requiredValidation)).toEqual(invalidResponse);
+        expect(validate([{ ...fileMock, name: 'invalid-file.txt' }], specificValueValidation)).toEqual(
             invalidResponseWithMessage
         );
     });
 
     it('should validate value with a multiple functions', () => {
         // Valid values
-        expect(validateFile([fileMock], requiredValidation, specificValueValidation)).toEqual(validResponse);
+        expect(validate([fileMock], requiredValidation, specificValueValidation)).toEqual(validResponse);
 
         // Invalid values
         expect(
-            validateFile([{ ...fileMock, name: 'invalid-file.txt' }], requiredValidation, specificValueValidation)
+            validate([{ ...fileMock, name: 'invalid-file.txt' }], requiredValidation, specificValueValidation)
         ).toEqual(invalidResponseWithMessage);
     });
 
     it('should filter out non-usable validators', () => {
         // @ts-expect-error the provided  validators are not allowed types, which we're testing.
-        expect(validateFile([fileMock], null, undefined, '')).toEqual(validResponse);
+        expect(validate([fileMock], null, undefined, '')).toEqual(validResponse);
     });
 });
 
@@ -190,9 +188,7 @@ describe('Replacing presets', () => {
     });
 
     it('should filter out the preset if there is no replacement function', () => {
-        // @ts-expect-error null is not allowed, but we're testing explicitly
         expect(replaceRequiredPreset(['required'], null)).toEqual([]);
-        // @ts-expect-error undefined is not allowed, but we're testing explicitly
         expect(replaceRequiredPreset([validation, 'required'], undefined)).toEqual([validation]);
     });
 

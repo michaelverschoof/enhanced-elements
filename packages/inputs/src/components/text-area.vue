@@ -4,10 +4,13 @@
 
 <script setup lang="ts">
 import TextInput from '@/components/text-input.vue';
+import { ValidationFunction, ValidationPresets } from '@/util/validation';
 import { TextareaHTMLAttributes, useTemplateRef } from 'vue';
-import type { TransformableInputProps, ValidatableInputProps } from './types';
+import type { MaybeArray, TransformableInputProps } from './types';
 
-type Props = /* @vue-ignore */ TextareaHTMLAttributes & TransformableInputProps & ValidatableInputProps;
+type ValidatableProp = { validators?: MaybeArray<ValidationPresets | ValidationFunction<string>> };
+
+type Props = /* @vue-ignore */ TextareaHTMLAttributes & TransformableInputProps & ValidatableProp;
 
 defineProps<Props>();
 

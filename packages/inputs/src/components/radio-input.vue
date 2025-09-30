@@ -13,11 +13,14 @@
 <script lang="ts" setup>
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
-import { RadioValidationFunction, replaceRequiredPreset, validateRadio, Validation } from '@/util/validation';
+import { replaceRequiredPreset, validate, ValidationFunction, ValidationPresets } from '@/util/validation';
 import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
-import type { FocusableEmits, ValidatableInputProps, ValidationResult } from './types';
+import type { FocusableEmits, MaybeArray, ValidationResult } from './types';
 
-type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string | unknown };
+type RadioValidationFunction = ValidationFunction<string | unknown>;
+type ValidatableProp = { validators?: MaybeArray<ValidationPresets | RadioValidationFunction> };
+
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableProp & { value?: string | unknown };
 
 const { value, validators = [] } = defineProps<Props>();
 
@@ -43,14 +46,14 @@ const required: RadioValidationFunction = (modelValue: string | unknown): boolea
  * Reactive list of validators to execute when the model is changed.
  */
 const validatorFunctions = computed<RadioValidationFunction[]>(() =>
-    replaceRequiredPreset<RadioValidationFunction>(toArray<Validation>(validators), required)
+    replaceRequiredPreset(toArray(validators), required)
 );
 
 /**
  * Validate the model against the provided validators.
  */
 function validateModel(): ValidationResult {
-    return validateRadio(model.value, ...validatorFunctions.value);
+    return validate(model.value, ...validatorFunctions.value);
 }
 
 /**

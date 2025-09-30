@@ -4,12 +4,15 @@
 
 <script setup lang="ts">
 import TextInput from '@/components/text-input.vue';
+import { ValidationFunction, ValidationPresets } from '@/util/validation';
 import { InputHTMLAttributes, ref, useTemplateRef, watch } from 'vue';
-import type { TransformableInputProps, ValidatableInputProps } from './types';
+import type { MaybeArray, TransformableInputProps } from './types';
+
+type ValidatableProp = { validators?: MaybeArray<ValidationPresets | ValidationFunction<string>> };
 
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> &
     TransformableInputProps &
-    ValidatableInputProps & { showPassword?: boolean };
+    ValidatableProp & { showPassword?: boolean };
 
 const { showPassword = false } = defineProps<Props>();
 

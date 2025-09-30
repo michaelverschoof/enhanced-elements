@@ -11,15 +11,18 @@
 </template>
 
 <script lang="ts" setup>
-import type { CheckboxModel, FocusableEmits, ValidatableInputProps, ValidationResult } from '@/components/types';
+import type { CheckboxModel, FocusableEmits, MaybeArray, ValidationResult } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
 import type { StringCollection } from '@/util/collections';
 import { add as addToCollection, has, remove as removeFromCollection } from '@/util/collections';
-import { CheckboxValidationFunction, replaceRequiredPreset, validateCheckbox, Validation } from '@/util/validation';
+import { replaceRequiredPreset, validateCheckbox, ValidationPresets } from '@/util/validation';
 import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
 
-type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableInputProps & { value?: string };
+type CheckboxValidationFunction = (modelValue: CheckboxModel, value: string, ...args: unknown[]) => boolean | string;
+type ValidatableProp = { validators?: MaybeArray<ValidationPresets | CheckboxValidationFunction> };
+
+type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableProp & { value?: string };
 
 const { value, validators = [] } = defineProps<Props>();
 
@@ -54,7 +57,7 @@ const required: CheckboxValidationFunction = (modelValue: CheckboxModel, value: 
  * Reactive list of validators to execute when the model is changed.
  */
 const validatorFunctions = computed<CheckboxValidationFunction[]>(() =>
-    replaceRequiredPreset<CheckboxValidationFunction>(toArray<Validation>(validators), required)
+    replaceRequiredPreset(toArray(validators), required)
 );
 
 /**

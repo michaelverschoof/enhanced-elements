@@ -16,12 +16,7 @@ import TextInput from './components/text-input.vue';
  */
 export { CheckboxInput, FileInput, NumberInput, PasswordInput, RadioInput, TextArea, TextInput };
 
-export type {
-    FocusableEmits,
-    TransformableInputProps,
-    ValidatableInputProps,
-    ValidationResult
-} from './components/types';
+export type { FocusableEmits, TransformableInputProps, ValidationResult } from './components/types';
 
 /**
  * Plugin

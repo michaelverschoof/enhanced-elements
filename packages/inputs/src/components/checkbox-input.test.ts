@@ -1,4 +1,5 @@
 import CheckboxInput from '@/components/checkbox-input.vue';
+import { StringCollection } from '@/util/collections';
 import { testFocus } from '@test/focus';
 import { mountComponent } from '@test/util/mount';
 import { DOMWrapper, mount } from '@vue/test-utils';
@@ -233,7 +234,7 @@ describe('Validating model value', () => {
     });
 });
 
-type CheckboxValues = boolean | string[] | Set<string>;
+type CheckboxValues = boolean | StringCollection;
 
 function mountCheckboxInput(customProps: Record<string, unknown> = {}) {
     const testModel = ref<CheckboxValues>(customProps.modelValue as CheckboxValues);

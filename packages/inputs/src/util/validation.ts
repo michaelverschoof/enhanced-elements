@@ -1,31 +1,22 @@
 import type { CheckboxModel, ValidationResult } from '@/components/types';
 
-export type BaseValidationFunction = ((modelValue: string) => boolean) | ((modelValue: string) => boolean | string);
+/* Generic validate function. */
+export type ValidationFunction<ModelValue = string> = (modelValue: ModelValue, ...args: unknown[]) => boolean | string;
 
-export type CheckboxValidationFunction = (modelValue: CheckboxModel, value: string) => boolean | string;
-
-export type RadioValidationFunction = (modelValue: string | unknown) => boolean | string;
-
-export type FileValidationFunction = (modelValue: File[]) => boolean | string;
-
-type ValidationFunction =
-    | BaseValidationFunction
-    | CheckboxValidationFunction
-    | RadioValidationFunction
-    | FileValidationFunction;
-
-export type Validation = 'required' | ValidationFunction;
+/* Validation presets. */
+export type ValidationPresets = 'required';
 
 /**
  * Validate a value using the provided functions.
- *
- * TODO: Create a generic function for validation
  *
  * @param modelValue the value to validate.
  * @param validators the array of validators to execute.
  * @returns an object with the validation results.
  */
-export function validate(modelValue: string, ...validators: BaseValidationFunction[]): ValidationResult {
+export function validate<ModelValue>(
+    modelValue: ModelValue,
+    ...validators: ValidationFunction<ModelValue>[]
+): ValidationResult {
     const validationResult: ValidationResult = { valid: true, failed: [] };
 
     const filtered = validators.filter((validator) => !!validator);
@@ -60,7 +51,7 @@ export function validate(modelValue: string, ...validators: BaseValidationFuncti
 export function validateCheckbox(
     modelValue: CheckboxModel,
     value: string,
-    ...validators: CheckboxValidationFunction[]
+    ...validators: ((modelValue: CheckboxModel, value: string, ...args: unknown[]) => boolean | string)[]
 ): ValidationResult {
     const validationResult: ValidationResult = { valid: true, failed: [] };
 
@@ -87,97 +78,30 @@ export function validateCheckbox(
 }
 
 /**
- * Validate a radio model using the provided functions.
- *
- * @param modelValue the value to validate.
- * @param validators the array of validators to execute.
- * @returns an object with the validation results.
- */
-export function validateRadio(
-    modelValue: string | unknown,
-    ...validators: RadioValidationFunction[]
-): ValidationResult {
-    const validationResult: ValidationResult = { valid: true, failed: [] };
-
-    const filtered = validators.filter((validator) => !!validator);
-    if (!filtered || !filtered.length) {
-        return validationResult;
-    }
-
-    for (const validator of filtered) {
-        const result = validator(modelValue);
-        if (result === true) {
-            continue;
-        }
-
-        validationResult.valid = false;
-        if (typeof result !== 'string') {
-            continue;
-        }
-
-        validationResult.failed.push(result);
-    }
-
-    return validationResult;
-}
-
-/**
- * Validate a file model using the provided functions.
- *
- * @param modelValue the value to validate.
- * @param validators the array of validators to execute.
- * @returns an object with the validation results.
- */
-export function validateFile(modelValue: File[], ...validators: FileValidationFunction[]): ValidationResult {
-    const validationResult: ValidationResult = { valid: true, failed: [] };
-
-    const filtered = validators.filter((validator) => !!validator);
-    if (!filtered || !filtered.length) {
-        return validationResult;
-    }
-
-    for (const validator of filtered) {
-        const result = validator(modelValue);
-        if (result === true) {
-            continue;
-        }
-
-        validationResult.valid = false;
-        if (typeof result !== 'string') {
-            continue;
-        }
-
-        validationResult.failed.push(result);
-    }
-
-    return validationResult;
-}
-
-/**
  * Replace the 'required' preset with the provided validator function.
  *
  * @param validations the array of validations.
  * @param required the function to inject.
  * @returns the updated array.
  */
-export function replaceRequiredPreset<T extends ValidationFunction>(
-    validations: Validation[],
+export function replaceRequiredPreset<ValidationFunction>(
+    validations: ('required' | ValidationFunction)[],
     required: ValidationFunction
-): T[] {
+): ValidationFunction[] {
     if (!validations?.length) {
         return [];
     }
 
     const index = validations.findIndex((validator) => validator === 'required');
     if (index === -1) {
-        return validations as T[];
+        return validations as ValidationFunction[];
     }
 
     if (!required) {
         validations.splice(index, 1);
-        return validations as T[];
+        return validations as ValidationFunction[];
     }
 
     validations.splice(index, 1, required);
-    return validations as T[];
+    return validations as ValidationFunction[];
 }
