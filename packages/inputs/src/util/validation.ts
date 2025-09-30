@@ -1,4 +1,4 @@
-import type { CheckboxModel, ValidationResult } from '@/components/types';
+import type { ValidationResult } from '@/components/types';
 
 /* Generic validate function. */
 export type ValidationFunction<ModelValue = string> = (modelValue: ModelValue, ...args: unknown[]) => boolean | string;
@@ -26,42 +26,6 @@ export function validate<ModelValue>(
 
     for (const validator of filtered) {
         const result = validator(modelValue);
-        if (result === true) {
-            continue;
-        }
-
-        validationResult.valid = false;
-        if (typeof result !== 'string') {
-            continue;
-        }
-
-        validationResult.failed.push(result);
-    }
-
-    return validationResult;
-}
-
-/**
- * Validate a checkbox model using the provided functions.
- *
- * @param modelValue the value to validate.
- * @param validators the array of validators to execute.
- * @returns an object with the validation results.
- */
-export function validateCheckbox(
-    modelValue: CheckboxModel,
-    value: string,
-    ...validators: ((modelValue: CheckboxModel, value: string, ...args: unknown[]) => boolean | string)[]
-): ValidationResult {
-    const validationResult: ValidationResult = { valid: true, failed: [] };
-
-    const filtered = validators.filter((validator) => !!validator);
-    if (!filtered.length) {
-        return validationResult;
-    }
-
-    for (const validator of filtered) {
-        const result = validator(modelValue, value);
         if (result === true) {
             continue;
         }

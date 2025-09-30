@@ -1,7 +1,6 @@
-import { CheckboxModel } from '@/components/types';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { has } from './collections';
-import { replaceRequiredPreset, validate, validateCheckbox } from './validation';
+import { has, StringCollection } from './collections';
+import { replaceRequiredPreset, validate } from './validation';
 
 const validResponse = { valid: true, failed: [] };
 const invalidResponse = { valid: false, failed: [] };
@@ -110,67 +109,59 @@ describe('Validating file values', () => {
 });
 
 describe('Validating checkbox values', () => {
-    const requiredValidation = (modelValue: CheckboxModel, value: string) => {
+    const requiredValidation = (modelValue: boolean | StringCollection) => {
         if (modelValue === undefined || typeof modelValue === 'boolean') {
             return !!modelValue;
         }
 
-        return value ? has(value, modelValue) : false;
+        return has('test', modelValue);
     };
 
-    const specificValueValidation = (modelValue: CheckboxModel, value: string) => {
+    const specificValueValidation = (modelValue: boolean | StringCollection) => {
         if (modelValue === undefined || typeof modelValue === 'boolean') {
             return !!modelValue ? true : 'Wrong value';
         }
 
-        return value === 'test' ? true : 'Wrong value';
+        return has('test', modelValue) ? true : 'Wrong value';
     };
 
     const invalidResponseWithMessage = { valid: false, failed: ['Wrong value'] };
 
     it('should validate value with a single function', () => {
         // Valid values
-        expect(validateCheckbox(true, '', requiredValidation)).toEqual(validResponse);
-        expect(validateCheckbox(true, '', specificValueValidation)).toEqual(validResponse);
-        expect(validateCheckbox(['test'], 'test', requiredValidation)).toEqual(validResponse);
-        expect(validateCheckbox(['test'], 'test', specificValueValidation)).toEqual(validResponse);
-        expect(validateCheckbox(new Set(['test']), 'test', requiredValidation)).toEqual(validResponse);
-        expect(validateCheckbox(new Set(['test']), 'test', specificValueValidation)).toEqual(validResponse);
+        expect(validate(true, requiredValidation)).toEqual(validResponse);
+        expect(validate(true, specificValueValidation)).toEqual(validResponse);
+        expect(validate(['test'], requiredValidation)).toEqual(validResponse);
+        expect(validate(['test'], specificValueValidation)).toEqual(validResponse);
+        expect(validate(new Set(['test']), requiredValidation)).toEqual(validResponse);
+        expect(validate(new Set(['test']), specificValueValidation)).toEqual(validResponse);
 
         // Invalid values
-        expect(validateCheckbox(false, '', requiredValidation)).toEqual(invalidResponse);
-        expect(validateCheckbox(false, '', specificValueValidation)).toEqual(invalidResponseWithMessage);
-        expect(validateCheckbox(['test'], 'invalid', requiredValidation)).toEqual(invalidResponse);
-        expect(validateCheckbox(['test'], 'invalid', specificValueValidation)).toEqual(invalidResponseWithMessage);
-        expect(validateCheckbox(new Set(['test']), 'invalid', requiredValidation)).toEqual(invalidResponse);
-        expect(validateCheckbox(new Set(['test']), 'invalid', specificValueValidation)).toEqual(
-            invalidResponseWithMessage
-        );
+        expect(validate(false, requiredValidation)).toEqual(invalidResponse);
+        expect(validate(false, specificValueValidation)).toEqual(invalidResponseWithMessage);
+        expect(validate(['invalid'], requiredValidation)).toEqual(invalidResponse);
+        expect(validate(['invalid'], specificValueValidation)).toEqual(invalidResponseWithMessage);
+        expect(validate(new Set(['invalid']), requiredValidation)).toEqual(invalidResponse);
+        expect(validate(new Set(['invalid']), specificValueValidation)).toEqual(invalidResponseWithMessage);
     });
 
     it('should validate value with a multiple functions', () => {
         // Valid values
-        expect(validateCheckbox(true, '', requiredValidation, specificValueValidation)).toEqual(validResponse);
-        expect(validateCheckbox(['test'], 'test', requiredValidation, specificValueValidation)).toEqual(validResponse);
-        expect(validateCheckbox(new Set(['test']), 'test', requiredValidation, specificValueValidation)).toEqual(
-            validResponse
-        );
+        expect(validate(true, requiredValidation, specificValueValidation)).toEqual(validResponse);
+        expect(validate(['test'], requiredValidation, specificValueValidation)).toEqual(validResponse);
+        expect(validate(new Set(['test']), requiredValidation, specificValueValidation)).toEqual(validResponse);
 
         // Invalid values
-        expect(validateCheckbox(false, '', requiredValidation, specificValueValidation)).toEqual(
-            invalidResponseWithMessage
-        );
-        expect(validateCheckbox(['test'], 'invalid', requiredValidation, specificValueValidation)).toEqual(
-            invalidResponseWithMessage
-        );
-        expect(validateCheckbox(new Set(['test']), 'invalid', requiredValidation, specificValueValidation)).toEqual(
+        expect(validate(false, requiredValidation, specificValueValidation)).toEqual(invalidResponseWithMessage);
+        expect(validate(['invalid'], requiredValidation, specificValueValidation)).toEqual(invalidResponseWithMessage);
+        expect(validate(new Set(['invalid']), requiredValidation, specificValueValidation)).toEqual(
             invalidResponseWithMessage
         );
     });
 
     it('should filter out non-usable validators', () => {
         // @ts-expect-error the provided  validators are not allowed types, which we're testing.
-        expect(validateCheckbox('abc', null, undefined, '')).toEqual(validResponse);
+        expect(validate('abc', null, undefined, '')).toEqual(validResponse);
     });
 });
 

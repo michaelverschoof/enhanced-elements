@@ -1,4 +1,3 @@
-import { StringCollection } from '@/util/collections';
 import type { Filter, Modifier } from '@/util/model';
 
 /**
@@ -24,12 +23,6 @@ export type ValidationResult = {
     valid: boolean;
     failed: string[];
 };
-
-/**
- * Checkbox model
- * TODO: Move this to the Checkbox component?
- */
-export type CheckboxModel = StringCollection | boolean;
 
 /**
  * A single or array of the provided type
