@@ -47,7 +47,7 @@ export default defineConfig({
         socialLinks: [{ icon: 'github', link: 'https://github.com/michaelverschoof/enhanced-elements' }],
 
         footer: {
-            message: 'Released with under the MIT License.',
+            message: 'Released under the MIT License.',
             copyright: 'Copyright © 2025-present Michael Verschoof'
         }
     }

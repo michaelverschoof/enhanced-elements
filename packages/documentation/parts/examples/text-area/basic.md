@@ -63,35 +63,6 @@ const model = ref<string>('initial value'); // [!code focus]
         </span>
     </p>
 </template>
-
-<style scoped>
-.example-container {
-    display: flex;
-    gap: 1rem;
-}
-
-.example-container .example-element {
-    border: 1px solid var(--vp-c-brand-1);
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.example-container .example-element.focused {
-    border: 1px solid var(--vp-c-brand-2);
-}
-
-.example-container .model-value {
-    display: flex;
-    gap: 0.25rem;
-}
-
-.example-container .model-value span {
-    display: inline-block;
-    font-weight: 500;
-    font-style: italic;
-    white-space: pre-wrap;
-}
-</style>
 ```
 
 ```vue [JavaScript]
@@ -114,8 +85,9 @@ const model = ref('initial value'); // [!code focus]
         </span>
     </p>
 </template>
+```
 
-<style scoped>
+```css [Styling]
 .example-container {
     display: flex;
     gap: 1rem;
@@ -142,7 +114,6 @@ const model = ref('initial value'); // [!code focus]
     font-style: italic;
     white-space: pre-wrap;
 }
-</style>
 ```
 
 :::
