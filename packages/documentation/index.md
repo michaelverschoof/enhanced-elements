@@ -11,8 +11,11 @@ hero:
           text: Get started
           link: /introduction
         - theme: alt
-          text: API Examples
-          link: /api-examples
+          text: Components
+          link: /components
+        # - theme: alt
+        #   text: Demo
+        #   link: /demo
 
 features:
     - icon: 💡
@@ -21,9 +24,9 @@ features:
     - icon: 🔑
       title: Type Safe
       details: Fully typed, including native element typing. So you'll have all the auto-completion.
-    - icon: 🔌
-      title: Extensible
-      details: You can create your components as if you're using native elements, including models.
+    - icon: ⚡
+      title: Completely tree shakeable
+      details: Only use the parts you want. Probably all of them.
 
     - icon: 🚪
       title: Accessible
@@ -31,7 +34,7 @@ features:
     - icon: 🌈
       title: Unstyled
       details: We provide no styling so you can make it your own.
-    - icon: 📦
+    - icon: 🪶
       title: Lightweight
       details: Each package is less than 10kb (minified), so it won't weigh you down.
 ---
