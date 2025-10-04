@@ -316,7 +316,7 @@ type TransformFunction = (value: string) => string;
 
 ### `validators`
 
-Validators are used to validate the user's input. The validators are triggered when the value is updated. Validation can also be triggered manually by using the [validate](#validate) function.
+Validators are used to validate the user's input. Validation can be triggered manually by using the [validate](#validate) function.
 These are either a single validator or an array of multiple validators. These can be predefined presets or custom functions.
 
 #### A single validator
@@ -434,7 +434,7 @@ import { TextArea } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLTextAreaElement>('text-area');
+const element = useTemplateRef<InstanceType<typeof TextArea>>('text-area');
 
 function focus(): void {
     // [!code focus]
@@ -488,7 +488,7 @@ import { TextArea } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLTextAreaElement>('text-area');
+const element = useTemplateRef<InstanceType<typeof TextArea>>('text-area');
 
 function blur(): void {
     // [!code focus]
@@ -542,7 +542,7 @@ import { type ValidationFunction, TextArea } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLTextAreaElement>('text-area');
+const element = useTemplateRef<InstanceType<typeof TextArea>>('text-area');
 
 // [!code focus]
 const validators: ValidationFunction[] = [

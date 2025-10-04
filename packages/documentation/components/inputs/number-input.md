@@ -219,7 +219,7 @@ type TransformFunction = (value: string) => string;
 
 ### `validators`
 
-Validators are used to validate the user's input. The validators are triggered when the value is updated. Validation can also be triggered manually by using the [validate](#validate) function.
+Validators are used to validate the user's input. Validation can be triggered manually by using the [validate](#validate) function.
 These are either a single validator or an array of multiple validators. These can be predefined presets or custom functions.
 
 #### A single validator
@@ -398,7 +398,7 @@ import { NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('number-input');
+const element = useTemplateRef<InstanceType<typeof NumberInput>>('number-input');
 
 function focus(): void {
     // [!code focus]
@@ -452,7 +452,7 @@ import { NumberInput } from '@enhanced-elements/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('number-input');
+const element = useTemplateRef<InstanceType<typeof NumberInput>>('number-input');
 
 function blur(): void {
     // [!code focus]
@@ -506,7 +506,7 @@ import { type ValidationFunction, NumberInput } from '@enhanced-elements/inputs'
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<HTMLInputElement>('number-input');
+const element = useTemplateRef<InstanceType<typeof NumberInput>>('number-input');
 
 // [!code focus]
 const validators: ValidationFunction[] = [
