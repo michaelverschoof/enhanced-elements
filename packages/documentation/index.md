@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-    name: Enhanced elements
+    name: VueTags
     text: Like HTML elements, but better
     tagline: Simple, Type Safe and Extensible. The feel of using native HTML elements but with more functionality.
     actions:

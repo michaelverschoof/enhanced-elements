@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 import { ref } from 'vue';
 
 const model = ref<string>('12345');
@@ -22,7 +22,7 @@ const model = ref<string>('12345');
         padding-left: 0.5rem;
         padding-right: 0.5rem;
 
-        .focused {
+        &.focused {
             border: 1px solid var(--vp-c-brand-2);
         }
     }
@@ -40,7 +40,7 @@ const model = ref<string>('12345');
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { NumberInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref<string>('12345'); // [!code focus]
@@ -62,7 +62,7 @@ const model = ref<string>('12345'); // [!code focus]
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { NumberInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref('12345'); // [!code focus]

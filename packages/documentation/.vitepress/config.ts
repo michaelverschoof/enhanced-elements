@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-    title: 'Enhanced elements',
+    title: 'VueTags',
     description: 'HTML elements, but better',
     themeConfig: {
         search: {
@@ -19,7 +19,7 @@ export default defineConfig({
             {
                 text: 'Introduction',
                 items: [
-                    { text: 'What are enhanced elements?', link: '/introduction' },
+                    { text: 'What are VueTags?', link: '/introduction' },
                     { text: 'Getting Started', link: '/getting-started' }
                 ]
             },
@@ -44,11 +44,11 @@ export default defineConfig({
             }
         ],
 
-        socialLinks: [{ icon: 'github', link: 'https://github.com/michaelverschoof/enhanced-elements' }],
+        socialLinks: [{ icon: 'github', link: 'https://github.com/vuetags' }],
 
         footer: {
             message: 'Released under the MIT License.',
-            copyright: 'Copyright © 2025-present Michael Verschoof'
+            copyright: 'Copyright © 2025-present VueTags'
         }
     }
 });

@@ -26,7 +26,7 @@ A single filter can be directly added to the prop. This can be done directly in 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
@@ -46,7 +46,7 @@ const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const filter = (value) => (value.match(/[^5]/g) || []).join('');
@@ -74,7 +74,7 @@ Multiple filters can be added as an array. This can be a combination of custom f
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
@@ -88,7 +88,7 @@ const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const filter = (value) => (value.match(/[^5]/g) || []).join('');
@@ -131,7 +131,7 @@ A single modifier can be directly added to the prop. This can be done directly i
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const modifier = (value: string) => (Number(value) * 2)?.toString();
@@ -147,7 +147,7 @@ const modifier = (value: string) => (Number(value) * 2)?.toString();
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const modifier = (value: string) => (Number(value) * 2)?.toString();
@@ -171,7 +171,7 @@ Multiple modifiers can be added as an array.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const double = (value: string) => (Number(value) * 2)?.toString();
@@ -187,7 +187,7 @@ const increase = (value: string) => (Number(value) + 1)?.toString();
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const double = (value) => (Number(value) * 2)?.toString();
@@ -230,7 +230,7 @@ A single validator can be directly added to the prop. This can be done directly 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 </script>
 
 <template>
@@ -247,7 +247,7 @@ import { NumberInput } from '@enhanced-elements/inputs';
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 </script>
 
 <template>
@@ -272,7 +272,7 @@ Multiple validators can be added as an array. This can be a combination of custo
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const validatorFunction = (value: string) => value?.length > 5;
@@ -286,7 +286,7 @@ const validatorFunction = (value: string) => value?.length > 5;
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const validatorFunction = (value) => value?.length > 5;
@@ -333,7 +333,7 @@ If validators are provided in the props, and the value changes, the result of th
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationResult, NumberInput } from '@enhanced-elements/inputs';
+import { type ValidationResult, NumberInput } from '@vuetags/inputs';
 
 const model = ref<string>('my special value');
 
@@ -352,7 +352,7 @@ function handleValidation(result: ValidationResult): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 
 const model = ref('my special value');
 
@@ -394,7 +394,7 @@ Programmatically trigger focus on the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -417,7 +417,7 @@ function focus(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -448,7 +448,7 @@ Programmatically remove focus from the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -471,7 +471,7 @@ function blur(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -502,7 +502,7 @@ Programmatically trigger validation of the current value. Runs all the provided 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationFunction, NumberInput } from '@enhanced-elements/inputs';
+import { type ValidationFunction, NumberInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -535,7 +535,7 @@ function validate(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@enhanced-elements/inputs';
+import { NumberInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]

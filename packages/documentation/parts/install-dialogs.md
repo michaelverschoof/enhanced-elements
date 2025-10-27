@@ -1,19 +1,19 @@
 ::: code-group
 
 ```bash [npm]
-npm install @enhanced-elements/dialogs
+npm install @vuetags/dialogs
 ```
 
 ```bash [yarn]
-yarn add @enhanced-elements/dialogs
+yarn add @vuetags/dialogs
 ```
 
 ```bash [pnpm]
-pnpm add @enhanced-elements/dialogs
+pnpm add @vuetags/dialogs
 ```
 
 ```bash [bun]
-bun add @enhanced-elements/dialogs
+bun add @vuetags/dialogs
 ```
 
 :::

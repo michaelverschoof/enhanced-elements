@@ -1,3 +1,4 @@
+import { playwright } from '@vitest/browser-playwright';
 import { fileURLToPath } from 'node:url';
 import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
 import viteConfig from './vite.config';
@@ -22,7 +23,7 @@ export default mergeConfig(
                         environment: 'jsdom',
                         include: ['./**/*.test.browser.ts'],
                         browser: {
-                            provider: 'playwright',
+                            provider: playwright(),
                             enabled: true,
                             headless: true,
                             screenshotFailures: false,
@@ -43,6 +44,7 @@ export default mergeConfig(
                     '**/types.ts',
                     '**/tsdown.config.ts',
                     '**/dist',
+                    '**/test/**',
                     'packages/playground/'
                 ]
             }

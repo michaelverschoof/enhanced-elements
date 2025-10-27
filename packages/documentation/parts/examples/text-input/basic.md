@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TextInput } from '@enhanced-elements/inputs';
+import { TextInput } from '@vuetags/inputs';
 import { ref } from 'vue';
 
 const model = ref<string>('initial value');
@@ -22,7 +22,7 @@ const model = ref<string>('initial value');
         padding-left: 0.5rem;
         padding-right: 0.5rem;
 
-        .focused {
+        &.focused {
             border: 1px solid var(--vp-c-brand-2);
         }
     }
@@ -40,7 +40,7 @@ const model = ref<string>('initial value');
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { TextInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref<string>('initial value'); // [!code focus]
@@ -62,7 +62,7 @@ const model = ref<string>('initial value'); // [!code focus]
 
 ```vue [JavaScript]
 <script setup>
-import { TextInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { TextInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref('initial value'); // [!code focus]

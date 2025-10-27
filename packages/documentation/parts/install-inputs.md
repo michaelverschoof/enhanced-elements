@@ -1,19 +1,19 @@
 ::: code-group
 
 ```bash [npm]
-npm install @enhanced-elements/inputs
+npm install @vuetags/inputs
 ```
 
 ```bash [yarn]
-yarn add @enhanced-elements/inputs
+yarn add @vuetags/inputs
 ```
 
 ```bash [pnpm]
-pnpm add @enhanced-elements/inputs
+pnpm add @vuetags/inputs
 ```
 
 ```bash [bun]
-bun add @enhanced-elements/inputs
+bun add @vuetags/inputs
 ```
 
 :::

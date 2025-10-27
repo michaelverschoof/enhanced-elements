@@ -29,7 +29,7 @@ A single validator can be directly added to the prop. This can be done directly 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 </script>
 
 <template>
@@ -46,7 +46,7 @@ import { FileInput } from '@enhanced-elements/inputs';
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 </script>
 
 <template>
@@ -71,7 +71,7 @@ Multiple validators can be added as an array. This can be a combination of custo
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 
 // [!code focus]
 const validatorFunction = (value: File[]) => value.length > 3;
@@ -85,7 +85,7 @@ const validatorFunction = (value: File[]) => value.length > 3;
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 
 // [!code focus]
 const validatorFunction = (value) => value.length > 3;
@@ -134,7 +134,7 @@ Programmatically trigger focus on the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -157,7 +157,7 @@ function focus(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -188,7 +188,7 @@ Programmatically remove focus from the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -211,7 +211,7 @@ function blur(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -242,7 +242,7 @@ Programmatically trigger the file select interaction.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -265,7 +265,7 @@ function select(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -296,7 +296,7 @@ Programmatically clear all selected files.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -319,7 +319,7 @@ function clear(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -350,8 +350,8 @@ Programmatically trigger validation of the current value. Runs all the provided 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import type { FileValidationFunction } from '@enhanced-elements/inputs';
-import { FileInput } from '@enhanced-elements/inputs';
+import type { FileValidationFunction } from '@vuetags/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
@@ -384,7 +384,7 @@ function validate(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]

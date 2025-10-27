@@ -2,7 +2,7 @@
 
 ## Installation
 
-Install `enhanced-elements` with your favorite package manager:
+Install `vuetags` with your favorite package manager:
 
 <!--@include: ./parts/install-inputs.md-->
 

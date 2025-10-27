@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs';
+import { FileInput } from '@vuetags/inputs';
 import { ref } from 'vue';
 
 const model = ref<File[]>([]);
@@ -26,7 +26,7 @@ const model = ref<File[]>([]);
         padding-left: 0.5rem;
         padding-right: 0.5rem;
 
-        .focused {
+        &.focused {
             border: 1px solid var(--vp-c-brand-2);
         }
     }
@@ -54,7 +54,7 @@ const model = ref<File[]>([]);
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { FileInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref<File[]>([]); // [!code focus]
@@ -78,7 +78,7 @@ const model = ref<File[]>([]); // [!code focus]
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@enhanced-elements/inputs'; // [!code focus]
+import { FileInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const model = ref([]); // [!code focus]

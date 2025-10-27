@@ -1,6 +1,6 @@
 # Components
 
-Enhanced Elements provides various categories of components. These have been separated in several modules in order to speed up and simplify the release process.
+VueTags provides various categories of components. These have been separated in several modules in order to speed up and simplify the release process.
 
 You can find all elements in the navigation menu to the left.
 
@@ -8,7 +8,7 @@ You can find all elements in the navigation menu to the left.
 
 This section is focused on input elements such as text input, password input and checkboxes.
 
-Install `@enhanced-elements/inputs` with your favorite package manager:
+Install `@vuetags/inputs` with your favorite package manager:
 
 <!--@include: ./parts/install-inputs.md-->
 
@@ -16,7 +16,7 @@ Install `@enhanced-elements/inputs` with your favorite package manager:
 
 This section is focused on variations of dialog elements. Examples of these are modals, alerts, notifications and tooltips.
 
-Install `@enhanced-elements/dialogs` with your favorite package manager:
+Install `@vuetags/dialogs` with your favorite package manager:
 
 <!--@include: ./parts/install-dialogs.md-->
 

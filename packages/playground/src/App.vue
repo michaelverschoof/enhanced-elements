@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { FileInput, PasswordInput, RadioInput, TextInput } from '@enhanced-elements/inputs';
+import { CheckboxInput, FileInput, PasswordInput, RadioInput, TextInput } from '@vuetags/inputs';
 import { ref, useTemplateRef } from 'vue';
-// import FileInput from '../../inputs/src/components/file-input.vue';
-// import PasswordInput from '../../inputs/src/components/password-input.vue';
 import InputContainer from './components/input-container.vue';
 
 const inputFiles = ref<File[]>([]);
 const fileInputElement = useTemplateRef('file-input-element');
-
-function setFiles(files: File[]) {
-    console.log(files);
-
-    inputFiles.value = files;
-}
 
 function openSelect() {
     fileInputElement.value?.select();
@@ -72,13 +64,13 @@ function togglePasswordFunction() {
     <header>
         <img alt="Vue logo" class="logo" src="./assets/logo.svg" />
 
-        <h1 class="green">Enhanced elements</h1>
+        <h1 class="green">VueTags</h1>
     </header>
 
     <main>
         <input-container title="File">
             <template #inputs>
-                <file-input ref="file-input-element" @change="setFiles" />
+                <file-input ref="file-input-element" v-model="inputFiles" :validators="[]" />
                 <div>Files: {{ inputFiles.map((file) => file.name).join(', ') }}</div>
             </template>
             <template #buttons>

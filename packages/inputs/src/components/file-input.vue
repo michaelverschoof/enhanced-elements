@@ -67,7 +67,7 @@ function validateModel(): ValidationResult {
  * Trigger the file select dialog.
  */
 function select(): void {
-    /* v8 ignore next 3 */
+    /* v8 ignore if -- @preserve */
     if (!element.value) {
         return;
     }
@@ -79,7 +79,7 @@ function select(): void {
  * Clear the file.
  */
 function clear() {
-    /* v8 ignore next 3 */
+    /* v8 ignore if -- @preserve */
     if (!element.value) {
         return;
     }

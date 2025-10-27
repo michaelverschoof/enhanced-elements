@@ -1,5 +1,5 @@
 {
-    "name": "@enhanced-elements/inputs",
+    "name": "@vuetags/inputs",
     "description": "Simple, type safe and flexible component library that improves native HTML input elements.",
     "version": "0.1.0",
     "author": {
@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/michaelverschoof/enhanced-elements.git"
+        "url": "https://github.com/vuetags/vuetags.git"
     },
     "keywords": [
         "vue",
@@ -46,9 +46,8 @@
         "release": "clear && npm install && npm run build && npm publish"
     },
     "devDependencies": {
-        "tsdown": "^0.15.5",
-        "typescript": "^5.9.2",
-        "unplugin-vue": "^7.0.1",
-        "vue-tsc": "^3.1.0"
+        "tsdown": "^0.15.10",
+        "typescript": "^5.9.3",
+        "unplugin-vue": "^7.0.3"
     }
 }

@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { TextArea } from '@vuetags/inputs';
+import { PasswordInput } from '@vuetags/inputs';
 import { ref } from 'vue';
 
-const model = ref<string>('initial value');
+const showing = ref<boolean>(false);
+
+const model = ref<string>('password');
 </script>
 
 <p class="example-container">
-    <text-area class="example-element" v-model="model" />
+    <password-input v-model="model" :show-password="showing" class="example-element" />
+    <button @click="showing = !showing">
+        {{ showing ? 'hide' : 'show' }}
+    </button>
     <span class="model-value">
         Model value: <span>{{ model }}</span>
     </span>
@@ -27,15 +32,18 @@ const model = ref<string>('initial value');
         }
     }
 
-    .model-value {
-        display: flex;
-        gap: 0.25rem;
+    button {
+        border: 1px solid var(--vp-c-brand-3);
+        background: rgba(62, 99, 221, 0.5);
+        border-radius: 0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 
+    .model-value {
         span {
-            display: inline-block;
             font-weight: 600;
             font-style: italic;
-            white-space: pre-wrap;
         }
     }
 }
@@ -45,16 +53,26 @@ const model = ref<string>('initial value');
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { TextArea } from '@vuetags/inputs'; // [!code focus]
+import { NumberInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
-const model = ref<string>('initial value'); // [!code focus]
+const showing = ref<boolean>(false); // [!code focus]
+
+const model = ref<string>('12345'); // [!code focus]
 </script>
 
 <template>
     <p class="example-container">
         <!-- [!code focus] -->
-        <text-area class="example-element" v-model="model" />
+        <password-input v-model="model" :show-password="showing" class="example-element" />
+
+        <!-- [!code focus] -->
+        <button @click="showing = !showing">
+            <!-- [!code focus] -->
+            {{ showing ? 'hide' : 'show' }}
+            <!-- [!code focus] -->
+        </button>
+
         <!-- [!code focus] -->
         <span class="model-value">
             <!-- [!code focus] -->
@@ -67,16 +85,26 @@ const model = ref<string>('initial value'); // [!code focus]
 
 ```vue [JavaScript]
 <script setup>
-import { TextArea } from '@vuetags/inputs'; // [!code focus]
+import { NumberInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
-const model = ref('initial value'); // [!code focus]
+const showing = ref(false); // [!code focus]
+
+const model = ref('12345'); // [!code focus]
 </script>
 
 <template>
     <p class="example-container">
         <!-- [!code focus] -->
-        <text-area class="example-element" v-model="model" />
+        <password-input v-model="model" :show-password="showing" class="example-element" />
+
+        <!-- [!code focus] -->
+        <button @click="showing = !showing">
+            <!-- [!code focus] -->
+            {{ showing ? 'hide' : 'show' }}
+            <!-- [!code focus] -->
+        </button>
+
         <!-- [!code focus] -->
         <span class="model-value">
             <!-- [!code focus] -->
@@ -103,16 +131,17 @@ const model = ref('initial value'); // [!code focus]
     border: 1px solid var(--vp-c-brand-2);
 }
 
-.example-container .model-value {
-    display: flex;
-    gap: 0.25rem;
+.example-container button {
+    border: 1px solid var(--vp-c-brand-3);
+    background: rgba(62, 99, 221, 0.5);
+    border-radius: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .example-container .model-value span {
-    display: inline-block;
-    font-weight: 500;
+    font-weight: 600;
     font-style: italic;
-    white-space: pre-wrap;
 }
 ```
 
