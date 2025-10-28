@@ -6,12 +6,11 @@
 import type { FocusableEmits, MaybeArray, ValidationResult } from '@/components/types';
 import { useFocusable } from '@/composables/focus';
 import { toArray } from '@/util/arrays';
-import type { ValidationPresets } from '@/util/validation';
+import type { ValidationFunction, ValidationPresets } from '@/util/validation';
 import { replaceRequiredPreset, validate } from '@/util/validation';
 import { computed, InputHTMLAttributes, useTemplateRef } from 'vue';
 
-type FileValidationFunction = (modelValue: File[], ...args: unknown[]) => boolean | string;
-type ValidatableProp = { validators?: MaybeArray<ValidationPresets | FileValidationFunction> };
+type ValidatableProp = { validators?: MaybeArray<ValidationPresets | ValidationFunction<File[]>> };
 
 type Props = Omit</* @vue-ignore */ InputHTMLAttributes, 'type'> & ValidatableProp;
 
@@ -47,12 +46,12 @@ function onChange(event: Event): void {
 /**
  * Validator function for 'required' preset.
  */
-const required: FileValidationFunction = (modelValue: File[]): boolean => !!modelValue.length;
+const required: ValidationFunction<File[]> = (modelValue: File[]): boolean => !!modelValue.length;
 
 /**
  * Reactive list of validators to execute when the model is changed.
  */
-const validatorFunctions = computed<FileValidationFunction[]>(() =>
+const validatorFunctions = computed<ValidationFunction<File[]>[]>(() =>
     replaceRequiredPreset(toArray(validators), required)
 );
 

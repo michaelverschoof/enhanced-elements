@@ -102,20 +102,7 @@ const filter = (value) => (value.match(/[^5]/g) || []).join('');
 
 :::
 
-::: details Type definition
-
-```ts
-// One or more filter presets, regular expressions and/or custom functions
-filters?: Filters | Filters[];
-
-// Combination of presets and/or functions
-type Filters = RegExp | TransformFunction;
-
-// Filter function. Needs to return a string.
-type TransformFunction = (value: string) => string;
-```
-
-:::
+<!--@include: @/parts/types/filter-function-without-presets.md-->
 
 ### `modifiers`
 
@@ -203,20 +190,7 @@ const increase = (value) => (Number(value) + 1)?.toString();
 
 :::
 
-::: details Type definition
-
-```ts
-// One or more modifier presets and/or custom functions
-modifiers?: Modifiers | Modifiers[];
-
-// Combination of presets and/or functions
-type Modifiers = TransformFunction;
-
-// Modifier function. Needs to return a string.
-type TransformFunction = (value: string) => string;
-```
-
-:::
+<!--@include: @/parts/types/modifier-function-without-presets.md-->
 
 ### `validators`
 
@@ -301,24 +275,7 @@ const validatorFunction = (value) => value?.length > 5;
 
 :::
 
-::: details Type definition
-
-```ts
-// One or more validation presets and/or custom functions
-validators?: Validation | Validation[];
-
-// Combination of presets and/or functions
-type Validation = ValidationPreset | ValidationFunction;
-
-// Available validation presets
-type ValidationPreset = 'required';
-
-// Validation function. Needs to return false or a string if validation fails,
-// true otherwise
-export type ValidationFunction = (value: string) => boolean | string;
-```
-
-:::
+<!--@include: @/parts/types/validation-function.md-->
 
 ## Emits
 
@@ -510,13 +467,4 @@ function validate() {
 
 :::
 
-::: details Return type definition
-
-```ts
-type ValidationResult = {
-    valid: boolean;
-    failed: string[];
-};
-```
-
-:::
+<!--@include: @/parts/types/validation-result.md-->
