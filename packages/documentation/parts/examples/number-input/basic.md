@@ -6,7 +6,7 @@ const model = ref<string>('12345');
 </script>
 
 <p class="example-container">
-    <number-input class="example-element" v-model="model" />
+    <number-input v-model="model" class="example-element" />
     <span class="model-value">
         Model value: <span>{{ model }}</span>
     </span>
@@ -47,15 +47,11 @@ const model = ref<string>('12345'); // [!code focus]
 </script>
 
 <template>
-    <p class="example-container">
+    <p>
         <!-- [!code focus] -->
-        <number-input class="example-element" v-model="model" />
+        <number-input v-model="model" />
         <!-- [!code focus] -->
-        <span class="model-value">
-            <!-- [!code focus] -->
-            Model value: <span>{{ model }}</span>
-            <!-- [!code focus] -->
-        </span>
+        Model value: <span>{{ model }}</span>
     </p>
 </template>
 ```
@@ -69,39 +65,13 @@ const model = ref('12345'); // [!code focus]
 </script>
 
 <template>
-    <p class="example-container">
+    <p>
         <!-- [!code focus] -->
-        <number-input class="example-element" v-model="model" />
+        <number-input v-model="model" />
         <!-- [!code focus] -->
-        <span class="model-value">
-            <!-- [!code focus] -->
-            Model value: <span>{{ model }}</span>
-            <!-- [!code focus] -->
-        </span>
+        Model value: <span>{{ model }}</span>
     </p>
 </template>
-```
-
-```css [Styling]
-.example-container {
-    display: flex;
-    gap: 1rem;
-}
-
-.example-container .example-element {
-    border: 1px solid var(--vp-c-brand-1);
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.example-container .example-element.focused {
-    border: 1px solid var(--vp-c-brand-2);
-}
-
-.example-container .model-value span {
-    font-weight: 600;
-    font-style: italic;
-}
 ```
 
 :::

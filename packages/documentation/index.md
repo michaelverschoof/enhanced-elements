@@ -11,8 +11,8 @@ hero:
           text: Get started
           link: /introduction
         - theme: alt
-          text: Components
-          link: /components
+          text: Tags
+          link: /tags
         # - theme: alt
         #   text: Demo
         #   link: /demo

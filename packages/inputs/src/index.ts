@@ -12,11 +12,20 @@ import TextArea from './components/text-area.vue';
 import TextInput from './components/text-input.vue';
 
 /**
+ * Component types
+ */
+import type { CheckboxModel } from './components/checkbox-input.vue';
+
+/**
  * Component exports
  */
 export { CheckboxInput, FileInput, NumberInput, PasswordInput, RadioInput, TextArea, TextInput };
 
+/**
+ * Component type exports
+ */
 export type { FocusableEmits, TransformableInputProps, ValidationResult } from './components/types';
+export type { CheckboxModel };
 
 /**
  * Plugin

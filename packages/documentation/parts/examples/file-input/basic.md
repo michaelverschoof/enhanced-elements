@@ -6,7 +6,7 @@ const model = ref<File[]>([]);
 </script>
 
 <p class="example-container">
-    <file-input class="example-element" v-model="model" multiple />
+    <file-input v-model="model" class="example-element" multiple />
     <span class="model-value">
         Model Value (file names):
         <ul>
@@ -61,17 +61,15 @@ const model = ref<File[]>([]); // [!code focus]
 </script>
 
 <template>
-    <p class="example-container">
+    <p>
         <!-- [!code focus] -->
-        <file-input class="example-element" v-model="model" multiple />
-        <span class="model-value">
+        <file-input v-model="model" multiple />
+        <!-- [!code focus] -->
+        Model Value (file names):
+        <ul>
             <!-- [!code focus] -->
-            Model Value (file names):
-            <ul>
-                <!-- [!code focus] -->
-                <li v-for="file of model">{{ file.name }}</li>
-            </ul>
-        </span>
+            <li v-for="file of model">{{ file.name }}</li>
+        </ul>
     </p>
 </template>
 ```
@@ -85,52 +83,17 @@ const model = ref([]); // [!code focus]
 </script>
 
 <template>
-    <p class="example-container">
+    <p>
         <!-- [!code focus] -->
-        <file-input class="example-element" v-model="model" multiple />
-        <span class="model-value">
+        <file-input v-model="model" multiple />
+        <!-- [!code focus] -->
+        Model Value (file names):
+        <ul>
             <!-- [!code focus] -->
-            Model Value (file names):
-            <ul>
-                <!-- [!code focus] -->
-                <li v-for="file of model">{{ file.name }}</li>
-            </ul>
-        </span>
+            <li v-for="file of model">{{ file.name }}</li>
+        </ul>
     </p>
 </template>
-```
-
-```css [Styling]
-.example-container {
-    align-items: flex-start;
-    display: flex;
-    gap: 1rem;
-}
-
-.example-container .example-element {
-    border: 1px solid var(--vp-c-brand-1);
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.example-container .example-element.focused {
-    border: 1px solid var(--vp-c-brand-2);
-}
-
-.example-container .model-value span {
-    font-weight: 600;
-    font-style: italic;
-}
-
-.example-container .model-value ul {
-    margin: 0;
-}
-
-.example-container .model-value ul li {
-    font-size: 0.8rem;
-    line-height: 1.25rem;
-    margin: 0;
-}
 ```
 
 :::

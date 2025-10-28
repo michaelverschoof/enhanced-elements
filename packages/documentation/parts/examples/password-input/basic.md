@@ -53,7 +53,7 @@ const model = ref<string>('password');
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs'; // [!code focus]
+import { PasswordInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const showing = ref<boolean>(false); // [!code focus]
@@ -62,9 +62,9 @@ const model = ref<string>('12345'); // [!code focus]
 </script>
 
 <template>
-    <p class="example-container">
+    <p>
         <!-- [!code focus] -->
-        <password-input v-model="model" :show-password="showing" class="example-element" />
+        <password-input v-model="model" :show-password="showing" />
 
         <!-- [!code focus] -->
         <button @click="showing = !showing">
@@ -74,18 +74,14 @@ const model = ref<string>('12345'); // [!code focus]
         </button>
 
         <!-- [!code focus] -->
-        <span class="model-value">
-            <!-- [!code focus] -->
-            Model value: <span>{{ model }}</span>
-            <!-- [!code focus] -->
-        </span>
+        Model value: <span>{{ model }}</span>
     </p>
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs'; // [!code focus]
+import { PasswordInput } from '@vuetags/inputs'; // [!code focus]
 import { ref } from 'vue';
 
 const showing = ref(false); // [!code focus]
@@ -94,9 +90,9 @@ const model = ref('12345'); // [!code focus]
 </script>
 
 <template>
-    <p class="example-container">
+    <p>
         <!-- [!code focus] -->
-        <password-input v-model="model" :show-password="showing" class="example-element" />
+        <password-input v-model="model" :show-password="showing" />
 
         <!-- [!code focus] -->
         <button @click="showing = !showing">
@@ -106,43 +102,9 @@ const model = ref('12345'); // [!code focus]
         </button>
 
         <!-- [!code focus] -->
-        <span class="model-value">
-            <!-- [!code focus] -->
-            Model value: <span>{{ model }}</span>
-            <!-- [!code focus] -->
-        </span>
+        Model value: <span>{{ model }}</span>
     </p>
 </template>
-```
-
-```css [Styling]
-.example-container {
-    display: flex;
-    gap: 1rem;
-}
-
-.example-container .example-element {
-    border: 1px solid var(--vp-c-brand-1);
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.example-container .example-element.focused {
-    border: 1px solid var(--vp-c-brand-2);
-}
-
-.example-container button {
-    border: 1px solid var(--vp-c-brand-3);
-    background: rgba(62, 99, 221, 0.5);
-    border-radius: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.example-container .model-value span {
-    font-weight: 600;
-    font-style: italic;
-}
 ```
 
 :::

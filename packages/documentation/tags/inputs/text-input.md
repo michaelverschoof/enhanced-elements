@@ -1,20 +1,98 @@
-# Number Input
+# Text Input
 
 ## Basic usage
 
-<!--@include: @/parts/examples/number-input/basic.md-->
+<!--@include: @/parts/examples/text-input/basic.md-->
 
 ## Model
 
 You can use the `v-model` as you're used to in Vue. Check the [official documentation](https://vuejs.org/api/built-in-directives.html#v-model) for more information on how to use models.
 
+You can add the existing [Vue model modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers) to the model. Besides that there are additional modifiers you can add:
+
+### `uppercase`
+
+The uppercase modifier changes the value (as you've guessed) to an uppercased variant.
+
+::: code-group
+
+```vue [Typescript]
+<script setup lang="ts">
+import { TextInput } from '@vuetags/inputs';
+
+const model = ref<string>('my special value');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- Will display the value "foo" as "FOO" -->
+    <!-- [!code focus] -->
+    <text-input v-model.uppercase="model" />
+</template>
+```
+
+```vue [JavaScript]
+<script setup>
+import { TextInput } from '@vuetags/inputs';
+
+const model = ref('my special value');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- Will display the value "foo" as "FOO" -->
+    <!-- [!code focus] -->
+    <text-input v-model.uppercase="model" />
+</template>
+```
+
+:::
+
+### `lowercase`
+
+The uppercase modifier changes the value (shockingly) to an lowercased variant.
+
+::: code-group
+
+```vue [Typescript]
+<script setup lang="ts">
+import { TextInput } from '@vuetags/inputs';
+
+const model = ref<string>('FOO');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- Will display the value "FOO" as "foo" -->
+    <!-- [!code focus] -->
+    <text-input v-model.lowercase="model" />
+</template>
+```
+
+```vue [JavaScript]
+<script setup>
+import { TextInput } from '@vuetags/inputs';
+
+const model = ref('FOO');
+</script>
+
+<template>
+    <!-- [!code focus] -->
+    <!-- Will display the value "FOO" as "foo" -->
+    <!-- [!code focus] -->
+    <text-input v-model.lowercase="model" />
+</template>
+```
+
+:::
+
 ## Props
 
-The `NumberInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
+The `TextInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
 
 ### `filters`
 
-Filters can be used to filter out characters on input. This prevents characters from being added when typing, when pasting and when providing an initial value. These are either a single filter or an array of multiple filters. They can be regular expressions or custom functions.
+Filters can be used to filter out characters on input. This prevents characters from being added when typing, when pasting and when providing an initial value. These are either a single filter or an array of multiple filters. They can be predefined presets, regular expressions or custom functions.
 
 When you use multiple filters, they are executed in order in which they are provided.
 
@@ -26,41 +104,49 @@ A single filter can be directly added to the prop. This can be done directly in 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
+const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
 </script>
 
 <template>
     <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <text-input filters="letters" />
+    <!-- [!code focus] -->
     <!-- A single regular expression -->
     <!-- [!code focus] -->
-    <number-input :filters="/[^7]/g" />
+    <text-input :filters="/[^A-Za-z]/g" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <number-input :filters="filter" />
+    <text-input :filters="filter" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const filter = (value) => (value.match(/[^5]/g) || []).join('');
+const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
 </script>
 
 <template>
     <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <text-input filters="letters" />
+    <!-- [!code focus] -->
     <!-- A single regular expression -->
     <!-- [!code focus] -->
-    <number-input :filters="/[^7]/g" />
+    <text-input :filters="/[^A-Za-z]/g" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <number-input :filters="filter" />
+    <text-input :filters="filter" />
 </template>
 ```
 
@@ -68,35 +154,35 @@ const filter = (value) => (value.match(/[^5]/g) || []).join('');
 
 #### Multiple filters
 
-Multiple filters can be added as an array. This can be a combination of custom functions and/or regular expressions.
+Multiple filters can be added as an array. This can be a combination of custom functions, regular expressions and/or presets.
 
 ::: code-group
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const filter = (value: string) => (value.match(/[^5]/g) || []).join('');
+const filter = (value: string) => (value.match(/[^A-Za-z]/g) || []).join('');
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <number-input :filters="[/[^7]/g, filter]" />
+    <text-input :filters="['letters', /[^A-Za-z]/g, filter]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const filter = (value) => (value.match(/[^5]/g) || []).join('');
+const filter = (value) => (value.match(/[^A-Za-z]/g) || []).join('');
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <number-input :filters="[/[^7]/g, filter]" />
+    <text-input :filters="['letters', /[^A-Za-z]/g, filter]" />
 </template>
 ```
 
@@ -109,7 +195,10 @@ const filter = (value) => (value.match(/[^5]/g) || []).join('');
 filters?: Filters | Filters[];
 
 // Combination of presets and/or functions
-type Filters = RegExp | TransformFunction;
+type Filters = FilterPreset | RegExp | TransformFunction;
+
+// Available filter presets
+type FilterPreset = 'letters' | 'numbers';
 
 // Filter function. Needs to return a string.
 type TransformFunction = (value: string) => string;
@@ -119,7 +208,7 @@ type TransformFunction = (value: string) => string;
 
 ### `modifiers`
 
-Modifiers can be used to modify values on input. This modifies the value when typing, when pasting and when providing an initial value. These are either a single filter or an array of multiple modifiers. They can be regular expressions or custom functions.
+Modifiers can be used to modify values on input. This modifies the value when typing, when pasting and when providing an initial value. These are either a single filter or an array of multiple modifiers. They can be predefined presets, regular expressions or custom functions.
 
 When you use multiple modifiers, they are executed in order in which they are provided.
 
@@ -131,33 +220,41 @@ A single modifier can be directly added to the prop. This can be done directly i
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const modifier = (value: string) => (Number(value) * 2)?.toString();
+const modifier = (value: string) => value.toUpperCase();
 </script>
 
 <template>
     <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <text-input modifiers="uppercase" />
+    <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <number-input :modifiers="modifier" />
+    <text-input :modifiers="modifier" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const modifier = (value: string) => (Number(value) * 2)?.toString();
+const modifier = (value) => value.toUpperCase();
 </script>
 
 <template>
     <!-- [!code focus] -->
+    <!-- A single preset -->
+    <!-- [!code focus] -->
+    <text-input modifiers="uppercase" />
+    <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <number-input :modifiers="modifier" />
+    <text-input :modifiers="modifier" />
 </template>
 ```
 
@@ -165,38 +262,35 @@ const modifier = (value: string) => (Number(value) * 2)?.toString();
 
 #### Multiple modifiers
 
-Multiple modifiers can be added as an array.
+Multiple modifiers can be added as an array. This can be a combination of custom functions and/or presets.
 
 ::: code-group
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const double = (value: string) => (Number(value) * 2)?.toString();
-// [!code focus]
-const increase = (value: string) => (Number(value) + 1)?.toString();
+const modifier = (value: string) => value.toUpperCase();
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <number-input :modifiers="[double, increase]" />
+    <text-input :modifiers="['uppercase', modifier]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
-const double = (value) => (Number(value) * 2)?.toString();
-const increase = (value) => (Number(value) + 1)?.toString();
+const modifier = (value) => value.toUpperCase();
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <number-input :modifiers="[double, increase]" />
+    <text-input :modifiers="['uppercase', modifier]" />
 </template>
 ```
 
@@ -209,7 +303,10 @@ const increase = (value) => (Number(value) + 1)?.toString();
 modifiers?: Modifiers | Modifiers[];
 
 // Combination of presets and/or functions
-type Modifiers = TransformFunction;
+type Modifiers = ModifierPreset | TransformFunction;
+
+// Available modifiers presets
+type ModifierPreset = 'uppercase' | 'lowercase';
 
 // Modifier function. Needs to return a string.
 type TransformFunction = (value: string) => string;
@@ -230,35 +327,35 @@ A single validator can be directly added to the prop. This can be done directly 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <number-input validators="required" />
+    <text-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <number-input :validators="(value: string) => value?.length > 5" />
+    <text-input :validators="(value: string) => value?.length > 5" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <number-input validators="required" />
+    <text-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <number-input :validators="(value) => value?.length > 5" />
+    <text-input :validators="(value) => value?.length > 5" />
 </template>
 ```
 
@@ -272,7 +369,7 @@ Multiple validators can be added as an array. This can be a combination of custo
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
 const validatorFunction = (value: string) => value?.length > 5;
@@ -280,13 +377,13 @@ const validatorFunction = (value: string) => value?.length > 5;
 
 <template>
     <!-- [!code focus] -->
-    <number-input :validators="['required', validatorFunction]" />
+    <text-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 
 // [!code focus]
 const validatorFunction = (value) => value?.length > 5;
@@ -294,7 +391,7 @@ const validatorFunction = (value) => value?.length > 5;
 
 <template>
     <!-- [!code focus] -->
-    <number-input :validators="['required', validatorFunction]" />
+    <text-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
@@ -319,68 +416,56 @@ export type ValidationFunction = (value: string) => boolean | string;
 
 :::
 
+### `textarea`
+
+::: tip
+Instead of using this property, we advise using the [Text Area](/tags/inputs/text-area) component instead. This allows better auto-completion of native textarea attributes.
 :::
 
-## Emits
-
-The NumberInput element allows the default HTML events that are normally emitted. Apart from that it emits the following events:
-
-### `validated`
-
-If validators are provided in the props, and the value changes, the result of the validation is emitted.
+When set, it renders a `<textarea>` element instead of an `<input />` element.
 
 ::: code-group
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationResult, NumberInput } from '@vuetags/inputs';
-
-const model = ref<string>('my special value');
-
-// [!code focus]
-function handleValidation(result: ValidationResult): void {
-    console.log('Is valid?', result.valid); // [!code focus]
-    console.log('Failed validations', result.string); // [!code focus]
-} // [!code focus]
+import { TextInput } from '@vuetags/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <number-input v-model="model" @validated="handleValidation" />
+    <text-input textarea />
+    <!-- [!code focus] -->
+    <text-input :textarea="true" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
-
-const model = ref('my special value');
-
-// [!code focus]
-function handleValidation(result) {
-    console.log('Is valid?', result.valid); // [!code focus]
-    console.log('Failed validations', result.string); // [!code focus]
-} // [!code focus]
+import { TextInput } from '@vuetags/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <number-input v-model="model" @validated="handleValidation" />
+    <text-input textarea />
+    <!-- [!code focus] -->
+    <text-input :textarea="true" />
 </template>
 ```
 
 :::
 
-::: details Event type definition
+::: details Type definition
 
 ```ts
-type ValidationResult = {
-    valid: boolean;
-    failed: string[];
-};
+// If true, renders a <textarea> element instead of a <input> element.
+textarea?: boolean;
 ```
 
 :::
+
+## Emits
+
+The `TextInput` element allows the default HTML events that are normally emitted.
 
 ## Exposed functions
 
@@ -394,11 +479,11 @@ Programmatically trigger focus on the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof NumberInput>>('number-input');
+const element = useTemplateRef<InstanceType<typeof TextInput>>('text-input');
 
 function focus(): void {
     // [!code focus]
@@ -408,7 +493,7 @@ function focus(): void {
 
 <template>
     <!-- [!code focus] -->
-    <number-input ref="number-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -417,11 +502,11 @@ function focus(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('number-input');
+const element = useTemplateRef('text-input');
 
 function focus() {
     // [!code focus]
@@ -431,7 +516,7 @@ function focus() {
 
 <template>
     <!-- [!code focus] -->
-    <number-input ref="number-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -448,11 +533,11 @@ Programmatically remove focus from the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof NumberInput>>('number-input');
+const element = useTemplateRef<InstanceType<typeof TextInput>>('text-input');
 
 function blur(): void {
     // [!code focus]
@@ -462,7 +547,7 @@ function blur(): void {
 
 <template>
     <!-- [!code focus] -->
-    <number-input ref="number-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -471,11 +556,11 @@ function blur(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('number-input');
+const element = useTemplateRef('text-input');
 
 function blur() {
     // [!code focus]
@@ -485,7 +570,7 @@ function blur() {
 
 <template>
     <!-- [!code focus] -->
-    <number-input ref="number-input" />
+    <text-input ref="text-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -502,11 +587,11 @@ Programmatically trigger validation of the current value. Runs all the provided 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { type ValidationFunction, NumberInput } from '@vuetags/inputs';
+import { type ValidationFunction, TextInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof NumberInput>>('number-input');
+const element = useTemplateRef<InstanceType<typeof TextInput>>('text-input');
 
 // [!code focus]
 const validators: ValidationFunction[] = [
@@ -526,7 +611,7 @@ function validate(): void {
 
 <template>
     <!-- [!code focus] -->
-    <number-input ref="number-input" :validators="validators" />
+    <text-input ref="text-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>
@@ -535,11 +620,11 @@ function validate(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { NumberInput } from '@vuetags/inputs';
+import { TextInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('number-input');
+const element = useTemplateRef('text-input');
 
 // [!code focus]
 const validators = [
@@ -559,7 +644,7 @@ function validate() {
 
 <template>
     <!-- [!code focus] -->
-    <number-input ref="number-input" :validators="validators" />
+    <text-input ref="text-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>

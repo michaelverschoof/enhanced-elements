@@ -1,12 +1,12 @@
-# Components
+# Tags
 
-VueTags provides various categories of components. These have been separated in several modules in order to speed up and simplify the release process.
+VueTags provides various categories of tags. These have been separated in several modules in order to speed up and simplify the release process.
 
 You can find all elements in the navigation menu to the left.
 
-## Input elements
+## Input tags
 
-This section is focused on input elements such as text input, password input and checkboxes.
+This section is focused on input tags such as text input, password input and checkboxes.
 
 Install `@vuetags/inputs` with your favorite package manager:
 

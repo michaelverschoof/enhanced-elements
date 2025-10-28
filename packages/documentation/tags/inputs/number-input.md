@@ -1,8 +1,8 @@
-# Password Input
+# Number Input
 
 ## Basic usage
 
-<!--@include: @/parts/examples/password-input/basic.md-->
+<!--@include: @/parts/examples/number-input/basic.md-->
 
 ## Model
 
@@ -10,7 +10,7 @@ You can use the `v-model` as you're used to in Vue. Check the [official document
 
 ## Props
 
-The `PasswordInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
+The `NumberInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
 
 ### `filters`
 
@@ -191,6 +191,7 @@ import { NumberInput } from '@vuetags/inputs';
 
 // [!code focus]
 const double = (value) => (Number(value) * 2)?.toString();
+// [!code focus]
 const increase = (value) => (Number(value) + 1)?.toString();
 </script>
 
@@ -319,68 +320,9 @@ export type ValidationFunction = (value: string) => boolean | string;
 
 :::
 
-:::
-
 ## Emits
 
-The NumberInput element allows the default HTML events that are normally emitted. Apart from that it emits the following events:
-
-### `validated`
-
-If validators are provided in the props, and the value changes, the result of the validation is emitted.
-
-::: code-group
-
-```vue [Typescript]
-<script setup lang="ts">
-import { type ValidationResult, NumberInput } from '@vuetags/inputs';
-
-const model = ref<string>('my special value');
-
-// [!code focus]
-function handleValidation(result: ValidationResult): void {
-    console.log('Is valid?', result.valid); // [!code focus]
-    console.log('Failed validations', result.string); // [!code focus]
-} // [!code focus]
-</script>
-
-<template>
-    <!-- [!code focus] -->
-    <number-input v-model="model" @validated="handleValidation" />
-</template>
-```
-
-```vue [JavaScript]
-<script setup>
-import { NumberInput } from '@vuetags/inputs';
-
-const model = ref('my special value');
-
-// [!code focus]
-function handleValidation(result) {
-    console.log('Is valid?', result.valid); // [!code focus]
-    console.log('Failed validations', result.string); // [!code focus]
-} // [!code focus]
-</script>
-
-<template>
-    <!-- [!code focus] -->
-    <number-input v-model="model" @validated="handleValidation" />
-</template>
-```
-
-:::
-
-::: details Event type definition
-
-```ts
-type ValidationResult = {
-    valid: boolean;
-    failed: string[];
-};
-```
-
-:::
+The `NumberInput` element allows the default HTML events that are normally emitted.
 
 ## Exposed functions
 

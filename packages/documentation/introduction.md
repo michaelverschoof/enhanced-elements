@@ -17,4 +17,4 @@ VueTags provides extensions of native HTML elements. What this means is that you
 
 The main difference that VueTags provide is additional functions on top of the native HTML elements. For example; the `text-input` has additional attributes where you can provide filters (that filter out specific characters during input), modifiers (that transform your input) and validators (that validate your value). Additionally it provides functions that can programmatically triggered to perform actions such as focusing the element and triggering the validation.
 
-To find out what each component provides; check them out under the [Components](/components) page.
+To find out what each component provides; check them out under the [Tags](/tags) page.

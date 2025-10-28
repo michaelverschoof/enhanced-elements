@@ -1,20 +1,64 @@
-# File Input
+# Checkbox Input
 
 ## Basic usage
 
-<!--@include: @/parts/examples/file-input/basic.md-->
+<!--@include: @/parts/examples/checkbox-input/basic.md-->
 
 ## Model
 
-You can use the `v-model` as you're used to in Vue. Check the [official documentation](https://vuejs.org/api/built-in-directives.html#v-model) for more information on how to use models.
+You can use the `v-model` as you're used to in Vue. Check the [official documentation](https://vuejs.org/api/built-in-directives.html#v-model) for more information on how to use models. You can use a `boolean` for a single checkbox or an `Array` or `Set` when combining multiple checkboxes. See the [documentation](https://vuejs.org/guide/essentials/forms.html#checkbox) on forms for more information.
 
-::: warning
-Note that the HTML file input does not allow setting files programmatically. So if you set the model from the parent, the input element will not show that files are selected. The component will contain the set files though.
+::: info
+The model in the component makes sure that there are no duplicate values in the model. You should not use multiple checkboxes using the same model that have the same value.
 :::
 
 ## Props
 
-The `FileInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
+The `CheckboxInput` element allows all default HTML properties and attributes. Apart from those the following properties are added:
+
+### `value`
+
+The value property is used to distinguish multiple combined checkboxes. This value will be added to the model when it's selected. This can be a static string or a dynamic value.
+
+::: code-group
+
+```vue [Typescript]
+<script setup lang="ts">
+import { CheckboxInput } from '@vuetags/inputs'; // [!code focus]
+import { computed } from 'vue';
+
+const dynamicValue = computed<string>(() => 'some value'); // [!code focus]
+</script>
+
+<template>
+    <p>
+        <!-- [!code focus] -->
+        <checkbox-input value="first" />
+        <!-- [!code focus] -->
+        <checkbox-input :value="dynamicValue" />
+    </p>
+</template>
+```
+
+```vue [JavaScript]
+<script setup>
+import { CheckboxInput } from '@vuetags/inputs'; // [!code focus]
+import { computed } from 'vue';
+
+const dynamicValue = computed(() => 'some value'); // [!code focus]
+</script>
+
+<template>
+    <p>
+        <!-- [!code focus] -->
+        <checkbox-input value="first" />
+        <!-- [!code focus] -->
+        <checkbox-input :value="dynamicValue" />
+    </p>
+</template>
+```
+
+:::
 
 ### `validators`
 
@@ -29,35 +73,35 @@ A single validator can be directly added to the prop. This can be done directly 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <file-input validators="required" />
+    <checkbox-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <file-input :validators="(value: File[]) => value.length > 3" />
+    <checkbox-input :validators="(value: boolean) => value === true" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 </script>
 
 <template>
     <!-- [!code focus] -->
     <!-- A single preset -->
     <!-- [!code focus] -->
-    <file-input validators="required" />
+    <checkbox-input validators="required" />
     <!-- [!code focus] -->
     <!-- A single function -->
     <!-- [!code focus] -->
-    <file-input :validators="(value) => value.length > 3" />
+    <checkbox-input :validators="(value) => value === true" />
 </template>
 ```
 
@@ -71,29 +115,29 @@ Multiple validators can be added as an array. This can be a combination of custo
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 
 // [!code focus]
-const validatorFunction = (value: File[]) => value.length > 3;
+const validatorFunction = (value: string[]) => value.length > 1;
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <file-input :validators="['required', validatorFunction]" />
+    <checkbox-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 
 // [!code focus]
-const validatorFunction = (value) => value.length > 3;
+const validatorFunction = (value) => value.length > 1;
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <file-input :validators="['required', validatorFunction]" />
+    <checkbox-input :validators="['required', validatorFunction]" />
 </template>
 ```
 
@@ -106,21 +150,21 @@ const validatorFunction = (value) => value.length > 3;
 validators?: Validation | Validation[];
 
 // Combination of presets and/or functions
-type Validation = ValidationPreset | FileValidationFunction;
+type Validation = ValidationPreset | ValidationFunction;
 
 // Available validation presets
 type ValidationPreset = 'required';
 
 // Validation function. Needs to return false or a string if validation fails,
 // true otherwise
-export type FileValidationFunction = (modelValue: File[]) => boolean | string;
+export type ValidationFunction = (value: string) => boolean | string;
 ```
 
 :::
 
 ## Emits
 
-The FileInput element allows the default HTML events that are normally emitted.
+The `CheckboxInput` element allows the default HTML events that are normally emitted.
 
 ## Exposed functions
 
@@ -134,11 +178,11 @@ Programmatically trigger focus on the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof FileInput>>('file-input');
+const element = useTemplateRef<InstanceType<typeof CheckboxInput>>('checkbox-input');
 
 function focus(): void {
     // [!code focus]
@@ -148,7 +192,7 @@ function focus(): void {
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -157,11 +201,11 @@ function focus(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('file-input');
+const element = useTemplateRef('checkbox-input');
 
 function focus() {
     // [!code focus]
@@ -171,7 +215,7 @@ function focus() {
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
     <button @click="focus">Trigger focus on element</button>
@@ -188,11 +232,11 @@ Programmatically remove focus from the element.
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof FileInput>>('file-input');
+const element = useTemplateRef<InstanceType<typeof CheckboxInput>>('checkbox-input');
 
 function blur(): void {
     // [!code focus]
@@ -202,7 +246,7 @@ function blur(): void {
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -211,11 +255,11 @@ function blur(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('file-input');
+const element = useTemplateRef('checkbox-input');
 
 function blur() {
     // [!code focus]
@@ -225,7 +269,7 @@ function blur() {
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
     <button @click="blur">Remove focus from element</button>
@@ -234,109 +278,109 @@ function blur() {
 
 :::
 
-### `select`
+### `check`
 
-Programmatically trigger the file select interaction.
+Programmatically check the element.
 
 ::: code-group
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof FileInput>>('file-input');
+const element = useTemplateRef<InstanceType<typeof CheckboxInput>>('checkbox-input');
 
-function select(): void {
+function check(): void {
     // [!code focus]
-    element.value.select();
+    element.value.check();
 }
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
-    <button @click="select">Trigger file select</button>
+    <button @click="check">Check the element</button>
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('file-input');
+const element = useTemplateRef('checkbox-input');
 
-function select() {
+function check() {
     // [!code focus]
-    element.value.select();
+    element.value.check();
 }
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
-    <button @click="select">Trigger file select</button>
+    <button @click="check">Check the element</button>
 </template>
 ```
 
 :::
 
-### `clear`
+### `uncheck`
 
-Programmatically clear all selected files.
+Programmatically uncheck the element.
 
 ::: code-group
 
 ```vue [Typescript]
 <script setup lang="ts">
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof FileInput>>('file-input');
+const element = useTemplateRef<InstanceType<typeof CheckboxInput>>('checkbox-input');
 
-function clear(): void {
+function uncheck(): void {
     // [!code focus]
-    element.value.clear();
+    element.value.uncheck();
 }
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
-    <button @click="clear">Trigger file clear</button>
+    <button @click="uncheck">Uncheck the element</button>
 </template>
 ```
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('file-input');
+const element = useTemplateRef('checkbox-input');
 
-function clear() {
+function uncheck() {
     // [!code focus]
-    element.value.clear();
+    element.value.uncheck();
 }
 </script>
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" />
+    <checkbox-input ref="checkbox-input" />
 
     <!-- [!code focus] -->
-    <button @click="clear">Trigger file clear</button>
+    <button @click="uncheck">Uncheck the element</button>
 </template>
 ```
 
@@ -350,22 +394,23 @@ Programmatically trigger validation of the current value. Runs all the provided 
 
 ```vue [Typescript]
 <script setup lang="ts">
-import type { FileValidationFunction } from '@vuetags/inputs';
-import { FileInput } from '@vuetags/inputs';
+import type { ValidationFunction } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
+import type { CheckboxModel } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef<InstanceType<typeof FileInput>>('file-input');
+const element = useTemplateRef<InstanceType<typeof CheckboxInput>>('checkbox-input');
 
 // [!code focus]
-const validators: FileValidationFunction[] = [
+const validators: ValidationFunction[] = [
     // [!code focus]
-    (value: File[]) => value.length > 0 || 'This field is required'
+    (value: CheckboxModel) => value === true || 'This field is required'
 ];
 
 function validate(): void {
     // [!code focus]
-    // If the value is empty, it logs:
+    // If the value is false, it logs:
     // [!code focus]
     // { valid: false, failed: ['This field is required'] }
     // [!code focus]
@@ -375,7 +420,7 @@ function validate(): void {
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" :validators="validators" />
+    <checkbox-input ref="checkbox-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>
@@ -384,16 +429,16 @@ function validate(): void {
 
 ```vue [JavaScript]
 <script setup>
-import { FileInput } from '@vuetags/inputs';
+import { CheckboxInput } from '@vuetags/inputs';
 import { useTemplateRef } from 'vue';
 
 // [!code focus]
-const element = useTemplateRef('file-input');
+const element = useTemplateRef('checkbox-input');
 
 // [!code focus]
 const validators = [
     // [!code focus]
-    (value) => value.length > 0 || 'This field is required'
+    (value) => value === true || 'This field is required'
 ];
 
 function validate() {
@@ -408,7 +453,7 @@ function validate() {
 
 <template>
     <!-- [!code focus] -->
-    <file-input ref="file-input" :validators="validators" />
+    <checkbox-input ref="checkbox-input" :validators="validators" />
 
     <!-- [!code focus] -->
     <button @click="validate">Validate value</button>

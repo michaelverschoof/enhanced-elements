@@ -11,7 +11,7 @@ export default defineConfig({
 
         // https://vitepress.dev/reference/default-theme-config
         nav: [
-            { text: 'Components', link: '/components' }
+            { text: 'Tags', link: '/tags' }
             // { text: 'Examples', link: '/examples' }
         ],
 
@@ -24,19 +24,19 @@ export default defineConfig({
                 ]
             },
             {
-                text: 'Components',
-                link: '/components',
+                text: 'Tags',
+                link: '/tags',
                 items: [
                     {
-                        text: 'Input elements',
+                        text: 'Input tags',
                         items: [
-                            { text: 'Checkbox input', link: '/components/inputs/checkbox-input' },
-                            { text: 'File input', link: '/components/inputs/file-input' },
-                            { text: 'Number input', link: '/components/inputs/number-input' },
-                            { text: 'Password input', link: '/components/inputs/password-input' },
-                            { text: 'Radio input', link: '/components/inputs/radio-input' },
-                            { text: 'Text area', link: '/components/inputs/text-area' },
-                            { text: 'Text input', link: '/components/inputs/text-input' }
+                            { text: 'Checkbox input', link: '/tags/inputs/checkbox-input' },
+                            { text: 'File input', link: '/tags/inputs/file-input' },
+                            { text: 'Number input', link: '/tags/inputs/number-input' },
+                            { text: 'Password input', link: '/tags/inputs/password-input' },
+                            { text: 'Radio input', link: '/tags/inputs/radio-input' },
+                            { text: 'Text area', link: '/tags/inputs/text-area' },
+                            { text: 'Text input', link: '/tags/inputs/text-input' }
                         ]
                     }
                     // { text: 'Dialog elements' }
