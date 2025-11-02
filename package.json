@@ -1,5 +1,6 @@
 {
     "name": "@vuetags/root",
+    "description": "Simple, type safe and flexible component library that improves native HTML tags.",
     "version": "1.0.0",
     "private": true,
     "type": "module",
